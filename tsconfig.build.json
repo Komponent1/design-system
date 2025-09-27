@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "allowImportingTsExtensions": false
+  },
+  "include": ["lib/**/*"],
+  "exclude": ["**/*.test.*", "**/*.spec.*", "node_modules", "dist"]
+}
