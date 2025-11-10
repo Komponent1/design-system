@@ -12,4 +12,4 @@ export type TypographySize =
   | '7xl'
   | '8xl'
   | '9xl';
-export type TypographyWeight = 'light' | 'regular' | 'medium' | 'bold' | 'extraBold';
+export type TypographyWeight = 'light' | 'regular' | 'bold' | 'extraBold';
