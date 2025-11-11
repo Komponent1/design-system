@@ -5,11 +5,11 @@ import { typographyMap } from '../typography/typography.config';
 type InputProps = {
   size?: InputSize;
   placeholder?: string;
-  value: string;
-  onChange: (value: string) => void;
   disabled?: boolean;
   error?: boolean;
-};
+  value: string;
+  onChange: (value: string) => void;
+} & React.HTMLAttributes<HTMLInputElement>;
 export const Input: React.FC<InputProps> = ({
   size = 'md',
   placeholder = '',
@@ -17,6 +17,7 @@ export const Input: React.FC<InputProps> = ({
   onChange,
   disabled,
   error,
+  ...inputProps
 }) => {
   const basicStyle = useMemo(
     () => ({
@@ -140,6 +141,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <input
+      {...inputProps}
       type='text'
       placeholder={placeholder}
       value={value}
