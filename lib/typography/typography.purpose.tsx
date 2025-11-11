@@ -10,7 +10,7 @@ export const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 export const TitleExplain: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <Typography type='base' weight='regular'>
+    <Typography type='md' weight='regular'>
       {children}
     </Typography>
   );

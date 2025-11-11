@@ -11,7 +11,7 @@ type TypographyProps = {
 
 export const Typography: React.FC<TypographyProps> = ({
   children,
-  type = 'base',
+  type = 'md',
   color = 'black',
   weight = 'regular',
 }) => {
