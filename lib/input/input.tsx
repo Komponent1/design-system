@@ -1,8 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { InputSize, InputState } from './input.type';
-import { typographyMap } from '../typography/typography.config';
+import type { InputSize, InputState, InputVariant } from './input.type';
+import {
+  boxStyle,
+  disabledStyle,
+  errorStyle,
+  focusedStyle,
+  grayStyle,
+  hoverStyle,
+  sizeStyles,
+  successStyle,
+  underlinedStyle,
+} from './input.style';
 
 type InputProps = {
+  variant?: InputVariant;
   size?: InputSize;
   placeholder?: string;
   disabled?: boolean;
@@ -11,6 +22,7 @@ type InputProps = {
   onChange: (value: string) => void;
 } & React.HTMLAttributes<HTMLInputElement>;
 export const Input: React.FC<InputProps> = ({
+  variant = 'box',
   size = 'md',
   placeholder = '',
   value,
@@ -19,60 +31,6 @@ export const Input: React.FC<InputProps> = ({
   error,
   ...inputProps
 }) => {
-  const basicStyle = useMemo(
-    () => ({
-      ...typographyMap.lg,
-      padding: '0.625rem 1rem',
-      border: '1px solid',
-      borderColor: '#ccc',
-      borderRadius: '0.5rem',
-    }),
-    [],
-  );
-  const sizeStyle = useMemo(() => {
-    switch (size) {
-      case 'sm':
-        return { ...typographyMap.sm, padding: '0.625rem 0.75rem' };
-      case 'lg':
-        return { ...typographyMap.md, padding: '0.875rem 1.25rem' };
-      default:
-        return { ...typographyMap.lg, padding: '0.75rem 1rem' };
-    }
-  }, [size]);
-  const disabledStyle = useMemo(
-    () => ({
-      backgroundColor: '#f5f5f5',
-      borderColor: '#ddd',
-      cursor: 'not-allowed',
-    }),
-    [],
-  );
-  const hoverStyle = useMemo(
-    () => ({
-      borderColor: '#888',
-    }),
-    [],
-  );
-  const focusedStyle = useMemo(
-    () => ({
-      borderColor: '#00ff',
-      boxShadow: '0 0 0 2px #00ff',
-    }),
-    [],
-  );
-  const errorStyle = useMemo(
-    () => ({
-      borderColor: 'red',
-    }),
-    [],
-  );
-  const successStyle = useMemo(
-    () => ({
-      borderColor: 'green',
-    }),
-    [],
-  );
-
   const [state, setState] = useState<InputState>(disabled ? 'disabled' : 'default');
   const [inputStyle, setInputStyle] = useState<React.CSSProperties>({});
   useEffect(() => {
@@ -84,36 +42,44 @@ export const Input: React.FC<InputProps> = ({
       setState('default');
     }
   }, [disabled, error]);
+  const basicStyle = useMemo(() => {
+    const sizeStyle = sizeStyles[size];
+    switch (variant) {
+      case 'underlined':
+        return { ...boxStyle, ...underlinedStyle, ...sizeStyle };
+      case 'gray':
+        return { ...boxStyle, ...grayStyle, ...sizeStyle };
+      case 'box':
+      default:
+        return { ...boxStyle, ...sizeStyle };
+    }
+  }, [variant, size]);
   useEffect(() => {
     switch (state) {
       case 'disabled':
-        setInputStyle({ ...basicStyle, ...sizeStyle, ...disabledStyle });
+        setInputStyle({ ...basicStyle, ...disabledStyle });
         break;
       case 'hover':
-        setInputStyle({ ...basicStyle, ...sizeStyle, ...hoverStyle });
+        setInputStyle({ ...basicStyle, ...hoverStyle });
         break;
       case 'focused':
-        setInputStyle({ ...basicStyle, ...sizeStyle, ...focusedStyle });
+        if (variant === 'gray') {
+          console.log('focused gray');
+          setInputStyle({ ...basicStyle, ...focusedStyle, border: '1px solid' });
+        } else {
+          setInputStyle({ ...basicStyle, ...focusedStyle });
+        }
         break;
       case 'error':
-        setInputStyle({ ...basicStyle, ...sizeStyle, ...errorStyle });
+        setInputStyle({ ...basicStyle, ...errorStyle });
         break;
       case 'success':
-        setInputStyle({ ...basicStyle, ...sizeStyle, ...successStyle });
+        setInputStyle({ ...basicStyle, ...successStyle });
         break;
       default:
-        setInputStyle({ ...basicStyle, ...sizeStyle });
+        setInputStyle({ ...basicStyle });
     }
-  }, [
-    state,
-    sizeStyle,
-    basicStyle,
-    disabledStyle,
-    hoverStyle,
-    focusedStyle,
-    errorStyle,
-    successStyle,
-  ]);
+  }, [state, basicStyle, variant]);
   const onMouseEnter = useCallback(() => {
     if (state !== 'success' && state !== 'error' && state !== 'focused' && state !== 'disabled') {
       setState('hover');
