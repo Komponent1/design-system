@@ -2,6 +2,7 @@ import { typographyMap } from '../typography/typography.config';
 
 export const boxStyle = {
   ...typographyMap.lg,
+  width: '100%',
   boxSizing: 'border-box' as const,
   outline: 'none',
   padding: '0.625rem 1rem',

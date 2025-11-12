@@ -107,7 +107,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <input
-      {...inputProps}
+      id='seolim-input'
       type='text'
       placeholder={placeholder}
       value={value}
@@ -120,6 +120,7 @@ export const Input: React.FC<InputProps> = ({
       onFocus={onFocus}
       onBlur={onBlur}
       disabled={disabled}
+      {...inputProps}
     />
   );
 };

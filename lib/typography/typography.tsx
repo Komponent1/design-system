@@ -7,13 +7,14 @@ type TypographyProps = {
   type?: TypographySize;
   weight?: TypographyWeight;
   color?: string;
-};
+} & React.HTMLAttributes<HTMLSpanElement>;
 
 export const Typography: React.FC<TypographyProps> = ({
   children,
   type = 'md',
   color = 'black',
   weight = 'regular',
+  ...spanProps
 }) => {
   const { fontSize, lineHeight } = typographyMap[type];
   return (
@@ -24,6 +25,7 @@ export const Typography: React.FC<TypographyProps> = ({
         fontWeight: weight,
         color,
       }}
+      {...spanProps}
     >
       {children}
     </span>
