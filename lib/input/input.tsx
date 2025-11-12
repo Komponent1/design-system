@@ -66,7 +66,6 @@ export const Input: React.FC<InputProps> = ({
         break;
       case 'focused':
         if (variant === 'gray') {
-          console.log('focused gray');
           setInputStyle({ ...basicStyle, ...focusedStyle, border: '1px solid' });
         } else {
           setInputStyle({ ...basicStyle, ...focusedStyle });
