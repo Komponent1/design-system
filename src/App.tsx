@@ -31,6 +31,9 @@ function App() {
           placeholder='Small Gray Input'
           value=''
           onChange={() => {}}
+          style={{
+            width: '300px',
+          }}
         />
       </div>
     </div>

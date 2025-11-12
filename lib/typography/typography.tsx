@@ -7,6 +7,7 @@ type TypographyProps = {
   type?: TypographySize;
   weight?: TypographyWeight;
   color?: string;
+  style?: React.CSSProperties;
 } & React.HTMLAttributes<HTMLSpanElement>;
 
 export const Typography: React.FC<TypographyProps> = ({
@@ -14,6 +15,7 @@ export const Typography: React.FC<TypographyProps> = ({
   type = 'md',
   color = 'black',
   weight = 'regular',
+  style,
   ...spanProps
 }) => {
   const { fontSize, lineHeight } = typographyMap[type];
@@ -24,6 +26,7 @@ export const Typography: React.FC<TypographyProps> = ({
         lineHeight: lineHeight ? lineHeight : undefined,
         fontWeight: weight,
         color,
+        ...style,
       }}
       {...spanProps}
     >

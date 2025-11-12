@@ -14,12 +14,13 @@ import {
 
 type InputProps = {
   variant?: InputVariant;
+  value: string;
+  onChange: (value: string) => void;
   size?: InputSize;
   placeholder?: string;
   disabled?: boolean;
   error?: boolean;
-  value: string;
-  onChange: (value: string) => void;
+  style?: React.CSSProperties;
 } & React.HTMLAttributes<HTMLInputElement>;
 export const Input: React.FC<InputProps> = ({
   variant = 'box',
@@ -29,6 +30,7 @@ export const Input: React.FC<InputProps> = ({
   onChange,
   disabled,
   error,
+  style,
   ...inputProps
 }) => {
   const [state, setState] = useState<InputState>(disabled ? 'disabled' : 'default');
@@ -114,6 +116,7 @@ export const Input: React.FC<InputProps> = ({
       onChange={(e) => onChange(e.target.value)}
       style={{
         ...inputStyle,
+        ...style,
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
