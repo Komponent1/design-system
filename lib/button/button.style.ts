@@ -41,10 +41,10 @@ export const sizeStyles = {
 };
 export const cornerStyles = {
   rounded: {
-    borderRadius: '0.375rem',
+    borderRadius: '100rem',
   },
   square: {
-    borderRadius: '0',
+    borderRadius: '0.375rem',
   },
 };
 export const disabledStyle = {

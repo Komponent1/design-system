@@ -27,7 +27,7 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   content,
   variant = 'solid',
-  corner = 'rounded',
+  corner = 'square',
   size = 'md',
   full = false,
   disabled = false,
