@@ -1,10 +1,11 @@
 import React from 'react';
-import type { TypographySize, TypographyWeight } from './typography.type';
+import type { TypographySize, TypographyType, TypographyWeight } from './typography.type';
 import { typographyMap } from './typography.config';
 
 type TypographyProps = {
   children: React.ReactNode;
-  type?: TypographySize;
+  type?: TypographyType;
+  size?: TypographySize;
   weight?: TypographyWeight;
   color?: string;
   style?: React.CSSProperties;
@@ -12,13 +13,34 @@ type TypographyProps = {
 
 export const Typography: React.FC<TypographyProps> = ({
   children,
-  type = 'md',
+  type = 'p',
+  size = 'md',
   color = 'black',
   weight = 'regular',
   style,
   ...spanProps
 }) => {
-  const { fontSize, lineHeight } = typographyMap[type];
+  const { fontSize, lineHeight } = typographyMap[size];
+  switch (type) {
+    case 'p':
+      return (
+        <div
+          style={{
+            fontSize,
+            lineHeight: lineHeight ? lineHeight : undefined,
+            fontWeight: weight,
+            color,
+            margin: 0,
+            ...style,
+          }}
+          {...spanProps}
+        >
+          {children}
+        </div>
+      );
+    default:
+      break;
+  }
   return (
     <span
       style={{

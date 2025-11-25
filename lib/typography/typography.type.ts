@@ -13,3 +13,4 @@ export type TypographySize =
   | '8xl'
   | '9xl';
 export type TypographyWeight = 'light' | 'regular' | 'bold' | 'extraBold';
+export type TypographyType = 'span' | 'p';
