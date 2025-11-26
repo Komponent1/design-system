@@ -9,7 +9,7 @@ type BadgeProps = {
   size?: BadgeSize;
   corner?: BadgeCorner;
 } & React.HTMLAttributes<HTMLSpanElement>;
-const Badge: React.FC<BadgeProps> = ({
+export const Badge: React.FC<BadgeProps> = ({
   text,
   variant = 'hard',
   color = 'blue',
@@ -32,4 +32,3 @@ const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
-export default Badge;

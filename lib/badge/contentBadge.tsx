@@ -9,7 +9,7 @@ type BadgeProps = {
   size?: BadgeSize;
   corner?: BadgeCorner;
 } & React.HTMLAttributes<HTMLDivElement>;
-const ContentBadge: React.FC<BadgeProps> = ({
+export const ContentBadge: React.FC<BadgeProps> = ({
   children,
   variant = 'hard',
   color = 'blue',
@@ -32,5 +32,3 @@ const ContentBadge: React.FC<BadgeProps> = ({
     </div>
   );
 };
-
-export default ContentBadge;
