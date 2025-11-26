@@ -5,6 +5,11 @@ export const baseStyle: React.CSSProperties = {
   display: 'inline-block',
   textAlign: 'center',
 };
+export const contentBaseStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 export const genVariantStyle = (variant: BadgeVariant, color: string) => {
   switch (variant) {
     case 'soft':

@@ -1,5 +1,6 @@
 import { Button } from '../lib';
 import Badge from '../lib/badge/badge';
+import ContentBadge from '../lib/badge/contentBadge';
 
 function App() {
   return (
@@ -15,6 +16,19 @@ function App() {
 
         <Badge text='Rounded Badge' corner='rounded' />
         <Badge text='Square Badge' corner='square' />
+
+        <ContentBadge size='sm'>
+          <span role='img' aria-label='star'>
+            ⭐
+          </span>{' '}
+          Small Content Badge
+        </ContentBadge>
+        <ContentBadge size='lg' variant='soft' color='blue'>
+          <span role='img' aria-label='rocket'>
+            🚀
+          </span>{' '}
+          Large Soft Content Badge
+        </ContentBadge>
       </div>
 
       <div>
