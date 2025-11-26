@@ -1,8 +1,19 @@
 import { Button } from '../lib';
+import Badge from '../lib/badge/badge';
 
 function App() {
   return (
     <div>
+      <div>
+        <Badge text='Small Badge' size='sm' />
+        <Badge text='Large Badge' size='lg' />
+        <Badge text='New Badge' size='md' />
+
+        <Badge text='Soft Badge' variant='soft' color='green' />
+        <Badge text='Outlined Badge' variant='outlined' color='red' />
+        <Badge text='Hard Badge' variant='hard' color='purple' />
+      </div>
+
       <div>
         <Button label='Click me' onClick={() => alert('Button clicked!')} content='Click me' />
         <Button
