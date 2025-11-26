@@ -1,18 +1,35 @@
 import React, { useMemo } from 'react';
-import type { BadgeSize, BadgeVariant } from './badge.type';
-import { baseStyle, genVariantStyle, sizeStyles } from './badge.style';
+import type { BadgeCorner, BadgeSize, BadgeVariant } from './badge.type';
+import { baseStyle, cornerStyles, genVariantStyle, sizeStyles } from './badge.style';
 
 type BadgeProps = {
   text: string;
   color?: string;
   variant?: BadgeVariant;
   size?: BadgeSize;
-};
-const Badge: React.FC<BadgeProps> = ({ text, variant = 'hard', color = 'blue', size = 'md' }) => {
+  corner?: BadgeCorner;
+} & React.HTMLAttributes<HTMLSpanElement>;
+const Badge: React.FC<BadgeProps> = ({
+  text,
+  variant = 'hard',
+  color = 'blue',
+  size = 'md',
+  corner = 'rounded',
+  ...spanProps
+}) => {
   const basicStyle = useMemo(() => {
     const sizeStyle = sizeStyles[size];
-    return { ...baseStyle, ...sizeStyle, ...genVariantStyle(variant, color) };
-  }, [variant, color, size]);
-  return <span style={basicStyle}>{text}</span>;
+    return {
+      ...baseStyle,
+      ...sizeStyle,
+      ...genVariantStyle(variant, color),
+      ...cornerStyles[corner],
+    };
+  }, [variant, color, size, corner]);
+  return (
+    <span style={basicStyle} {...spanProps}>
+      {text}
+    </span>
+  );
 };
 export default Badge;

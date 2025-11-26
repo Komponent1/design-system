@@ -12,6 +12,9 @@ function App() {
         <Badge text='Soft Badge' variant='soft' color='green' />
         <Badge text='Outlined Badge' variant='outlined' color='red' />
         <Badge text='Hard Badge' variant='hard' color='purple' />
+
+        <Badge text='Rounded Badge' corner='rounded' />
+        <Badge text='Square Badge' corner='square' />
       </div>
 
       <div>

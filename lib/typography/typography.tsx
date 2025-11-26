@@ -9,7 +9,7 @@ type TypographyProps = {
   weight?: TypographyWeight;
   color?: string;
   style?: React.CSSProperties;
-} & React.HTMLAttributes<HTMLSpanElement>;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export const Typography: React.FC<TypographyProps> = ({
   children,

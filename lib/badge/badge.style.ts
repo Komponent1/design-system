@@ -1,10 +1,9 @@
 import { typographyMap } from '../typography/typography.config';
-import type { BadgeSize, BadgeVariant } from './badge.type';
+import type { BadgeCorner, BadgeSize, BadgeVariant } from './badge.type';
 
 export const baseStyle: React.CSSProperties = {
   display: 'inline-block',
   textAlign: 'center',
-  borderRadius: '100rem',
 };
 export const genVariantStyle = (variant: BadgeVariant, color: string) => {
   switch (variant) {
@@ -27,6 +26,14 @@ export const genVariantStyle = (variant: BadgeVariant, color: string) => {
         border: 'none',
       };
   }
+};
+export const cornerStyles: Record<BadgeCorner, React.CSSProperties> = {
+  rounded: {
+    borderRadius: '100rem',
+  },
+  square: {
+    borderRadius: '0.5rem',
+  },
 };
 export const sizeStyles: Record<BadgeSize, React.CSSProperties> = {
   sm: {
