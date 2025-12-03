@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type {
   AccordionOutlineVariant,
   AccordionSize,
@@ -6,10 +6,11 @@ import type {
   AccordionVariant,
 } from './accordion.type';
 import { baseStyle, outlineVariantStyle, sizesStyle } from './accordion.style';
+import AccordionTitle from './accordionTitle';
 
 type AccordionItemProps = {
   isOpen: boolean;
-  title: string;
+  title: React.ReactNode;
   onClick: () => void;
   children: React.ReactNode;
   color: string;
@@ -29,16 +30,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   selectColor,
   size,
   outlineVariant,
+  titleVariant,
   isLast,
 }) => {
-  const titleBasicStyle = useMemo(() => {
-    const sizeStyle = sizesStyle[size];
-    return {
-      ...baseStyle,
-      ...sizeStyle,
-      color: isOpen ? selectColor : color,
-    } as React.CSSProperties;
-  }, [size, isOpen, color, selectColor]);
   const boxBasicStyle = useMemo(() => {
     const outlineStyles = outlineVariantStyle[outlineVariant];
     if (outlineVariant === 'box') {
@@ -50,39 +44,32 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       else return { ...outlineVariantStyle['innerBox'], borderColor: 'transparent' };
     }
     return {
+      ...baseStyle,
       ...outlineStyles,
     } as React.CSSProperties;
   }, [outlineVariant, isLast, isOpen]);
 
-  const [accordionItemStyle, setAccordionItemStyle] = React.useState<{
-    title: React.CSSProperties;
-    box: React.CSSProperties;
-  }>({
-    title: {
-      ...titleBasicStyle,
-    },
-    box: {
-      ...boxBasicStyle,
-    },
+  const [accordionItemStyle, setAccordionItemStyle] = useState<React.CSSProperties>({
+    ...boxBasicStyle,
   });
   useEffect(() => {
     setAccordionItemStyle((prevStyle) => ({
       ...prevStyle,
-      title: {
-        ...titleBasicStyle,
-        color: isOpen ? selectColor : color,
-      },
-      box: {
-        ...boxBasicStyle,
-      },
+      ...boxBasicStyle,
     }));
-  }, [titleBasicStyle, color, selectColor, isOpen, boxBasicStyle]);
+  }, [boxBasicStyle]);
 
   return (
-    <div style={accordionItemStyle.box}>
-      <button onClick={onClick} style={accordionItemStyle.title}>
-        {title}
-      </button>
+    <div style={accordionItemStyle}>
+      <AccordionTitle
+        onClick={onClick}
+        title={title}
+        isOpen={isOpen}
+        color={color}
+        selectColor={selectColor}
+        size={size}
+        titleVariant={titleVariant}
+      />
       {isOpen && <div style={{ padding: sizesStyle[size].padding }}>{children}</div>}
     </div>
   );

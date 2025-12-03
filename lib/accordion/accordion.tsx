@@ -8,7 +8,7 @@ import type {
 } from './accordion.type';
 
 type AccordionProps = {
-  titles: string[];
+  titles: React.ReactNode[];
   children: React.ReactNode;
   color?: string;
   selectColor?: string;
@@ -24,7 +24,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   selectColor = '#00ff',
   size = 'md',
   variant = 'singleOpen',
-  titleVariant = 'arrow',
+  titleVariant = 'normal',
   outlineVariant = 'none',
 }) => {
   const [openIndex, setOpenIndex] = useState<number>(-1);
