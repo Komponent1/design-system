@@ -1,8 +1,17 @@
 import { typographyMap } from '../typography/typography.config';
+import type { AccordionOutlineVariant } from './accordion.type';
 
-export const baseStyle = {
+export const genContainerStyle = (
+  outlineVariant: AccordionOutlineVariant,
+): React.CSSProperties => ({
+  border: outlineVariant === 'box' ? '2px solid #ccc' : '2px solid transparent',
+  borderRadius: '0.5rem',
+  boxSizing: 'border-box',
+});
+export const baseStyle: React.CSSProperties = {
   all: 'unset',
   boxSizing: 'border-box',
+  transition: 'height 2s',
 };
 export const sizesStyle = {
   sm: {

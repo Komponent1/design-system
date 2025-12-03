@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AccordionOutlineVariant,
   AccordionSize,
@@ -33,6 +33,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   titleVariant,
   isLast,
 }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
   const boxBasicStyle = useMemo(() => {
     const outlineStyles = outlineVariantStyle[outlineVariant];
     if (outlineVariant === 'box') {
@@ -52,12 +55,24 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   const [accordionItemStyle, setAccordionItemStyle] = useState<React.CSSProperties>({
     ...boxBasicStyle,
   });
+
   useEffect(() => {
     setAccordionItemStyle((prevStyle) => ({
       ...prevStyle,
       ...boxBasicStyle,
     }));
   }, [boxBasicStyle]);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      if (isOpen) {
+        const scrollHeight = contentRef.current.scrollHeight;
+        setContentHeight(scrollHeight);
+      } else {
+        setContentHeight(0);
+      }
+    }
+  }, [isOpen, children]);
 
   return (
     <div style={accordionItemStyle}>
@@ -70,7 +85,17 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         size={size}
         titleVariant={titleVariant}
       />
-      {isOpen && <div style={{ padding: sizesStyle[size].padding }}>{children}</div>}
+      <div
+        style={{
+          height: contentHeight,
+          overflow: 'hidden',
+          transition: 'height 0.3s ease-in-out',
+        }}
+      >
+        <div ref={contentRef} style={{ padding: sizesStyle[size].padding }}>
+          {children}
+        </div>
+      </div>
     </div>
   );
 };

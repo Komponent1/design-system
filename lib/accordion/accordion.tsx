@@ -6,6 +6,7 @@ import type {
   AccordionTitleVariant,
   AccordionVariant,
 } from './accordion.type';
+import { genContainerStyle } from './accordion.style';
 
 type AccordionProps = {
   titles: React.ReactNode[];
@@ -45,13 +46,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     [openIndex, close, open],
   );
   return (
-    <div
-      style={{
-        border: outlineVariant === 'box' ? '2px solid #ccc' : '2px solid transparent',
-        borderRadius: '0.5rem',
-        boxSizing: 'border-box',
-      }}
-    >
+    <div style={genContainerStyle(outlineVariant)}>
       {children &&
         React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
