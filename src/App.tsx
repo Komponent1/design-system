@@ -1,36 +1,98 @@
-import { Button, Badge } from '../lib';
-import { Accordion } from '../lib';
-
-const Title = () => (
-  <div>
-    <Button label='s' onClick={() => {}} content={'Title Button'} />
-    <Badge text='New' color='#ff0000' size='sm' />
-  </div>
-);
+import { Avatar } from '../lib';
 
 function App() {
   return (
     <div>
       <h1>Design System Demo</h1>
-      <Accordion titles={['Section 1', 'Section 2']} outlineVariant='box'>
-        <Button label='s' onClick={() => {}} content={'test'} />
-        <Button label='s' onClick={() => {}} content={'test'} />
-      </Accordion>
-
-      <Accordion titles={['Section 1', 'Section 2']} outlineVariant='innerBox' titleVariant='plus'>
-        <Button label='s' onClick={() => {}} content={'test'} />
-        <Button label='s' onClick={() => {}} content={'test'} />
-      </Accordion>
-
-      <Accordion titles={['Section 1', 'Section 2']} outlineVariant='none' variant='alwaysOpen'>
-        <Button label='s' onClick={() => {}} content={'test'} />
-        <Button label='s' onClick={() => {}} content={'test'} />
-      </Accordion>
-
-      <Accordion titles={[<Title />, <Title />]} outlineVariant='box' size='lg' titleVariant='plus'>
-        <Button label='s' onClick={() => {}} content={'test'} />
-        <Button label='s' onClick={() => {}} content={'test'} />
-      </Accordion>
+      <Avatar
+        size='sm'
+        src='https://avatars.githubusercontent.com/u/73334068?v=4'
+        alt='User Avatar'
+        outline
+        outlineColor='red'
+      />
+      <Avatar
+        size='md'
+        src='https://avatars.githubusercontent.com/u/73334068?v=4'
+        alt='User Avatar'
+        outline
+        outlineColor='red'
+      />
+      <Avatar
+        size='lg'
+        src='https://avatars.githubusercontent.com/u/73334068?v=4'
+        alt='User Avatar'
+        outline
+        outlineColor='red'
+      />
+      <Avatar
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+      />
+      <Avatar
+        variant='square'
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+      />
+      <Avatar
+        variant='square'
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+      />
+      <Avatar type='text' size='lg' variant='circle' outline outlineColor='green' alt='ACT' />
+      <Avatar
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='top'
+        dotColor='green'
+      />
+      <Avatar
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='top'
+        dotColor='green'
+      />
+      <Avatar
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='bottom'
+        dotColor='green'
+      />
+      <Avatar
+        variant='square'
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='bottom'
+        dotColor='green'
+      />
+      <Avatar
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='top'
+        dotColor='green'
+      />
+      <Avatar
+        size='lg'
+        variant='square'
+        src='https://cdn.dailyvet.co.kr/wp-content/uploads/2024/05/15231647/20240515ceva_experts4.jpg'
+        alt='Expert Avatar'
+        outline
+        outlineColor='blue'
+        dot='top'
+        dotColor='green'
+      />
     </div>
   );
 }
