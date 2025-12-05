@@ -8,3 +8,4 @@ export * from './badge/contentBadge';
 export * from './accordion/accordion';
 export * from './accordion/accordionItem';
 export * from './avatar/avatar';
+export * from './checkbox/checkbox';
