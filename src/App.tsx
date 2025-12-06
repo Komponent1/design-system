@@ -1,12 +1,12 @@
-import { Checkbox } from '../lib';
+import { Switch } from '../lib';
 
 function App() {
   return (
     <div>
       <h1>Design System Demo</h1>
-      <Checkbox size='sm' />
-      <Checkbox size='md' checked accentColor='#ff0000' />
-      <Checkbox size='lg' label='Accept Terms' />
+      <Switch size='sm' onChange={() => {}} />
+      <Switch size='md' onChange={() => {}} />
+      <Switch size='lg' onChange={() => {}} />
     </div>
   );
 }
