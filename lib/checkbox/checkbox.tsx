@@ -1,18 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useId, useState } from 'react';
 import type { CheckboxSize } from './checkbox.type';
 import { baseStyle, markUrl, sizesStyle } from './checkbox.style';
 
 export type CheckboxProps = {
   id?: string;
   size?: CheckboxSize;
-  onChange?: (value: string, checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   label?: React.ReactNode;
   checked?: boolean;
   accentColor?: string;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 export const Checkbox: React.FC<CheckboxProps> = ({
-  id = 'seolim-ui-checkbox-label',
+  id,
   size = 'md',
   onChange,
   label,
@@ -20,13 +20,15 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   accentColor = '#3b82f6',
   ...checkboxProps
 }) => {
+  const autoId = useId();
+  const checkboxId = id || autoId;
   const [isChecked, setIsChecked] = useState<boolean>(checked);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsChecked(!isChecked);
       if (onChange) {
-        onChange(e.target.value, e.target.checked);
+        onChange(e.target.checked);
       }
     },
     [onChange, isChecked],
@@ -43,7 +45,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
       <input
-        id={id}
+        id={checkboxId}
         type='checkbox'
         checked={isChecked}
         onChange={handleChange}

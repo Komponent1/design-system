@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import type { InputSize, InputState, InputVariant } from './input.type';
 import {
   boxStyle,
@@ -13,6 +13,7 @@ import {
 } from './input.style';
 
 type InputProps = {
+  id?: string;
   variant?: InputVariant;
   value: string;
   onChange: (value: string) => void;
@@ -23,6 +24,7 @@ type InputProps = {
   style?: React.CSSProperties;
 } & React.HTMLAttributes<HTMLInputElement>;
 export const Input: React.FC<InputProps> = ({
+  id,
   variant = 'box',
   size = 'md',
   placeholder = '',
@@ -33,6 +35,8 @@ export const Input: React.FC<InputProps> = ({
   style,
   ...inputProps
 }) => {
+  const autoId = useId();
+  const inputId = id || autoId;
   const [state, setState] = useState<InputState>(disabled ? 'disabled' : 'default');
   const [inputStyle, setInputStyle] = useState<React.CSSProperties>({});
   useEffect(() => {
@@ -108,7 +112,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <input
-      id='seolim-input'
+      id={inputId}
       type='text'
       placeholder={placeholder}
       value={value}
