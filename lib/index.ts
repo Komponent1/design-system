@@ -10,3 +10,4 @@ export * from './accordion/accordionItem';
 export * from './avatar/avatar';
 export * from './checkbox/checkbox';
 export * from './switch/switch';
+export * from './alert/alert';
