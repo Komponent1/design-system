@@ -6,7 +6,6 @@ export const baseStyle = {
   color: '#f2f2f2',
   padding: '0.75rem 1rem',
   borderRadius: '0.25rem',
-  fontWeight: 'bold',
 };
 export const sizesStyle = {
   sm: {
@@ -20,7 +19,7 @@ export const sizesStyle = {
   },
 };
 export const baseHeadStyle = {
-  fontWeight: 'extraBold',
+  fontWeight: 'bold',
   marginBottom: '0.25rem',
 };
 export const headSizesStyle = {

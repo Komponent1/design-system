@@ -30,13 +30,15 @@ export const Alert: React.FC<Props> = ({
       ...baseStyle,
       ...sizeStyle,
       ...varientTypeStyle,
+      fontWeight: head ? 'normal' : 'bold',
     };
-  }, [type, size, variant]);
+  }, [type, size, variant, head]);
   const basicHeadStyle = useMemo(() => {
     return {
       ...baseHeadStyle,
       ...genVariantStyle(variant, type),
       ...headSizesStyle[size],
+      border: 'none',
     };
   }, [variant, type, size]);
 

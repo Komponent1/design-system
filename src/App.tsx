@@ -33,7 +33,7 @@ function App() {
       <Alert type='info' message='This is a filled info alert!' variant='filled' />
 
       <Alert type='info' message={<CustomMessage />} />
-      <Alert head='HeadWarming' message='This is head message' type='warning' />
+      <Alert head='HeadWarming' message='This is head message' type='warning' variant='outlined' />
     </div>
   );
 }
