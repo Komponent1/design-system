@@ -20,7 +20,7 @@ export const color = {
   surface: '#1d1d1d', // rgb(29, 29, 29)
 
   // 텍스트
-  textPrimary: '#f2f2f2', // rgb(242, 242, 242)
+  textPrimary: '#111',
   textSecondary: '#b3b3b3', // rgb(179, 179, 179)
   disabled: '#555555', // 비활성 텍스트 / 버튼
 };

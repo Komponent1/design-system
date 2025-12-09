@@ -11,3 +11,4 @@ export * from './avatar/avatar';
 export * from './checkbox/checkbox';
 export * from './switch/switch';
 export * from './alert/alert';
+export * from './progress/progress';

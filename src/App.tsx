@@ -1,39 +1,52 @@
-import { Alert } from '../lib';
-
-const CustomMessage = () => (
-  <div>
-    <strong>Custom Alert!</strong>
-    <p>This alert uses a custom React component as its message.</p>
-  </div>
-);
+import { useEffect, useState } from 'react';
+import { Progress } from '../lib';
 
 function App() {
+  const [per, setPer] = useState(0.7);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPer((prev) => {
+        const next = prev + 0.1;
+        if (next > 1) {
+          return 0;
+        }
+        return next;
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       <h1>Design System Demo</h1>
-      <div style={{ marginBottom: '1rem' }}>
-        <Alert type='success' message='This is a success alert!' />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <Alert type='error' message='This is an error alert!' />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <Alert type='warning' message='This is a warning alert!' />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <Alert type='info' message='This is an info alert!' />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <Alert type='info' message='This is a closable info alert!' size='sm' />
-      </div>
-      <Alert type='warning' message='This is a medium warning alert!' size='md' />
-      <Alert type='error' message='This is a large error alert!' size='lg' />
+      <Progress progress={per} size='sm' variant='bar' label='Loading' percent width={'120px'} />
+      <Progress progress={0.7} size='md' variant='bar' label='Loading' percent />
+      <Progress progress={0.7} size='lg' variant='bar' label='Loading' percent />
 
-      <Alert type='success' message='This is a custom color success alert!' variant='outlined' />
-      <Alert type='info' message='This is a filled info alert!' variant='filled' />
-
-      <Alert type='info' message={<CustomMessage />} />
-      <Alert head='HeadWarming' message='This is head message' type='warning' variant='outlined' />
+      <Progress
+        progress={0.4}
+        size='sm'
+        variant='circle'
+        color='#ff5733'
+        label='Processing'
+        percent
+      />
+      <Progress
+        progress={per}
+        size='md'
+        variant='circle'
+        color='#ff5733'
+        label='Processing'
+        percent
+      />
+      <Progress
+        progress={1}
+        size='lg'
+        variant='circle'
+        color='#ff5733'
+        label='Processing'
+        percent
+      />
     </div>
   );
 }
