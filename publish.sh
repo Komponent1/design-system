@@ -8,11 +8,12 @@ NC='\033[0m' # No Color
 
 # Function to display usage
 usage() {
-    echo -e "${YELLOW}Usage: $0 <patch|minor|major>${NC}"
+    echo -e "${YELLOW}Usage: $0 <patch|minor|major|deploy>${NC}"
     echo -e "${YELLOW}Examples:${NC}"
     echo "  $0 patch   # 1.0.0 -> 1.0.1"
     echo "  $0 minor   # 1.0.0 -> 1.1.0"
     echo "  $0 major   # 1.0.0 -> 2.0.0"
+    echo "  $0 deploy  # Build and publish only (no version bump, no git)"
     exit 1
 }
 
@@ -25,7 +26,7 @@ fi
 VERSION_TYPE=$1
 
 # Validate version type
-if [[ "$VERSION_TYPE" != "patch" && "$VERSION_TYPE" != "minor" && "$VERSION_TYPE" != "major" ]]; then
+if [[ "$VERSION_TYPE" != "patch" && "$VERSION_TYPE" != "minor" && "$VERSION_TYPE" != "major" && "$VERSION_TYPE" != "deploy" ]]; then
     echo -e "${RED}Error: Invalid version type '$VERSION_TYPE'${NC}"
     usage
 fi
@@ -39,6 +40,40 @@ fi
 # Get current version
 CURRENT_VERSION=$(node -p "require('./package.json').version")
 echo -e "${YELLOW}Current version: ${CURRENT_VERSION}${NC}"
+
+# Handle deploy-only mode
+if [[ "$VERSION_TYPE" == "deploy" ]]; then
+    echo -e "${YELLOW}Deploy-only mode: No version bump, no git operations${NC}"
+    echo -e "${YELLOW}Are you sure you want to publish the current version (${CURRENT_VERSION})? (y/N)${NC}"
+    read -r CONFIRM
+
+    if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+        echo -e "${YELLOW}Cancelled${NC}"
+        exit 0
+    fi
+
+    # Build the project
+    echo -e "${YELLOW}Building project...${NC}"
+    npm run build
+
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Build failed! Aborting publish.${NC}"
+        exit 1
+    fi
+
+    # Publish to npm
+    echo -e "${YELLOW}Publishing to npm...${NC}"
+    npm publish --access=public
+
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✅ Successfully published version ${CURRENT_VERSION}!${NC}"
+        echo -e "${GREEN}📦 Package: https://www.npmjs.com/package/$(node -p "require('./package.json').name")${NC}"
+    else
+        echo -e "${RED}❌ Publish failed!${NC}"
+        exit 1
+    fi
+    exit 0
+fi
 
 # Confirm action
 echo -e "${YELLOW}Are you sure you want to bump ${VERSION_TYPE} version and publish? (y/N)${NC}"
