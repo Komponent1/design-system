@@ -1,43 +1,13 @@
-import { Pagenation } from '../lib';
+import { Spinner } from '../lib';
 
 function App() {
   return (
     <div>
       <h1>Design System Demo</h1>
-      <Pagenation
-        totalItems={100}
-        itemsPerPage={10}
-        currentPage={1}
-        onPageChange={(page) => console.log('Page changed to:', page)}
-      />
-      <Pagenation
-        totalItems={150}
-        itemsPerPage={10}
-        currentPage={1}
-        onPageChange={(page) => console.log('Page changed to:', page)}
-      />
-      <Pagenation
-        totalItems={30}
-        itemsPerPage={10}
-        currentPage={1}
-        onPageChange={(page) => console.log('Page changed to:', page)}
-      />
-
-      <Pagenation
-        variant='compact'
-        totalItems={30}
-        itemsPerPage={10}
-        currentPage={1}
-        onPageChange={(page) => console.log('Page changed to:', page)}
-      />
-
-      <Pagenation
-        variant='compact'
-        totalItems={150}
-        itemsPerPage={10}
-        currentPage={1}
-        onPageChange={(page) => console.log('Page changed to:', page)}
-      />
+      <Spinner size={50} color='#ff5733' />
+      <Spinner size='lg' variant='inverted' />
+      <Spinner size='sm' />
+      <Spinner />
     </div>
   );
 }
