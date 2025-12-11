@@ -21,6 +21,8 @@ export const color = {
 
   // 텍스트
   textPrimary: '#111',
-  textSecondary: '#b3b3b3', // rgb(179, 179, 179)
+  textSecondary: '#fff', // rgb(179, 179, 179)
   disabled: '#555555', // 비활성 텍스트 / 버튼
+
+  buttonTextPrimary: '#fff', // 버튼 텍스트 기본 색상
 };

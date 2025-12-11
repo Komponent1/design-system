@@ -1,5 +1,6 @@
 import { typographyMap } from '../typography/typography.config';
 import type { ButtonVariant } from './button.type';
+import { clamp, hexToRgb, hexToRgba, hslToRgb, rgbToHex, rgbToHsl } from '../util/colorHelper';
 
 export const baseStyle = {
   unset: 'all',
@@ -9,18 +10,14 @@ export const widthStyles = {
 };
 export const solidStyle = {
   border: 'none',
-  backgroundColor: '#007bff',
-  color: '#ffffff',
 };
 export const outlineStyle = {
-  border: '1px solid #007bff',
+  border: '1px solid',
   backgroundColor: 'transparent',
-  color: '#007bff',
 };
 export const textStyle = {
   border: 'none',
   backgroundColor: 'transparent',
-  color: '#007bff',
 };
 export const sizeStyles = {
   sm: {
@@ -53,15 +50,29 @@ export const disabledStyle = {
   color: '#a0a0a0',
   cursor: 'not-allowed',
 };
-export const hoverStyles: Record<ButtonVariant, React.CSSProperties> = {
+
+export const getHoverColor = (baseColor: string, amount = 0.08) => {
+  try {
+    const { r, g, b } = hexToRgb(baseColor);
+    const { h, s, l } = rgbToHsl(r, g, b);
+    const direction = l > 0.6 ? -1 : 1;
+    const newL = clamp(l + direction * amount, 0, 1);
+    const { r: nr, g: ng, b: nb } = hslToRgb(h, s, newL);
+    return rgbToHex(nr, ng, nb);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    return baseColor;
+  }
+};
+
+export const getHoverStyles = (color: string): Record<ButtonVariant, React.CSSProperties> => ({
   solid: {
-    backgroundColor: '#0056b3',
+    backgroundColor: getHoverColor(color),
   },
   outline: {
-    backgroundColor: '#007bff',
-    color: '#ffffff',
+    backgroundColor: hexToRgba(color, 0.1),
   },
   text: {
-    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+    backgroundColor: hexToRgba(color, 0.1),
   },
-};
+});

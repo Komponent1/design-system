@@ -3,12 +3,13 @@ import type { ButtonCorner, ButtonSize, ButtonVariant, ButtonState } from './but
 import {
   cornerStyles,
   disabledStyle,
-  hoverStyles,
+  getHoverStyles,
   outlineStyle,
   sizeStyles,
   solidStyle,
   textStyle,
 } from './button.style';
+import { theme } from '..';
 
 type ButtonProps = {
   label?: string /** aria-label */;
@@ -28,6 +29,8 @@ export const Button: React.FC<ButtonProps> = ({
   content,
   variant = 'solid',
   corner = 'square',
+  color = theme.color.primary,
+  textColor = theme.color.buttonTextPrimary,
   size = 'md',
   full = false,
   disabled = false,
@@ -48,14 +51,34 @@ export const Button: React.FC<ButtonProps> = ({
     const widthStyle = full ? { width: '100%' } : {};
     switch (variant) {
       case 'outline':
-        return { ...sizeStyle, ...cornerStyle, ...widthStyle, ...outlineStyle };
+        return {
+          ...sizeStyle,
+          ...cornerStyle,
+          ...widthStyle,
+          ...outlineStyle,
+          color: textColor === theme.color.buttonTextPrimary ? color : textColor,
+          borderColor: color,
+        };
       case 'text':
-        return { ...sizeStyle, ...cornerStyle, ...widthStyle, ...textStyle };
+        return {
+          ...sizeStyle,
+          ...cornerStyle,
+          ...widthStyle,
+          ...textStyle,
+          color: textColor === theme.color.buttonTextPrimary ? color : textColor,
+        };
       case 'solid':
       default:
-        return { ...sizeStyle, ...cornerStyle, ...widthStyle, ...solidStyle };
+        return {
+          ...sizeStyle,
+          ...cornerStyle,
+          ...widthStyle,
+          ...solidStyle,
+          color: textColor,
+          backgroundColor: color,
+        };
     }
-  }, [variant, corner, size, full]);
+  }, [variant, corner, size, full, color, textColor]);
   useEffect(() => {
     switch (state) {
       case 'disabled':
@@ -67,7 +90,7 @@ export const Button: React.FC<ButtonProps> = ({
       case 'hover':
         setButtonStyle({
           ...basicStyle,
-          ...hoverStyles[variant],
+          ...getHoverStyles(color)[variant],
         });
         break;
       case 'abled':
@@ -75,7 +98,7 @@ export const Button: React.FC<ButtonProps> = ({
         setButtonStyle(basicStyle);
         break;
     }
-  }, [state, basicStyle, variant]);
+  }, [state, basicStyle, variant, color]);
   const onMouseEnter = useCallback(() => {
     if (!disabled) {
       setState('hover');
