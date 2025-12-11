@@ -1,4 +1,4 @@
-import type { SpinnerSize } from './spinner.type';
+import type { SpinnerSize, SpinnerVariants } from './spinner.type';
 
 export const getSpinnerStyle = (size: SpinnerSize, color: string): React.CSSProperties => {
   const s = typeof size === 'number' ? size : sizesStyle[size];
@@ -14,7 +14,10 @@ export const getSpinnerStyle = (size: SpinnerSize, color: string): React.CSSProp
     animation: 'spinner-spin 1s linear infinite',
   };
 };
-
+export const getAnimStyle = (variant: SpinnerVariants) => ({
+  animation: 'spinner-spin 1s linear infinite',
+  animationDirection: variant === 'inverted' ? 'reverse' : 'normal',
+});
 export const sizesStyle = {
   sm: 24,
   md: 40,
