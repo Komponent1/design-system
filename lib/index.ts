@@ -14,3 +14,4 @@ export * from './alert/alert';
 export * from './progress/progress';
 export * from './pagination/pagination';
 export * from './spinner/spinner';
+export * from './tooltip/tooltip';
