@@ -6,9 +6,10 @@ export const tooltipStyle: React.CSSProperties = {
 export const genTooltipBaseStyle = (
   backgroundColor: string,
   color: string,
+  width: number,
 ): React.CSSProperties => ({
   visibility: 'hidden',
-  width: '120px',
+  width: `${width}px`,
   backgroundColor,
   color,
   textAlign: 'center',

@@ -15,6 +15,7 @@ export type TooltipProps = {
   content?: React.ReactNode;
   backgroundColor?: string;
   textColor?: string;
+  width?: number;
 };
 export const Tooltip: React.FC<TooltipProps> = ({
   position = 'top',
@@ -23,13 +24,14 @@ export const Tooltip: React.FC<TooltipProps> = ({
   arrow = true,
   backgroundColor = '#555',
   textColor = '#fff',
+  width = 120,
 }) => {
   const tooltipContentStyle = useMemo(
     () => ({
-      ...genTooltipBaseStyle(backgroundColor, textColor),
+      ...genTooltipBaseStyle(backgroundColor, textColor, width),
       ...tooltipPositionStyles[position],
     }),
-    [position, textColor, backgroundColor],
+    [position, textColor, backgroundColor, width],
   );
 
   const tooltipArrowStyle = useMemo(
