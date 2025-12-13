@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ListItem } from './listItem';
-import type { DiskType, ListVariant } from './list.type';
+import type { ListVariant } from './list.type';
 import { Typography, type TypographyProps } from '../typography/typography';
 
 export type ListProps = {
@@ -10,7 +10,6 @@ export type ListProps = {
   children: React.ReactNode[];
   title?: string;
   titleProps?: TypographyProps;
-  type?: DiskType;
 };
 export const List: React.FC<ListProps> = ({
   variant = 'none',
@@ -19,7 +18,6 @@ export const List: React.FC<ListProps> = ({
   selected = false,
   title = '',
   titleProps = {},
-  type = 'disc',
 }) => {
   const [idx, setIdx] = useState(selectedIndex);
 
@@ -30,7 +28,7 @@ export const List: React.FC<ListProps> = ({
           {title}
         </Typography>
       )}
-      <ul style={{ padding: 0, margin: 0, listStyleType: type }}>
+      <ul style={{ padding: 0, margin: 0 }}>
         {children.map((child, index) => (
           <ListItem
             onClick={selected ? () => setIdx(index) : undefined}
