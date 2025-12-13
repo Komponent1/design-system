@@ -2,7 +2,7 @@ import React from 'react';
 import type { TypographySize, TypographyType, TypographyWeight } from './typography.type';
 import { typographyMap } from './typography.config';
 
-type TypographyProps = {
+export type TypographyProps = {
   children: React.ReactNode;
   type?: TypographyType;
   size?: TypographySize;
