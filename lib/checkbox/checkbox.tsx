@@ -1,4 +1,4 @@
-import React, { useCallback, useId, useState } from 'react';
+import React, { useCallback, useEffect, useId, useState } from 'react';
 import type { CheckboxSize } from './checkbox.type';
 import { baseStyle, markUrl, sizesStyle } from './checkbox.style';
 
@@ -9,7 +9,7 @@ export type CheckboxProps = {
   label?: React.ReactNode;
   checked?: boolean;
   accentColor?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'>;
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   id,
@@ -33,6 +33,10 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     },
     [onChange, isChecked],
   );
+
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [checked]);
 
   const inputStyle: React.CSSProperties = {
     ...baseStyle,
