@@ -9,12 +9,14 @@ export type TableProps = {
   columns: { header: string; accessor: string }[];
   variant?: TableVariants;
   selecterable?: boolean;
+  onSelectChange?: (selectedRows: Set<number>) => void;
 };
 export const Table: React.FC<TableProps> = ({
   datas,
   columns,
   variant = 'default',
   selecterable = false,
+  onSelectChange,
 }) => {
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
@@ -40,8 +42,14 @@ export const Table: React.FC<TableProps> = ({
     setSelectAll(checked);
     if (checked) {
       setSelectedRows(new Set(datas.map((_, idx) => idx)));
+      if (onSelectChange) {
+        onSelectChange(new Set(datas.map((_, idx) => idx)));
+      }
     } else {
       setSelectedRows(new Set());
+      if (onSelectChange) {
+        onSelectChange(new Set());
+      }
     }
   };
 
@@ -54,6 +62,9 @@ export const Table: React.FC<TableProps> = ({
       setSelectAll(false);
     }
     setSelectedRows(newSelected);
+    if (onSelectChange) {
+      onSelectChange(newSelected);
+    }
     if (newSelected.size === datas.length) {
       setSelectAll(true);
     }
