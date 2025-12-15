@@ -18,3 +18,4 @@ export * from './tooltip/tooltip';
 export * from './list/list';
 export * from './table/table';
 export * from './tab/tab';
+export * from './carousel/carousel';

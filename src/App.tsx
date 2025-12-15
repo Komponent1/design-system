@@ -1,4 +1,4 @@
-import { Tab } from '../lib/tab/tab';
+import { Carousel } from '../lib';
 
 function App() {
   return (
@@ -6,82 +6,207 @@ function App() {
       <h1>Design System Demo</h1>
 
       <section style={{ marginTop: 24 }}>
-        <h2>Tab Navigation Examples</h2>
+        <h2>Carousel Examples</h2>
 
         <div style={{ marginBottom: 48 }}>
-          <h3>Variant: line</h3>
-          <Tab variant='line' tabs={['Home', 'Profile', 'Settings', 'Contact']} defaultIndex={0}>
-            <div>
-              <h4>Home Content</h4>
-              <p>Welcome to the home page. This is the default tab content.</p>
-            </div>
-            <div>
-              <h4>Profile Content</h4>
-              <p>View and edit your profile information here.</p>
-            </div>
-            <div>
-              <h4>Settings Content</h4>
-              <p>Manage your account settings and preferences.</p>
-            </div>
-            <div>
-              <h4>Contact Content</h4>
-              <p>Get in touch with us through various channels.</p>
-            </div>
-          </Tab>
+          <h3>Basic Carousel with Navigation Buttons (Arrows)</h3>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <Carousel variant='arrows' showButtons={true} autoPlay={true} autoPlayInterval={2000}>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#3b82f6',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 1
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#8b5cf6',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 2
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#ec4899',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 3
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#f59e0b',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 4
+              </div>
+            </Carousel>
+          </div>
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <h3>Variant: box</h3>
-          <Tab variant='box' tabs={['Dashboard', 'Analytics', 'Reports']} defaultIndex={1}>
-            <div>
-              <h4>Dashboard</h4>
-              <p>Overview of your key metrics and activities.</p>
-            </div>
-            <div>
-              <h4>Analytics</h4>
-              <p>Detailed analytics and insights about your data.</p>
-            </div>
-            <div>
-              <h4>Reports</h4>
-              <p>Generate and download various reports.</p>
-            </div>
-          </Tab>
+          <h3>Carousel with Indicators</h3>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <Carousel variant='indicators' showButtons={true}>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#ef4444',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 1
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#f97316',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 2
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#f59e0b',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 3
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#84cc16',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 4
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '400px',
+                  backgroundColor: '#22c55e',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Slide 5
+              </div>
+            </Carousel>
+          </div>
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <h3>Variant: pill</h3>
-          <Tab variant='pill' tabs={['Overview', 'Details', 'History']} defaultIndex={0}>
-            <div>
-              <h4>Overview</h4>
-              <p>Quick summary of important information.</p>
-            </div>
-            <div>
-              <h4>Details</h4>
-              <p>Comprehensive details and specifications.</p>
-            </div>
-            <div>
-              <h4>History</h4>
-              <p>View historical data and changes over time.</p>
-            </div>
-          </Tab>
-        </div>
-
-        <div style={{ marginBottom: 48 }}>
-          <h3>Variant: toggleButton</h3>
-          <Tab variant='segment' tabs={['Overview', 'Details', 'History']} defaultIndex={0}>
-            <div>
-              <h4>Overview</h4>
-              <p>Quick summary of important information.</p>
-            </div>
-            <div>
-              <h4>Details</h4>
-              <p>Comprehensive details and specifications.</p>
-            </div>
-            <div>
-              <h4>History</h4>
-              <p>View historical data and changes over time.</p>
-            </div>
-          </Tab>
+          <h3>Carousel without Navigation Buttons</h3>
+          <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <Carousel showButtons={false}>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '300px',
+                  backgroundColor: '#10b981',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '24px',
+                }}
+              >
+                Image 1
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '300px',
+                  backgroundColor: '#06b6d4',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '24px',
+                }}
+              >
+                Image 2
+              </div>
+              <div
+                style={{
+                  minWidth: '100%',
+                  height: '300px',
+                  backgroundColor: '#6366f1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '24px',
+                }}
+              >
+                Image 3
+              </div>
+            </Carousel>
+          </div>
         </div>
       </section>
     </div>
