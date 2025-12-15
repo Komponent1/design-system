@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { ListItem } from './listItem';
 import type { ListVariant } from './list.type';
@@ -21,6 +22,29 @@ export const List: React.FC<ListProps> = ({
 }) => {
   const [idx, setIdx] = useState(selectedIndex);
 
+  const handleClick = (child: React.ReactNode, index: number) => {
+    if (selected) {
+      setIdx(index);
+    }
+    if (React.isValidElement(child) && typeof (child.props as any).onClick === 'function') {
+      (child.props as any).onClick();
+    }
+  };
+
+  const removeOnClick = (child: React.ReactNode) => {
+    if (React.isValidElement(child)) {
+      const props = child.props as any;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { onClick, ...restProps } = props;
+      return React.cloneElement(child, {
+        ...restProps,
+        onClick: undefined,
+        style: { ...props.style, pointerEvents: 'none' },
+      } as any);
+    }
+    return child;
+  };
+
   return (
     <div>
       {title && (
@@ -31,13 +55,13 @@ export const List: React.FC<ListProps> = ({
       <ul style={{ padding: 0, margin: 0 }}>
         {children.map((child, index) => (
           <ListItem
-            onClick={selected ? () => setIdx(index) : undefined}
+            onClick={() => handleClick(child, index)}
             key={`${index}_list_item`}
             variant={variant}
             selected={idx === index}
             isLast={index === children.length - 1}
           >
-            {child}
+            {removeOnClick(child)}
           </ListItem>
         ))}
       </ul>
