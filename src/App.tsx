@@ -1,11 +1,270 @@
-import { Carousel } from '../lib';
+import { Carousel, Navbar } from '../lib';
 
 function App() {
   return (
-    <div style={{ padding: 24, fontFamily: 'Arial, sans-serif' }}>
-      <h1>Design System Demo</h1>
+    <div style={{ fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ padding: 24 }}>Design System Demo</h1>
 
       <section style={{ marginTop: 24 }}>
+        <h2 style={{ padding: '0 24px' }}>Navbar Examples</h2>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Centered Variant</h3>
+          <Navbar
+            title='My Brand'
+            variant='centered'
+            links={[
+              { label: 'Home', href: '#home' },
+              { label: 'About', href: '#about' },
+              { label: 'Services', href: '#services' },
+              { label: 'Contact', href: '#contact' },
+            ]}
+          />
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Right Variant</h3>
+          <Navbar
+            title='My Brand'
+            variant='right'
+            links={[
+              { label: 'Products', href: '#products' },
+              { label: 'Pricing', href: '#pricing' },
+              { label: 'Blog', href: '#blog' },
+            ]}
+          />
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Centered with Custom Colors</h3>
+          <Navbar
+            title='Creative Studio'
+            variant='centered'
+            backgroundColor='#3b82f6'
+            textColor='white'
+            links={[
+              { label: 'Portfolio', href: '#portfolio' },
+              { label: 'Team', href: '#team' },
+              { label: 'Contact', href: '#contact' },
+            ]}
+          />
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Right with Icon</h3>
+          <Navbar
+            title='Dashboard'
+            variant='right'
+            icon={
+              <svg
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z'
+                  stroke='currentColor'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+              </svg>
+            }
+            links={[
+              { label: 'Overview', href: '#overview' },
+              { label: 'Analytics', href: '#analytics' },
+              { label: 'Settings', href: '#settings' },
+            ]}
+          />
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Centered with Children (User Menu)</h3>
+          <Navbar
+            title='My App'
+            variant='centered'
+            links={[
+              { label: 'Home', href: '#home' },
+              { label: 'Features', href: '#features' },
+              { label: 'Pricing', href: '#pricing' },
+            ]}
+          >
+            <button
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 500,
+              }}
+            >
+              Sign In
+            </button>
+          </Navbar>
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Right with Children (Avatar + Notifications)</h3>
+          <Navbar
+            title='Social Network'
+            variant='right'
+            links={[
+              { label: 'Feed', href: '#feed' },
+              { label: 'Messages', href: '#messages' },
+              { label: 'Notifications', href: '#notifications' },
+            ]}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div
+                style={{
+                  position: 'relative',
+                  width: '24px',
+                  height: '24px',
+                  cursor: 'pointer',
+                }}
+              >
+                <svg
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <path
+                    d='M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: '#ef4444',
+                    borderRadius: '50%',
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: '#8b5cf6',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                }}
+              >
+                JD
+              </div>
+            </div>
+          </Navbar>
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Centered with Search Bar</h3>
+          <Navbar
+            title='E-Commerce'
+            variant='centered'
+            links={[
+              { label: 'Shop', href: '#shop' },
+              { label: 'Categories', href: '#categories' },
+              { label: 'Deals', href: '#deals' },
+            ]}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <input
+                type='text'
+                placeholder='Search...'
+                style={{
+                  padding: '6px 12px',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  width: '200px',
+                }}
+              />
+              <div
+                style={{
+                  position: 'relative',
+                  width: '24px',
+                  height: '24px',
+                  cursor: 'pointer',
+                }}
+              >
+                <svg
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M9 2C10.3132 2 11.6136 2.25866 12.8268 2.7612C14.0401 3.26375 15.1425 4.00035 16.0711 4.92893C16.9997 5.85752 17.7363 6.95991 18.2388 8.17317C18.7413 9.38643 19 10.6868 19 12'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <circle cx='9' cy='12' r='7' stroke='currentColor' strokeWidth='2' />
+                  <line
+                    x1='15'
+                    y1='17'
+                    x2='21'
+                    y2='21'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                  />
+                </svg>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    width: '18px',
+                    height: '18px',
+                    backgroundColor: '#ef4444',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '10px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  3
+                </div>
+              </div>
+            </div>
+          </Navbar>
+        </div>
+      </section>
+
+      <section style={{ marginTop: 48, padding: '0 24px' }}>
         <h2>Carousel Examples</h2>
 
         <div style={{ marginBottom: 48 }}>

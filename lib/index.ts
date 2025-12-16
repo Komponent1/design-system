@@ -19,3 +19,4 @@ export * from './list/list';
 export * from './table/table';
 export * from './tab/tab';
 export * from './carousel/carousel';
+export * from './navbar/navbar';
