@@ -69,7 +69,7 @@ function App() {
             <Card
               type='image-content'
               size='md'
-              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
+              src='https://cdn.pixabay.com/photo/2019/07/30/18/26/surface-4373559_1280.jpg'
               alt='Mountain landscape'
             >
               <h4>Beautiful Landscape</h4>
@@ -78,7 +78,7 @@ function App() {
             <Card
               type='content-image'
               size='md'
-              src='https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=250&fit=crop'
+              src='https://cdn.pixabay.com/photo/2019/07/30/18/26/surface-4373559_1280.jpg'
               alt='Forest'
             >
               <h4>Nature Scene</h4>
@@ -93,7 +93,7 @@ function App() {
             <Card
               type='image_overlay'
               size='lg'
-              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=350&fit=crop'
+              src='https://cdn.pixabay.com/photo/2019/07/30/18/26/surface-4373559_1280.jpg'
               alt='Overlay image'
             >
               <h2>Overlay Title</h2>
@@ -117,7 +117,7 @@ function App() {
               type='image-content'
               size='md'
               hoverType='lift'
-              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
+              src='https://cdn.pixabay.com/photo/2019/07/30/18/26/surface-4373559_1280.jpg'
               alt='Hover effect'
             >
               <h4>Image with Lift</h4>

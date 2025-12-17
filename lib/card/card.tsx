@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import type { CardSizes, CardVaraints, HoverType } from './card.type';
 import {
   cardContainerBaseStyle,
-  cardContentStyle,
   cardFooterStyle,
   cardHeaderStyle,
   cardHoverStyles,
@@ -19,6 +18,7 @@ export type CardProps = {
   children?: React.ReactNode;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  autoPadding?: boolean;
 };
 export const Card: React.FC<CardProps> = ({
   type,
@@ -29,12 +29,13 @@ export const Card: React.FC<CardProps> = ({
   children,
   header,
   footer,
+  autoPadding = true,
 }) => {
   const cardToken = useMemo(() => type.split('-'), [type]);
   const cardContainerBasicStyle = useMemo(() => {
     return {
-      ...cardContainerBaseStyle,
       ...cardSizeStyles[size],
+      ...cardContainerBaseStyle,
     };
   }, [size]);
   const [cardContainerStyle, setCardContainerStyle] =
@@ -87,19 +88,36 @@ export const Card: React.FC<CardProps> = ({
           return <img key={`${token}_${index}`} src={src} alt={alt} style={cardImageStyle} />;
         } else if (token === 'header' && header) {
           return (
-            <div key={`${token}_${index}`} style={cardHeaderStyle}>
+            <div
+              key={`${token}_${index}`}
+              style={{
+                ...cardHeaderStyle,
+                padding: autoPadding ? '8px 16px' : '0',
+              }}
+            >
               {header}
             </div>
           );
         } else if (token === 'content') {
           return (
-            <div key={`${token}_${index}`} style={cardContentStyle}>
+            <div
+              key={`${token}_${index}`}
+              style={{
+                padding: autoPadding ? '16px' : '0',
+              }}
+            >
               {children}
             </div>
           );
         } else if (token === 'footer' && footer) {
           return (
-            <div key={`${token}_${index}`} style={cardFooterStyle}>
+            <div
+              key={`${token}_${index}`}
+              style={{
+                ...cardFooterStyle,
+                padding: autoPadding ? '8px 16px' : '0',
+              }}
+            >
               {footer}
             </div>
           );

@@ -25,9 +25,6 @@ export const cardSizeStyles: Record<string, React.CSSProperties> = {
     width: '400px',
   },
 };
-export const cardContentStyle: React.CSSProperties = {
-  padding: '16px',
-};
 export const cardImageStyle: React.CSSProperties = {
   width: '100%',
   height: 'auto',
@@ -46,5 +43,4 @@ export const cardFooterStyle: React.CSSProperties = {
   marginTop: '12px',
   backgroundColor: '#f5f5f5',
   borderTop: '1px solid #e0e0e0',
-  padding: '8px 16px',
 };
