@@ -1,9 +1,131 @@
-import { Carousel, Navbar } from '../lib';
+import { Card, Carousel, Navbar, Typography } from '../lib';
 
 function App() {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif' }}>
       <h1 style={{ padding: 24 }}>Design System Demo</h1>
+
+      <section style={{ marginTop: 24 }}>
+        <h2 style={{ padding: '0 24px' }}>Card Examples</h2>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <Typography>Basic Content Card</Typography>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card type='content' size='sm'>
+              <h4>Small Card</h4>
+              <p>This is a small content card.</p>
+            </Card>
+            <Card type='content' size='md'>
+              <h4>Medium Card</h4>
+              <p>This is a medium content card with more space.</p>
+            </Card>
+            <Card type='content' size='lg'>
+              <h4>Large Card</h4>
+              <p>This is a large content card with even more space for content.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <h3>Card with Header</h3>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card type='header-content' size='md' header={<h3>Card Title</h3>}>
+              <p>This card has a header section at the top.</p>
+              <p>Perfect for titled content blocks.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <h3>Card with Footer</h3>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card
+              type='content-footer'
+              size='md'
+              footer={
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Action
+                </button>
+              }
+            >
+              <h4>Product Name</h4>
+              <p>Description of the product goes here.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <h3>Image Cards</h3>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card
+              type='image-content'
+              size='md'
+              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
+              alt='Mountain landscape'
+            >
+              <h4>Beautiful Landscape</h4>
+              <p>Image at the top, content below.</p>
+            </Card>
+            <Card
+              type='content-image'
+              size='md'
+              src='https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=250&fit=crop'
+              alt='Forest'
+            >
+              <h4>Nature Scene</h4>
+              <p>Content at the top, image below.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <h3>Image Overlay Card</h3>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card
+              type='image_overlay'
+              size='lg'
+              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=350&fit=crop'
+              alt='Overlay image'
+            >
+              <h2>Overlay Title</h2>
+              <p>Content overlays the image with a dark background.</p>
+            </Card>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48, padding: '0 24px' }}>
+          <h3>Hover Effects</h3>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <Card type='content' size='md' hoverType='shadow'>
+              <h4>Shadow Hover</h4>
+              <p>Hover over this card to see shadow effect.</p>
+            </Card>
+            <Card type='content' size='md' hoverType='lift'>
+              <h4>Lift Hover</h4>
+              <p>Hover over this card to see lift effect.</p>
+            </Card>
+            <Card
+              type='image-content'
+              size='md'
+              hoverType='lift'
+              src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop'
+              alt='Hover effect'
+            >
+              <h4>Image with Lift</h4>
+              <p>Combining image and hover effect.</p>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       <section style={{ marginTop: 24 }}>
         <h2 style={{ padding: '0 24px' }}>Navbar Examples</h2>
@@ -261,6 +383,72 @@ function App() {
               </div>
             </div>
           </Navbar>
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Fixed Type (Stays at top when scrolling)</h3>
+          <Navbar
+            title='Fixed Header'
+            variant='right'
+            type='fixed'
+            backgroundColor='#1f2937'
+            textColor='white'
+            links={[
+              { label: 'Home', href: '#home' },
+              { label: 'About', href: '#about' },
+              { label: 'Contact', href: '#contact' },
+            ]}
+          >
+            <button
+              style={{
+                padding: '6px 12px',
+                backgroundColor: 'white',
+                color: '#1f2937',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 600,
+              }}
+            >
+              Get Started
+            </button>
+          </Navbar>
+          <div
+            style={{
+              padding: '20px',
+              backgroundColor: '#f3f4f6',
+              marginTop: '60px',
+              height: '200px',
+            }}
+          >
+            <p>Scroll down to see the fixed navbar behavior (it stays at the top).</p>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 48 }}>
+          <h3 style={{ padding: '0 24px' }}>Sticky Type (Sticks after scrolling past it)</h3>
+          <Navbar
+            title='Sticky Header'
+            variant='centered'
+            type='sticky'
+            backgroundColor='#10b981'
+            textColor='white'
+            links={[
+              { label: 'Products', href: '#products' },
+              { label: 'Services', href: '#services' },
+              { label: 'Blog', href: '#blog' },
+            ]}
+          />
+          <div
+            style={{
+              padding: '20px',
+              backgroundColor: '#d1fae5',
+              height: '200px',
+            }}
+          >
+            <p>This navbar will stick to the top when you scroll past it.</p>
+          </div>
         </div>
       </section>
 
