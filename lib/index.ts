@@ -21,3 +21,5 @@ export * from './tab/tab';
 export * from './carousel/carousel';
 export * from './navbar/navbar';
 export * from './card/card';
+export * from './skeleton/skeleton';
+export * from './skeleton/skeletonAnimator';
