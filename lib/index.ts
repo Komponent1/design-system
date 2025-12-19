@@ -23,3 +23,4 @@ export * from './navbar/navbar';
 export * from './card/card';
 export * from './skeleton/skeleton';
 export * from './skeleton/skeletonAnimator';
+export * from './modal/modal';
