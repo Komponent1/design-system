@@ -1,393 +1,284 @@
 import { useState } from 'react';
-import { Modal } from '../lib';
+import { Snackbar } from '../lib';
 
 function App() {
-  const [isDefaultOpen, setIsDefaultOpen] = useState(false);
-  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
-  const [isSmallOpen, setIsSmallOpen] = useState(false);
-  const [isMediumOpen, setIsMediumOpen] = useState(false);
-  const [isLargeOpen, setIsLargeOpen] = useState(false);
-  const [isXLargeOpen, setIsXLargeOpen] = useState(false);
-  const [isTopOpen, setIsTopOpen] = useState(false);
-  const [isBottomOpen, setIsBottomOpen] = useState(false);
-  const [isFadeOpen, setIsFadeOpen] = useState(false);
-  const [isSlideOpen, setIsSlideOpen] = useState(false);
-  const [isZoomOpen, setIsZoomOpen] = useState(false);
-  const [isTopRightOpen, setIsTopRightOpen] = useState(false);
-  const [isTopLeftOpen, setIsTopLeftOpen] = useState(false);
-  const [isBottomRightOpen, setIsBottomRightOpen] = useState(false);
-  const [isBottomLeftOpen, setIsBottomLeftOpen] = useState(false);
+  const [showTopSnackbar, setShowTopSnackbar] = useState(false);
+  const [showBottomSnackbar, setShowBottomSnackbar] = useState(false);
+  const [showTopLeftSnackbar, setShowTopLeftSnackbar] = useState(false);
+  const [showTopRightSnackbar, setShowTopRightSnackbar] = useState(false);
+  const [showBottomLeftSnackbar, setShowBottomLeftSnackbar] = useState(false);
+  const [showBottomRightSnackbar, setShowBottomRightSnackbar] = useState(false);
+  const [showFadeSnackbar, setShowFadeSnackbar] = useState(false);
+  const [showSlideSnackbar, setShowSlideSnackbar] = useState(false);
+  const [showGrowSnackbar, setShowGrowSnackbar] = useState(false);
+  const [showDraggableSnackbar, setShowDraggableSnackbar] = useState(false);
+  const [showNormalSnackbar, setShowNormalSnackbar] = useState(false);
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '10px 20px',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: '500',
+  };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: 24 }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px' }}>
       <h1>Design System Demo</h1>
 
-      <section style={{ marginTop: 24 }}>
-        <h2>Modal Examples</h2>
+      <section style={{ marginTop: '24px' }}>
+        <h2>Snackbar Examples</h2>
 
-        <div style={{ marginBottom: 48 }}>
-          <h3>Variants</h3>
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Position Examples</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Click buttons to see snackbars at different positions
+          </p>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setIsDefaultOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
+              onClick={() => setShowTopSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
             >
-              Default Modal
+              Top Center
             </button>
             <button
-              onClick={() => setIsFullscreenOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#8b5cf6',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
+              onClick={() => setShowBottomSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
             >
-              Fullscreen Modal
-            </button>
-          </div>
-
-          <Modal isOpen={isDefaultOpen} onClose={() => setIsDefaultOpen(false)} variant='default'>
-            <div style={{ padding: '1rem 0' }}>
-              <h3>Default Modal</h3>
-              <p>This is a default modal with standard styling.</p>
-              <p>It appears in the center of the screen with a backdrop.</p>
-            </div>
-          </Modal>
-
-          <Modal
-            isOpen={isFullscreenOpen}
-            onClose={() => setIsFullscreenOpen(false)}
-            variant='fullscreen'
-          >
-            <div style={{ padding: '2rem 0' }}>
-              <h2>Fullscreen Modal</h2>
-              <h3>Fullscreen Experience</h3>
-              <p>This modal takes up the entire viewport.</p>
-              <p>Perfect for immersive content or complex forms.</p>
-              <div
-                style={{
-                  marginTop: '2rem',
-                  height: '200px',
-                  backgroundColor: '#f3f4f6',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <p>Content can fill the entire screen</p>
-              </div>
-            </div>
-          </Modal>
-        </div>
-
-        <div style={{ marginBottom: 48 }}>
-          <h3>Sizes</h3>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setIsSmallOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Small (sm)
+              Bottom Center
             </button>
             <button
-              onClick={() => setIsMediumOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Medium (md)
-            </button>
-            <button
-              onClick={() => setIsLargeOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Large (lg)
-            </button>
-            <button
-              onClick={() => setIsXLargeOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              X-Large (xl)
-            </button>
-          </div>
-
-          <Modal isOpen={isSmallOpen} onClose={() => setIsSmallOpen(false)} size='sm'>
-            <h4>Small Modal</h4>
-            <p>This is a small modal (20rem width).</p>
-          </Modal>
-
-          <Modal isOpen={isMediumOpen} onClose={() => setIsMediumOpen(false)} size='md'>
-            <h4>Medium Modal</h4>
-            <p>This is a medium modal (28rem width).</p>
-            <p>Default size for most use cases.</p>
-          </Modal>
-
-          <Modal isOpen={isLargeOpen} onClose={() => setIsLargeOpen(false)} size='lg'>
-            <h4>Large Modal</h4>
-            <p>This is a large modal (40rem width).</p>
-            <p>Suitable for forms or content that needs more space.</p>
-          </Modal>
-
-          <Modal isOpen={isXLargeOpen} onClose={() => setIsXLargeOpen(false)} size='xl'>
-            <h4>Extra Large Modal</h4>
-            <p>This is an extra large modal (56rem width).</p>
-            <p>Perfect for complex layouts or data tables.</p>
-            <p>Great for detailed content presentation.</p>
-          </Modal>
-        </div>
-
-        <div style={{ marginBottom: 48 }}>
-          <h3>Positions</h3>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setIsTopOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#f59e0b',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Top Position
-            </button>
-            <button
-              onClick={() => setIsBottomOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#f59e0b',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Bottom Position
-            </button>
-          </div>
-
-          <Modal isOpen={isTopOpen} onClose={() => setIsTopOpen(false)} position='top'>
-            <h4>Top Positioned Modal</h4>
-            <p>This modal appears at the top of the viewport.</p>
-            <p>Useful for notifications or top-anchored content.</p>
-          </Modal>
-
-          <Modal isOpen={isBottomOpen} onClose={() => setIsBottomOpen(false)} position='bottom'>
-            <h4>Bottom Positioned Modal</h4>
-            <p>This modal appears at the bottom of the viewport.</p>
-            <p>Great for mobile-style bottom sheets.</p>
-          </Modal>
-        </div>
-
-        <div style={{ marginBottom: 48 }}>
-          <h3>Animation Types</h3>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setIsFadeOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#ec4899',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Fade Animation
-            </button>
-            <button
-              onClick={() => setIsSlideOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#ec4899',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Slide Animation
-            </button>
-            <button
-              onClick={() => setIsZoomOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#ec4899',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Zoom Animation
-            </button>
-          </div>
-
-          <Modal isOpen={isFadeOpen} onClose={() => setIsFadeOpen(false)} animationType='fade'>
-            <h4>Fade Animation</h4>
-            <p>This modal fades in smoothly.</p>
-          </Modal>
-
-          <Modal isOpen={isSlideOpen} onClose={() => setIsSlideOpen(false)} animationType='slide'>
-            <h4>Slide Animation</h4>
-            <p>This modal slides down from the top.</p>
-          </Modal>
-
-          <Modal isOpen={isZoomOpen} onClose={() => setIsZoomOpen(false)} animationType='zoom'>
-            <h4>Zoom Animation</h4>
-            <p>This modal zooms in with a scale effect.</p>
-          </Modal>
-        </div>
-
-        <div style={{ marginBottom: 48 }}>
-          <h3>Close Button Positions</h3>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setIsTopRightOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#6366f1',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
-            >
-              Top Right
-            </button>
-            <button
-              onClick={() => setIsTopLeftOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#6366f1',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
+              onClick={() => setShowTopLeftSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
             >
               Top Left
             </button>
             <button
-              onClick={() => setIsBottomRightOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#6366f1',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
+              onClick={() => setShowTopRightSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
             >
-              Bottom Right
+              Top Right
             </button>
             <button
-              onClick={() => setIsBottomLeftOpen(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#6366f1',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px',
-              }}
+              onClick={() => setShowBottomLeftSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
             >
               Bottom Left
             </button>
+            <button
+              onClick={() => setShowBottomRightSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
+            >
+              Bottom Right
+            </button>
           </div>
 
-          <Modal
-            isOpen={isTopRightOpen}
-            onClose={() => setIsTopRightOpen(false)}
-            closeButtonPosition='top-right'
-          >
-            <h4>Close Button - Top Right</h4>
-            <p>The close button (✕) is positioned at the top right corner.</p>
-            <p>Click the X button or press ESC to close.</p>
-          </Modal>
+          {showTopSnackbar && (
+            <Snackbar
+              message='📍 Top center positioned snackbar'
+              snackbarPosition='top'
+              onClose={() => setShowTopSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showBottomSnackbar && (
+            <Snackbar
+              message='📍 Bottom center positioned snackbar'
+              snackbarPosition='bottom'
+              onClose={() => setShowBottomSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showTopLeftSnackbar && (
+            <Snackbar
+              message='📍 Top left corner'
+              snackbarPosition='top-left'
+              onClose={() => setShowTopLeftSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showTopRightSnackbar && (
+            <Snackbar
+              message='📍 Top right corner'
+              snackbarPosition='top-right'
+              onClose={() => setShowTopRightSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showBottomLeftSnackbar && (
+            <Snackbar
+              message='📍 Bottom left corner'
+              snackbarPosition='bottom-left'
+              onClose={() => setShowBottomLeftSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showBottomRightSnackbar && (
+            <Snackbar
+              message='📍 Bottom right corner'
+              snackbarPosition='bottom-right'
+              onClose={() => setShowBottomRightSnackbar(false)}
+              duration={3000}
+            />
+          )}
+        </div>
 
-          <Modal
-            isOpen={isTopLeftOpen}
-            onClose={() => setIsTopLeftOpen(false)}
-            closeButtonPosition='top-left'
-          >
-            <h4>Close Button - Top Left</h4>
-            <p>The close button (✕) is positioned at the top left corner.</p>
-            <p>Click the X button or press ESC to close.</p>
-          </Modal>
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Animation Examples</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Different entrance animations
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowFadeSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#10b981' }}
+            >
+              Fade In
+            </button>
+            <button
+              onClick={() => setShowSlideSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#10b981' }}
+            >
+              Slide In
+            </button>
+            <button
+              onClick={() => setShowGrowSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#10b981' }}
+            >
+              Grow In
+            </button>
+          </div>
 
-          <Modal
-            isOpen={isBottomRightOpen}
-            onClose={() => setIsBottomRightOpen(false)}
-            closeButtonPosition='bottom-right'
-          >
-            <h4>Close Button - Bottom Right</h4>
-            <p>The close button (✕) is positioned at the bottom right corner.</p>
-            <p>Click the X button or press ESC to close.</p>
-          </Modal>
+          {showFadeSnackbar && (
+            <Snackbar
+              message='✨ Fade animation - smooth opacity transition'
+              snackbarAnimation='fade'
+              snackbarPosition='bottom'
+              onClose={() => setShowFadeSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showSlideSnackbar && (
+            <Snackbar
+              message='🎬 Slide animation - enters from the side'
+              snackbarAnimation='slide'
+              snackbarPosition='bottom'
+              onClose={() => setShowSlideSnackbar(false)}
+              duration={3000}
+            />
+          )}
+          {showGrowSnackbar && (
+            <Snackbar
+              message='🎯 Grow animation - scales up from center'
+              snackbarAnimation='grow'
+              snackbarPosition='bottom'
+              onClose={() => setShowGrowSnackbar(false)}
+              duration={3000}
+            />
+          )}
+        </div>
 
-          <Modal
-            isOpen={isBottomLeftOpen}
-            onClose={() => setIsBottomLeftOpen(false)}
-            closeButtonPosition='bottom-left'
-          >
-            <h4>Close Button - Bottom Left</h4>
-            <p>The close button (✕) is positioned at the bottom left corner.</p>
-            <p>Click the X button or press ESC to close.</p>
-          </Modal>
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Draggable Feature</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            💡 <strong>Draggable mode:</strong> Drag the snackbar 100px away to dismiss it. Won't
+            auto-close.
+            <br />
+            💡 <strong>Normal mode:</strong> Auto-closes after the specified duration (3 seconds).
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowDraggableSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#f59e0b' }}
+            >
+              Draggable Snackbar
+            </button>
+            <button
+              onClick={() => setShowNormalSnackbar(true)}
+              style={{ ...buttonStyle, backgroundColor: '#f59e0b' }}
+            >
+              Auto-close Snackbar
+            </button>
+          </div>
+
+          {showDraggableSnackbar && (
+            <Snackbar
+              message='👆 Drag me at least 100px away to dismiss!'
+              dragable={true}
+              snackbarPosition='bottom'
+              snackbarAnimation='slide'
+              onClose={() => setShowDraggableSnackbar(false)}
+            />
+          )}
+          {showNormalSnackbar && (
+            <Snackbar
+              message='⏱️ I will auto-close in 3 seconds...'
+              dragable={false}
+              duration={3000}
+              snackbarPosition='bottom'
+              snackbarAnimation='slide'
+              onClose={() => setShowNormalSnackbar(false)}
+            />
+          )}
+        </div>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Multiple Snackbars</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Show multiple snackbars at different positions simultaneously
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => {
+                setShowTopSnackbar(true);
+                setTimeout(() => setShowBottomSnackbar(true), 150);
+                setTimeout(() => setShowTopRightSnackbar(true), 300);
+              }}
+              style={{ ...buttonStyle, backgroundColor: '#8b5cf6' }}
+            >
+              Show Multiple (3)
+            </button>
+            <button
+              onClick={() => {
+                setShowTopLeftSnackbar(true);
+                setTimeout(() => setShowTopRightSnackbar(true), 100);
+                setTimeout(() => setShowBottomLeftSnackbar(true), 200);
+                setTimeout(() => setShowBottomRightSnackbar(true), 300);
+              }}
+              style={{ ...buttonStyle, backgroundColor: '#ec4899' }}
+            >
+              Show All Corners
+            </button>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Custom Duration</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Control how long the snackbar stays visible
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => {
+                const show = setShowBottomSnackbar;
+                show(true);
+              }}
+              style={{ ...buttonStyle, backgroundColor: '#06b6d4' }}
+            >
+              Short (3s default)
+            </button>
+            <button
+              onClick={() => {
+                const [show] = [setShowTopSnackbar];
+                show(true);
+              }}
+              style={{ ...buttonStyle, backgroundColor: '#06b6d4' }}
+            >
+              Medium (5s)
+            </button>
+          </div>
         </div>
       </section>
     </div>
