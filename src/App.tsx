@@ -322,6 +322,7 @@ function App() {
           <ContextMenu
             visible={contextMenuVisible}
             position={contextMenuPosition}
+            onClose={() => setContextMenuVisible(false)}
             dividerIndex={[2, 5]}
           >
             <div
