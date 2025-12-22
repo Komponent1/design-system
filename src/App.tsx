@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Snackbar } from '../lib';
+import { Snackbar, ContextMenu } from '../lib';
 
 function App() {
   const [showTopSnackbar, setShowTopSnackbar] = useState(false);
@@ -13,6 +13,8 @@ function App() {
   const [showGrowSnackbar, setShowGrowSnackbar] = useState(false);
   const [showDraggableSnackbar, setShowDraggableSnackbar] = useState(false);
   const [showNormalSnackbar, setShowNormalSnackbar] = useState(false);
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
 
   const buttonStyle: React.CSSProperties = {
     padding: '10px 20px',
@@ -279,6 +281,194 @@ function App() {
               Medium (5s)
             </button>
           </div>
+        </div>
+      </section>
+
+      <section style={{ marginTop: '48px' }}>
+        <h2>ContextMenu Examples</h2>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Basic Context Menu</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Right-click on the box below to open context menu
+          </p>
+          <div
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setContextMenuPosition({ x: e.clientX, y: e.clientY });
+              setContextMenuVisible(true);
+            }}
+            onClick={() => setContextMenuVisible(false)}
+            style={{
+              width: '400px',
+              height: '300px',
+              backgroundColor: '#f3f4f6',
+              border: '2px dashed #9ca3af',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'context-menu',
+              userSelect: 'none',
+            }}
+          >
+            <div style={{ textAlign: 'center', color: '#6b7280' }}>
+              <div style={{ fontSize: '48px', marginBottom: '12px' }}>🖱️</div>
+              <div style={{ fontSize: '16px', fontWeight: '500' }}>Right-click here</div>
+              <div style={{ fontSize: '14px', marginTop: '4px' }}>to open context menu</div>
+            </div>
+          </div>
+
+          <ContextMenu
+            visible={contextMenuVisible}
+            position={contextMenuPosition}
+            dividerIndex={[2, 5]}
+          >
+            <div
+              onClick={() => {
+                alert('Cut action');
+                setContextMenuVisible(false);
+              }}
+            >
+              ✂️ Cut
+            </div>
+            <div
+              onClick={() => {
+                alert('Copy action');
+                setContextMenuVisible(false);
+              }}
+            >
+              📋 Copy
+            </div>
+            <div
+              onClick={() => {
+                alert('Paste action');
+                setContextMenuVisible(false);
+              }}
+            >
+              📄 Paste
+            </div>
+            <div
+              onClick={() => {
+                alert('Delete action');
+                setContextMenuVisible(false);
+              }}
+            >
+              🗑️ Delete
+            </div>
+            <div
+              onClick={() => {
+                alert('Rename action');
+                setContextMenuVisible(false);
+              }}
+            >
+              ✏️ Rename
+            </div>
+            <div
+              onClick={() => {
+                alert('Properties');
+                setContextMenuVisible(false);
+              }}
+            >
+              ⚙️ Properties
+            </div>
+          </ContextMenu>
+        </div>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Context Menu with Multiple Areas</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Different areas can show different context menus
+          </p>
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setContextMenuPosition({ x: e.clientX, y: e.clientY });
+                setContextMenuVisible(true);
+              }}
+              style={{
+                width: '200px',
+                height: '150px',
+                backgroundColor: '#dbeafe',
+                border: '2px solid #3b82f6',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'context-menu',
+                userSelect: 'none',
+              }}
+            >
+              <div style={{ textAlign: 'center', color: '#1e40af' }}>
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>📁</div>
+                <div style={{ fontSize: '14px', fontWeight: '500' }}>Folder</div>
+              </div>
+            </div>
+
+            <div
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setContextMenuPosition({ x: e.clientX, y: e.clientY });
+                setContextMenuVisible(true);
+              }}
+              style={{
+                width: '200px',
+                height: '150px',
+                backgroundColor: '#fce7f3',
+                border: '2px solid #ec4899',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'context-menu',
+                userSelect: 'none',
+              }}
+            >
+              <div style={{ textAlign: 'center', color: '#9f1239' }}>
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>📄</div>
+                <div style={{ fontSize: '14px', fontWeight: '500' }}>Document</div>
+              </div>
+            </div>
+
+            <div
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setContextMenuPosition({ x: e.clientX, y: e.clientY });
+                setContextMenuVisible(true);
+              }}
+              style={{
+                width: '200px',
+                height: '150px',
+                backgroundColor: '#dcfce7',
+                border: '2px solid #10b981',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'context-menu',
+                userSelect: 'none',
+              }}
+            >
+              <div style={{ textAlign: 'center', color: '#065f46' }}>
+                <div style={{ fontSize: '32px', marginBottom: '8px' }}>🖼️</div>
+                <div style={{ fontSize: '14px', fontWeight: '500' }}>Image</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Context Menu Features</h3>
+          <ul style={{ color: '#6b7280', fontSize: '14px', lineHeight: '1.8' }}>
+            <li>✅ Opens at cursor position on right-click</li>
+            <li>✅ Closes when clicking outside or selecting an item</li>
+            <li>
+              ✅ Divider support with <code>dividerIndex</code> prop
+            </li>
+            <li>✅ Hover effects on menu items</li>
+            <li>✅ Portal rendering for proper z-index layering</li>
+          </ul>
         </div>
       </section>
     </div>

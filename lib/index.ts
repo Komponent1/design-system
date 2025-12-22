@@ -25,3 +25,4 @@ export * from './skeleton/skeleton';
 export * from './skeleton/skeletonAnimator';
 export * from './modal/modal';
 export * from './snackbar/snackbar';
+export * from './contextMenu/contextMenu';
