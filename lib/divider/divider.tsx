@@ -13,6 +13,7 @@ export type DividerProps = {
   type?: DividerTypes;
   children?: React.ReactNode;
   childrenPosition?: 'center' | 'left' | 'right';
+  verticalHeight?: number;
 };
 export const Divider: React.FC<DividerProps> = ({
   orientation = 'horizontal',
@@ -21,6 +22,7 @@ export const Divider: React.FC<DividerProps> = ({
   color = '#e0e0e0',
   children,
   childrenPosition = 'center',
+  verticalHeight,
 }) => {
   const isHorizontal = useMemo(() => orientation === 'horizontal', [orientation]);
   const length = useMemo(
@@ -34,9 +36,9 @@ export const Divider: React.FC<DividerProps> = ({
       ...dividerContainerBaseStyle,
       justifyContent: type === 'middle' ? 'center' : type === 'inset' ? 'flex-end' : 'flex-start',
       width: isHorizontal ? '100%' : 'auto',
-      height: !isHorizontal ? '100%' : 'auto',
+      height: !isHorizontal ? (verticalHeight ?? '100%') : 'auto',
     }),
-    [type, isHorizontal],
+    [type, isHorizontal, verticalHeight],
   );
 
   const dividerStyle: React.CSSProperties = useMemo(
@@ -53,11 +55,11 @@ export const Divider: React.FC<DividerProps> = ({
           }
         : {
             width: thickness,
-            height: children ? 'auto' : length,
+            height: children ? 'auto' : (verticalHeight ?? length),
             flex: children ? 1 : undefined,
           }),
     }),
-    [isHorizontal, thickness, color, length, children],
+    [isHorizontal, thickness, color, length, children, verticalHeight],
   );
 
   const wrapperStyle: React.CSSProperties = useMemo(
