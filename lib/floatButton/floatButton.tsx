@@ -1,5 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import type { FloatButtonPosition, FloatButtonSize } from './floatButton.type';
+import type {
+  FloatButtonPosition,
+  FloatButtonPositionType,
+  FloatButtonSize,
+} from './floatButton.type';
 import {
   floatButtonBaseStyle,
   floatButtonContainerBaseStyle,
@@ -9,6 +13,7 @@ import { floatButtonSize } from './floatButton.constant';
 import type { FloatButtonItemProps } from './floatButtonItem';
 
 export type FloatButtonProps = {
+  positionType?: FloatButtonPositionType;
   icon: React.ReactNode;
   onClick?: () => void;
   position?: FloatButtonPosition;
@@ -19,6 +24,7 @@ export type FloatButtonProps = {
 };
 
 export const FloatButton: React.FC<FloatButtonProps> = ({
+  positionType = 'fixed',
   icon,
   onClick,
   position = 'bottom-right',
@@ -35,6 +41,7 @@ export const FloatButton: React.FC<FloatButtonProps> = ({
 
   const buttonStyle: React.CSSProperties = {
     ...floatButtonBaseStyle,
+    position: positionType,
     width: buttonSize,
     height: buttonSize,
     backgroundColor,

@@ -118,6 +118,52 @@ function App() {
             <li>Child buttons appear above/below the main button based on position</li>
           </ul>
         </div>
+
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Position Type: Absolute vs Fixed</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            Absolute positioning allows the button to scroll with the page content
+          </p>
+          <div
+            style={{
+              position: 'relative',
+              height: '400px',
+              border: '2px dashed #d1d5db',
+              borderRadius: '8px',
+              padding: '20px',
+              overflow: 'auto',
+              backgroundColor: '#f9fafb',
+            }}
+          >
+            <div style={{ height: '800px', paddingTop: '20px' }}>
+              <p style={{ marginBottom: '16px', color: '#374151' }}>
+                📜 <strong>Scroll this container</strong> to see the absolute positioned button move
+                with content
+              </p>
+              <p style={{ color: '#6b7280', fontSize: '14px' }}>
+                The button with <code>positionType="absolute"</code> is positioned relative to this
+                container and scrolls with the content, unlike fixed buttons that stay in the
+                viewport.
+              </p>
+              <FloatButton
+                positionType='absolute'
+                icon='📍'
+                position='bottom-right'
+                backgroundColor='#ef4444'
+                size='md'
+              >
+                <FloatButtonItem onClick={() => alert('Absolute Action 1')}>📝</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('Absolute Action 2')}>💾</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('Absolute Action 3')}>🔄</FloatButtonItem>
+              </FloatButton>
+            </div>
+          </div>
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            💡 Tip: Use <code>positionType="absolute"</code> when you want the button to be
+            positioned relative to a specific container, or <code>positionType="fixed"</code>{' '}
+            (default) to keep it fixed in the viewport.
+          </p>
+        </div>
       </section>
 
       {/* Simple FloatButton */}

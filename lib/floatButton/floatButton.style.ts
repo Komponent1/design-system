@@ -1,7 +1,6 @@
 import type { FloatButtonPosition } from './floatButton.type';
 
 export const floatButtonBaseStyle: React.CSSProperties = {
-  position: 'fixed',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
