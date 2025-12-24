@@ -1,6 +1,6 @@
 {
   "name": "@seolim/designsystem",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
