@@ -1,6 +1,12 @@
-import { Divider } from '../lib';
+import { useState } from 'react';
+import { FloatButton, FloatButtonItem } from '../lib';
 
 function App() {
+  const [showSimple, setShowSimple] = useState(true);
+  const [showWithChildren, setShowWithChildren] = useState(true);
+  const [showMultiPosition, setShowMultiPosition] = useState(true);
+  const [showAllPositionsWithChildren, setShowAllPositionsWithChildren] = useState(false);
+
   const buttonStyle: React.CSSProperties = {
     padding: '10px 20px',
     color: 'white',
@@ -9,312 +15,186 @@ function App() {
     cursor: 'pointer',
     fontSize: '14px',
     fontWeight: '500',
+    marginRight: '8px',
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px', minHeight: '100vh' }}>
       <h1>Design System Demo</h1>
-      <section style={{ marginTop: '48px' }}>
-        <h2>Divider Examples</h2>
+
+      <section style={{ marginTop: '24px' }}>
+        <h2>FloatButton Examples</h2>
 
         <div style={{ marginBottom: '48px' }}>
-          <h3>Basic Dividers</h3>
+          <h3>Basic FloatButton</h3>
           <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Simple horizontal and vertical dividers
+            Simple floating action button at bottom-right corner
           </p>
-
-          <div style={{ marginBottom: '24px' }}>
-            <h4 style={{ fontSize: '14px', marginBottom: '12px' }}>Horizontal Divider</h4>
-            <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
-              <p>Content above divider</p>
-              <Divider />
-              <p>Content below divider</p>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: '24px' }}>
-            <h4 style={{ fontSize: '14px', marginBottom: '12px' }}>Vertical Divider</h4>
-            <div
-              style={{
-                padding: '16px',
-                backgroundColor: '#f9fafb',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                height: '100px',
-              }}
-            >
-              <div>Left Content</div>
-              <Divider orientation='vertical' />
-              <div>Middle Content</div>
-              <Divider orientation='vertical' />
-              <div>Right Content</div>
-            </div>
-          </div>
+          <button
+            onClick={() => setShowSimple(!showSimple)}
+            style={{ ...buttonStyle, backgroundColor: '#3b82f6' }}
+          >
+            {showSimple ? 'Hide' : 'Show'} Simple Button
+          </button>
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            👉 Check the bottom-right corner
+          </p>
         </div>
 
         <div style={{ marginBottom: '48px' }}>
-          <h3>Divider Variants</h3>
+          <h3>FloatButton with Children (Speed Dial)</h3>
           <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Different line styles: solid, dashed, dotted
+            Click the button to expand action options
           </p>
-
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Solid (default)
-              </p>
-              <Divider />
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>Dashed</p>
-              <Divider />
-            </div>
-
-            <div>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>Dotted</p>
-              <Divider />
-            </div>
-          </div>
+          <button
+            onClick={() => setShowWithChildren(!showWithChildren)}
+            style={{ ...buttonStyle, backgroundColor: '#10b981' }}
+          >
+            {showWithChildren ? 'Hide' : 'Show'} Speed Dial Button
+          </button>
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            👉 Click the floating button to see child buttons
+          </p>
         </div>
 
         <div style={{ marginBottom: '48px' }}>
-          <h3>Divider Types</h3>
+          <h3>Different Positions</h3>
           <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Different width options: fullWidth, inset, middle
+            FloatButtons can be positioned at any corner
           </p>
-
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Full Width (100%)
-              </p>
-              <Divider type='fullWidth' />
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>Inset (90%)</p>
-              <Divider type='inset' />
-            </div>
-
-            <div>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Middle (80%)
-              </p>
-              <Divider type='middle' />
-            </div>
-          </div>
+          <button
+            onClick={() => setShowMultiPosition(!showMultiPosition)}
+            style={{ ...buttonStyle, backgroundColor: '#f59e0b' }}
+          >
+            {showMultiPosition ? 'Hide' : 'Show'} Multi-Position Buttons
+          </button>
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            👉 Check all four corners
+          </p>
         </div>
 
         <div style={{ marginBottom: '48px' }}>
-          <h3>Divider with Text</h3>
+          <h3>All Positions with Children (Center Aligned)</h3>
           <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Dividers can contain text or other content
+            Test children alignment at all four corner positions
           </p>
-
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Center (default)
-              </p>
-              <Divider childrenPosition='center'>OR</Divider>
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Left Aligned
-              </p>
-              <Divider childrenPosition='left'>Section Title</Divider>
-            </div>
-
-            <div>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Right Aligned
-              </p>
-              <Divider childrenPosition='right'>End</Divider>
-            </div>
-          </div>
+          <button
+            onClick={() => setShowAllPositionsWithChildren(!showAllPositionsWithChildren)}
+            style={{ ...buttonStyle, backgroundColor: '#8b5cf6' }}
+          >
+            {showAllPositionsWithChildren ? 'Hide' : 'Show'} All Positions with Children
+          </button>
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            👉 Click each button to see center-aligned children
+          </p>
         </div>
 
         <div style={{ marginBottom: '48px' }}>
-          <h3>Custom Styling</h3>
-          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Customize thickness and color
-          </p>
-
-          <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Thick divider (4px)
-              </p>
-              <Divider thickness={4} />
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Blue divider
-              </p>
-              <Divider color='#3b82f6' thickness={2} />
-            </div>
-
-            <div style={{ marginBottom: '16px' }}>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Green dashed
-              </p>
-              <Divider color='#10b981' thickness={2} />
-            </div>
-
-            <div>
-              <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                Red dotted with text
-              </p>
-              <Divider color='#ef4444' thickness={2}>
-                IMPORTANT
-              </Divider>
-            </div>
-          </div>
+          <h3>FloatButton Features</h3>
+          <ul style={{ color: '#6b7280', fontSize: '14px', lineHeight: '1.8' }}>
+            <li>✅ Fixed positioning at any corner (top/bottom, left/right)</li>
+            <li>✅ Three sizes: sm (40px), md (56px), lg (72px)</li>
+            <li>✅ Customizable colors (background, icon)</li>
+            <li>✅ Speed dial mode with child buttons</li>
+            <li>✅ Smooth animations (rotate, scale, opacity)</li>
+            <li>✅ Sequential reveal animation for children</li>
+          </ul>
         </div>
 
         <div
           style={{
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
             padding: '24px',
+            backgroundColor: '#fef3c7',
+            borderRadius: '8px',
+            border: '1px solid #fbbf24',
+            marginBottom: '48px',
           }}
         >
-          <h3
-            style={{
-              fontSize: '18px',
-              fontWeight: 'bold',
-              marginBottom: '16px',
-            }}
-          >
-            메뉴
-          </h3>
-          <div
-            style={{
-              display: 'flex',
-              gap: '24px',
-              alignItems: 'center',
-            }}
-          >
-            <button
-              type='button'
-              style={{
-                color: '#2563eb',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              홈
-            </button>
-            <Divider orientation='vertical' />
-            <button
-              type='button'
-              style={{
-                color: '#2563eb',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              소개
-            </button>
-            <Divider orientation='vertical' />
-            <button
-              type='button'
-              style={{
-                color: '#2563eb',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              서비스
-            </button>
-            <Divider orientation='vertical' />
-            <button
-              type='button'
-              style={{
-                color: '#2563eb',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              연락처
-            </button>
-          </div>
-        </div>
-
-        <div style={{ marginBottom: '48px' }}>
-          <h3>Practical Examples</h3>
-          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
-            Real-world usage scenarios
-          </p>
-
-          <div
-            style={{
-              padding: '24px',
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              border: '1px solid #e5e7eb',
-            }}
-          >
-            <h4 style={{ margin: '0 0 8px 0' }}>User Profile</h4>
-            <p style={{ margin: '0 0 16px 0', color: '#6b7280', fontSize: '14px' }}>
-              john@example.com
-            </p>
-
-            <Divider />
-
-            <div style={{ margin: '16px 0' }}>
-              <h5 style={{ margin: '0 0 8px 0', fontSize: '14px' }}>Personal Information</h5>
-              <p style={{ margin: '0', color: '#6b7280', fontSize: '14px' }}>Name: John Doe</p>
-              <p style={{ margin: '4px 0 0 0', color: '#6b7280', fontSize: '14px' }}>
-                Location: Seoul, Korea
-              </p>
-            </div>
-
-            <Divider childrenPosition='left'>Settings</Divider>
-
-            <div style={{ margin: '16px 0' }}>
-              <p style={{ margin: '0', color: '#6b7280', fontSize: '14px' }}>
-                Notifications: Enabled
-              </p>
-              <p style={{ margin: '4px 0 0 0', color: '#6b7280', fontSize: '14px' }}>
-                Privacy: Public
-              </p>
-            </div>
-
-            <Divider />
-
-            <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
-              <button style={{ ...buttonStyle, backgroundColor: '#3b82f6', flex: 1 }}>
-                Save Changes
-              </button>
-              <button style={{ ...buttonStyle, backgroundColor: '#6b7280', flex: 1 }}>
-                Cancel
-              </button>
-            </div>
-          </div>
+          <h4 style={{ margin: '0 0 8px 0', color: '#92400e' }}>💡 Usage Tips</h4>
+          <ul style={{ margin: '8px 0', paddingLeft: '20px', color: '#78350f', fontSize: '14px' }}>
+            <li>Use simple buttons for single primary actions (compose, add, etc.)</li>
+            <li>Use speed dial (with children) for multiple related actions</li>
+            <li>The main button rotates 45° when opened to indicate "close" action</li>
+            <li>Child buttons appear above/below the main button based on position</li>
+          </ul>
         </div>
       </section>
+
+      {/* Simple FloatButton */}
+      {showSimple && (
+        <FloatButton
+          icon='+'
+          onClick={() => alert('Simple button clicked!')}
+          position='bottom-right'
+          backgroundColor='#3b82f6'
+        />
+      )}
+
+      {/* Speed Dial FloatButton */}
+      {showWithChildren && (
+        <FloatButton icon='☰' position='bottom-left' backgroundColor='#10b981' size='md'>
+          <FloatButtonItem onClick={() => alert('Edit action')}>✏️</FloatButtonItem>
+          <FloatButtonItem onClick={() => alert('Share action')}>🔗</FloatButtonItem>
+          <FloatButtonItem onClick={() => alert('Delete action')}>🗑️</FloatButtonItem>
+        </FloatButton>
+      )}
+
+      {/* Multi-Position FloatButtons */}
+      {showMultiPosition && (
+        <>
+          <FloatButton
+            icon='↗'
+            onClick={() => alert('Top-right')}
+            position='top-right'
+            size='sm'
+            backgroundColor='#f59e0b'
+          />
+          <FloatButton
+            icon='↖'
+            onClick={() => alert('Top-left')}
+            position='top-left'
+            size='sm'
+            backgroundColor='#ec4899'
+          />
+          <FloatButton icon='↘' position='bottom-right' size='lg' backgroundColor='#8b5cf6'>
+            <FloatButtonItem onClick={() => alert('Action 1')}>1</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Action 2')}>2</FloatButtonItem>
+          </FloatButton>
+        </>
+      )}
+
+      {/* All Positions with Children */}
+      {showAllPositionsWithChildren && (
+        <>
+          {/* Top-Right with Children */}
+          <FloatButton icon='↗️' position='top-right' backgroundColor='#3b82f6' size='md'>
+            <FloatButtonItem onClick={() => alert('Top-Right Action 1')}>📌</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Top-Right Action 2')}>⭐</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Top-Right Action 3')}>❤️</FloatButtonItem>
+          </FloatButton>
+
+          {/* Top-Left with Children */}
+          <FloatButton icon='↖️' position='top-left' backgroundColor='#10b981' size='md'>
+            <FloatButtonItem onClick={() => alert('Top-Left Action 1')}>🏠</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Top-Left Action 2')}>👤</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Top-Left Action 3')}>⚙️</FloatButtonItem>
+          </FloatButton>
+
+          {/* Bottom-Right with Children */}
+          <FloatButton icon='↘️' position='bottom-right' backgroundColor='#f59e0b' size='md'>
+            <FloatButtonItem onClick={() => alert('Bottom-Right Action 1')}>💬</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Bottom-Right Action 2')}>📷</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Bottom-Right Action 3')}>📎</FloatButtonItem>
+          </FloatButton>
+
+          {/* Bottom-Left with Children */}
+          <FloatButton icon='↙️' position='bottom-left' backgroundColor='#ec4899' size='md'>
+            <FloatButtonItem onClick={() => alert('Bottom-Left Action 1')}>✉️</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Bottom-Left Action 2')}>🔔</FloatButtonItem>
+            <FloatButtonItem onClick={() => alert('Bottom-Left Action 3')}>🔍</FloatButtonItem>
+          </FloatButton>
+        </>
+      )}
     </div>
   );
 }

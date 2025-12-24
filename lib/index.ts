@@ -27,3 +27,5 @@ export * from './modal/modal';
 export * from './snackbar/snackbar';
 export * from './contextMenu/contextMenu';
 export * from './divider/divider';
+export * from './floatButton/floatButton';
+export * from './floatButton/floatButtonItem';
