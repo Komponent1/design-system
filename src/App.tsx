@@ -137,24 +137,62 @@ function App() {
           >
             <div style={{ height: '800px', paddingTop: '20px' }}>
               <p style={{ marginBottom: '16px', color: '#374151' }}>
-                📜 <strong>Scroll this container</strong> to see the absolute positioned button move
-                with content
+                📜 <strong>Scroll this container</strong> to see absolute positioned buttons at all
+                4 corners
               </p>
-              <p style={{ color: '#6b7280', fontSize: '14px' }}>
-                The button with <code>positionType="absolute"</code> is positioned relative to this
-                container and scrolls with the content, unlike fixed buttons that stay in the
+              <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+                Buttons with <code>positionType="absolute"</code> are positioned relative to this
+                container and scroll with the content, unlike fixed buttons that stay in the
                 viewport.
               </p>
+
+              {/* Bottom-Right Absolute */}
               <FloatButton
                 positionType='absolute'
-                icon='📍'
+                icon='↘️'
                 position='bottom-right'
                 backgroundColor='#ef4444'
+                size='lg'
+              >
+                <FloatButtonItem onClick={() => alert('BR Absolute 1')}>📝</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('BR Absolute 2')}>💾</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('BR Absolute 3')}>🔄</FloatButtonItem>
+              </FloatButton>
+
+              {/* Bottom-Left Absolute */}
+              <FloatButton
+                positionType='absolute'
+                icon='↙️'
+                position='bottom-left'
+                backgroundColor='#10b981'
+                size='lg'
+              >
+                <FloatButtonItem onClick={() => alert('BL Absolute 1')}>🏠</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('BL Absolute 2')}>⚙️</FloatButtonItem>
+              </FloatButton>
+
+              {/* Top-Right Absolute */}
+              <FloatButton
+                positionType='absolute'
+                icon='↗️'
+                position='top-right'
+                backgroundColor='#3b82f6'
                 size='md'
               >
-                <FloatButtonItem onClick={() => alert('Absolute Action 1')}>📝</FloatButtonItem>
-                <FloatButtonItem onClick={() => alert('Absolute Action 2')}>💾</FloatButtonItem>
-                <FloatButtonItem onClick={() => alert('Absolute Action 3')}>🔄</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('TR Absolute 1')}>⭐</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('TR Absolute 2')}>❤️</FloatButtonItem>
+              </FloatButton>
+
+              {/* Top-Left Absolute */}
+              <FloatButton
+                positionType='absolute'
+                icon='↖️'
+                position='top-left'
+                backgroundColor='#f59e0b'
+                size='md'
+              >
+                <FloatButtonItem onClick={() => alert('TL Absolute 1')}>🔔</FloatButtonItem>
+                <FloatButtonItem onClick={() => alert('TL Absolute 2')}>💬</FloatButtonItem>
               </FloatButton>
             </div>
           </div>

@@ -52,10 +52,31 @@ export const FloatButton: React.FC<FloatButtonProps> = ({
 
   const childrenContainerStyle: React.CSSProperties = {
     ...floatButtonContainerBaseStyle,
-    ...(isBottom && { bottom: `calc(1.5rem + ${buttonSize}px + 12px)` }),
-    ...(!isBottom && { top: `calc(1.5rem + ${buttonSize}px + 12px)` }),
-    ...(isRight && { right: `calc(1.5rem + ${buttonSize}px / 2)` }),
-    ...(!isRight && { left: `calc(1.5rem + ${buttonSize}px / 2)` }),
+    position: positionType,
+    ...(isBottom && {
+      bottom:
+        positionType === 'absolute'
+          ? `calc(1.5rem + ${buttonSize}px + 12px)`
+          : `calc(1.5rem + ${buttonSize}px + 12px)`,
+    }),
+    ...(!isBottom && {
+      top:
+        positionType === 'absolute'
+          ? `calc(1.5rem + ${buttonSize}px + 12px)`
+          : `calc(1.5rem + ${buttonSize}px + 12px)`,
+    }),
+    ...(isRight && {
+      right:
+        positionType === 'absolute'
+          ? `calc(1.5rem + ${buttonSize}px / 2)`
+          : `calc(1.5rem + ${buttonSize}px / 2)`,
+    }),
+    ...(!isRight && {
+      left:
+        positionType === 'absolute'
+          ? `calc(1.5rem + ${buttonSize}px / 2)`
+          : `calc(1.5rem + ${buttonSize}px / 2)`,
+    }),
     transform: isRight ? 'translateX(50%)' : 'translateX(-50%)',
   };
 
