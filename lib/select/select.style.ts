@@ -57,3 +57,29 @@ export const arrowBaseStyle: React.CSSProperties = {
   fontSize: '12px',
   color: '#6b7280',
 };
+export const selectOptionSizeStyles: Record<SelectSize, React.CSSProperties> = {
+  sm: { padding: '6px 12px', fontSize: '14px' },
+  md: { padding: '8px 16px', fontSize: '16px' },
+  lg: { padding: '10px 20px', fontSize: '18px' },
+};
+export const selectOptionBaseStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  transition: 'background-color 0.15s ease',
+  cursor: 'pointer',
+  opacity: 1,
+};
+export const selectOptionDescriptionStyle: React.CSSProperties = {
+  color: '#6b7280',
+  marginTop: '2px',
+};
+export const selectOptionDisabledStyle: React.CSSProperties = {
+  cursor: 'not-allowed',
+  opacity: 0.5,
+};
+export const selectOptionDescriptionSizeStyles: Record<SelectSize, React.CSSProperties> = {
+  sm: { fontSize: '12px' },
+  md: { fontSize: '13px' },
+  lg: { fontSize: '14px' },
+};

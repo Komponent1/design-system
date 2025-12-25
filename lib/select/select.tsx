@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { SelectOption, SelectSize, SelectVariant } from './select.type';
-import { SelectOptionItem } from './selectOption.tsx';
+import { SelectOptionItem } from './selectOption';
 import {
   arrowBaseStyle,
   baseStyle,
@@ -8,7 +8,7 @@ import {
   dropdownBaseStyle,
   sizeStyles,
   variantStyles,
-} from './select.style.ts';
+} from './select.style';
 
 export type SelectProps = {
   options: SelectOption[];
