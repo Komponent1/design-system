@@ -125,7 +125,7 @@ export const Select: React.FC<SelectProps> = ({
         </div>
         <span style={arrowStyle}>▼</span>
       </div>
-      <div style={dropdownStyle}>
+      <div style={{ ...dropdownStyle, minWidth: 'max-content', width: 'auto' }}>
         {options.map((option) => (
           <SelectOptionItem
             key={option.value}

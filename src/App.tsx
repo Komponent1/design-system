@@ -39,6 +39,29 @@ function App() {
           </p>
         </div>
 
+        {/* Example for SelectOption natural width */}
+        <div style={{ marginBottom: '48px' }}>
+          <h3>Option 너비 예제</h3>
+          <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
+            각 옵션이 자신의 길이에 따라 너비가 결정됩니다.
+          </p>
+          <Select
+            options={[
+              { value: 'short', label: '짧음' },
+              { value: 'medium', label: '중간 길이 옵션' },
+              { value: 'long', label: '이 옵션은 매우 길어서 SelectButton보다 더 넓게 표시됩니다.' },
+              { value: 'emoji', label: '😀 이모지 옵션' },
+            ]}
+            value={selectedFruit}
+            onChange={setSelectedFruit}
+            placeholder='옵션을 선택하세요'
+            width='220px'
+          />
+          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
+            선택됨: {selectedFruit || '없음'}
+          </p>
+        </div>
+
         <div style={{ marginBottom: '48px' }}>
           <h3>Sizes</h3>
           <p style={{ color: '#6b7280', fontSize: '14px', marginBottom: '16px' }}>
