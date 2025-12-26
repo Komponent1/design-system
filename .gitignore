@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# npm publish token
+.npmrc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
