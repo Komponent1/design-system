@@ -31,3 +31,4 @@ export * from './floatButton/floatButton';
 export * from './floatButton/floatButtonItem';
 export * from './select/select';
 export * from './radio/radio';
+export * from './autocomplete/autocomplete';

@@ -22,7 +22,8 @@ type InputProps = {
   disabled?: boolean;
   error?: boolean;
   style?: React.CSSProperties;
-} & React.HTMLAttributes<HTMLInputElement>;
+  ref?: React.Ref<HTMLInputElement>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>;
 export const Input: React.FC<InputProps> = ({
   id,
   variant = 'box',
@@ -100,15 +101,22 @@ export const Input: React.FC<InputProps> = ({
       setState('focused');
     }
   }, [state]);
-  const onBlur = useCallback(() => {
-    if (state !== 'disabled') {
-      if (error) {
-        setState('error');
-      } else {
-        setState('default');
+  const onBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (inputProps.onBlur) {
+        inputProps.onBlur(e);
       }
-    }
-  }, [state, error]);
+      if (state !== 'disabled') {
+        if (error) {
+          setState('error');
+        } else {
+          console.log('state');
+          setState('default');
+        }
+      }
+    },
+    [state, error, inputProps],
+  );
 
   return (
     <input
