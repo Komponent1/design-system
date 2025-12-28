@@ -1,174 +1,43 @@
-import { useState, useRef } from 'react';
-import { Radio, Autocomplete } from '../lib';
+import { Sidebar } from '../lib';
 
 function App() {
-  const [selectedRadio, setSelectedRadio] = useState('option1');
-  const [selectedRadioSize, setSelectedRadioSize] = useState('md');
-
-  // Autocomplete 예제 상태
-  const [autoSuggestions, setAutoSuggestions] = useState<string[]>([]);
-  const [autoSelected, setAutoSelected] = useState('');
-  const sampleData = [
-    'Apple',
-    'Apple2',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Elderberry',
-    'Fig',
-    'Grape',
-    'Honeydew',
-    'Kiwi',
-    'Lemon',
-    'Mango',
-    'Orange',
-    'Peach',
-    'Quince',
-    'Raspberry',
-    'Strawberry',
-    'Tomato',
-    'Watermelon',
-  ];
-  const handleAutoSearch = (query: string) => {
-    if (!query) setAutoSuggestions([]);
-    else {
-      setAutoSuggestions(
-        sampleData.filter((item) => item.toLowerCase().includes(query.toLowerCase())),
-      );
-    }
-  };
-  const handleAutoSelect = (value: string) => {
-    setAutoSelected(value);
-  };
-
-  // --- API 지연 호출 예제 ---
-  const [apiSuggestions, setApiSuggestions] = useState<string[]>([]);
-  const [apiSelected, setApiSelected] = useState('');
-  const [apiLoading, setApiLoading] = useState(false);
-  const apiDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // 실제 API라면 fetch/axios 등 사용, 여기선 setTimeout으로 시뮬레이션
-  const handleApiSearch = (query: string) => {
-    if (apiDebounceRef.current) clearTimeout(apiDebounceRef.current);
-    setApiLoading(true);
-    setApiSuggestions([]);
-    if (!query) {
-      setApiLoading(false);
-      return;
-    }
-    apiDebounceRef.current = setTimeout(() => {
-      setApiSuggestions(
-        sampleData.filter((item) => item.toLowerCase().includes(query.toLowerCase())),
-      );
-      setApiLoading(false);
-    }, 400); // 400ms 디바운스
-  };
-  const handleApiSelect = (value: string) => {
-    setApiSelected(value);
-  };
-
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px', minHeight: '100vh' }}>
-      <h1>Design System Demo</h1>
-
-      <section style={{ marginTop: '24px' }}>
-        <h2>Autocomplete Example</h2>
-        <div style={{ maxWidth: 320, marginBottom: 32 }}>
-          <Autocomplete
-            onSearch={handleAutoSearch}
-            onSelect={handleAutoSelect}
-            suggestions={autoSuggestions}
-            placeholder='과일을 입력하세요...'
-            width={320}
-          />
-          <div style={{ color: '#6b7280', fontSize: 13, marginTop: 8 }}>
-            {autoSelected ? `선택된 값: ${autoSelected}` : '값을 선택해보세요.'}
-          </div>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f9fafb' }}>
+      {/* 좌측: collapsible (내부 상태로 토글) */}
+      <Sidebar variant='collapsible' position='left' width={220} style={{ zIndex: 2 }}>
+        <div>
+          <h3 style={{ margin: 0, fontSize: 18 }}>Collapsible Sidebar</h3>
+          <ul style={{ margin: '24px 0 0 0', padding: 0, listStyle: 'none', color: '#374151' }}>
+            <li>대시보드</li>
+            <li>설정</li>
+            <li>사용자 관리</li>
+          </ul>
         </div>
-        {/* --- API 지연 호출 예제 --- */}
-        <div style={{ maxWidth: 320, marginBottom: 32 }}>
-          <Autocomplete
-            onSearch={handleApiSearch}
-            onSelect={handleApiSelect}
-            suggestions={apiSuggestions}
-            placeholder='API 지연 호출 예시...'
-            width={320}
-          />
-          <div style={{ color: '#6b7280', fontSize: 13, marginTop: 8 }}>
-            {apiLoading
-              ? '검색 중...'
-              : apiSelected
-                ? `선택된 값: ${apiSelected}`
-                : 'API로 값을 검색해보세요.'}
-          </div>
+      </Sidebar>
+      {/* 메인 컨텐츠 */}
+      <div style={{ flex: 1, padding: '32px 40px' }}>
+        <h1>Sidebar Demo</h1>
+        <p>variant와 position에 따라 동작이 달라집니다.</p>
+        <ul>
+          <li>
+            좌측 사이드바: <b>collapsible</b> (사이드바 내부 토글 버튼으로 열고 닫기)
+          </li>
+          <li>
+            우측 사이드바: <b>alwaysOpen</b> (항상 열림)
+          </li>
+        </ul>
+      </div>
+      {/* 우측: alwaysOpen */}
+      <Sidebar variant='collapsible' position='right' width={180}>
+        <div>
+          <h3 style={{ margin: 0, fontSize: 16 }}>Always Open</h3>
+          <ul style={{ margin: '20px 0 0 0', padding: 0, listStyle: 'none', color: '#374151' }}>
+            <li>알림</li>
+            <li>메시지</li>
+            <li>프로필</li>
+          </ul>
         </div>
-      </section>
-
-      <section style={{ marginTop: '24px' }}>
-        <h2>Radio Examples</h2>
-        <div style={{ marginBottom: '32px' }}>
-          <h3>Basic Radio Group</h3>
-          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-            <Radio
-              label='Option 1'
-              name='example-radio'
-              value='option1'
-              checked={selectedRadio === 'option1'}
-              onChange={() => setSelectedRadio('option1')}
-            />
-            <Radio
-              label='Option 2'
-              name='example-radio'
-              value='option2'
-              checked={selectedRadio === 'option2'}
-              onChange={() => setSelectedRadio('option2')}
-            />
-            <Radio
-              label='Option 3 (Disabled)'
-              name='example-radio'
-              value='option3'
-              checked={selectedRadio === 'option3'}
-              onChange={() => setSelectedRadio('option3')}
-              disabled
-            />
-          </div>
-          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
-            Selected: {selectedRadio}
-          </p>
-        </div>
-
-        <div style={{ marginBottom: '32px' }}>
-          <h3>Radio Sizes</h3>
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-            <Radio
-              label='Small'
-              name='size-radio'
-              value='sm'
-              size='sm'
-              checked={selectedRadioSize === 'sm'}
-              onChange={() => setSelectedRadioSize('sm')}
-            />
-            <Radio
-              label='Medium'
-              name='size-radio'
-              value='md'
-              size='md'
-              checked={selectedRadioSize === 'md'}
-              onChange={() => setSelectedRadioSize('md')}
-            />
-            <Radio
-              label='Large'
-              name='size-radio'
-              value='lg'
-              size='lg'
-              checked={selectedRadioSize === 'lg'}
-              onChange={() => setSelectedRadioSize('lg')}
-            />
-          </div>
-          <p style={{ color: '#9ca3af', fontSize: '12px', marginTop: '8px' }}>
-            Selected size: {selectedRadioSize}
-          </p>
-        </div>
-      </section>
+      </Sidebar>
     </div>
   );
 }
