@@ -1,45 +1,59 @@
-import { Sidebar } from '../lib';
+import { Stepper } from '../lib/stepper/stepper';
 
-function App() {
+export default function App() {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f9fafb' }}>
-      {/* 좌측: collapsible (내부 상태로 토글) */}
-      <Sidebar variant='collapsible' position='left' width={220} style={{ zIndex: 2 }}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: 18 }}>Collapsible Sidebar</h3>
-          <ul style={{ margin: '24px 0 0 0', padding: 0, listStyle: 'none', color: '#374151' }}>
-            <li>대시보드</li>
-            <li>설정</li>
-            <li>사용자 관리</li>
-          </ul>
-        </div>
-      </Sidebar>
-      {/* 메인 컨텐츠 */}
-      <div style={{ flex: 1, padding: '32px 40px' }}>
-        <h1>Sidebar Demo</h1>
-        <p>variant와 position에 따라 동작이 달라집니다.</p>
-        <ul>
-          <li>
-            좌측 사이드바: <b>collapsible</b> (사이드바 내부 토글 버튼으로 열고 닫기)
-          </li>
-          <li>
-            우측 사이드바: <b>alwaysOpen</b> (항상 열림)
-          </li>
-        </ul>
-      </div>
-      {/* 우측: alwaysOpen */}
-      <Sidebar variant='collapsible' position='right' width={180}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: 16 }}>Always Open</h3>
-          <ul style={{ margin: '20px 0 0 0', padding: 0, listStyle: 'none', color: '#374151' }}>
-            <li>알림</li>
-            <li>메시지</li>
-            <li>프로필</li>
-          </ul>
-        </div>
-      </Sidebar>
+    <div
+      style={{
+        padding: 32,
+        maxWidth: 800,
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 48,
+      }}
+    >
+      {/* 기본 stepper */}
+      <section>
+        <h2>Default Stepper</h2>
+        <Stepper stepNumber={4} />
+      </section>
+
+      {/* bottomLabel stepper */}
+      <section>
+        <h2>Bottom Label Stepper</h2>
+        <Stepper
+          stepNumber={4}
+          variant='bottomLabel'
+          labels={['Step One', 'Step Two', 'Step Three', 'Step Four']}
+        />
+      </section>
+
+      {/* sideLabel stepper */}
+      <section>
+        <h2>Side Label Stepper</h2>
+        <Stepper stepNumber={3} variant='sideLabel' labels={['First', 'Second', 'Third']} />
+      </section>
+
+      {/* currentStep + onStepClick */}
+      <section>
+        <h2>Stepper with currentStep & onStepClick</h2>
+        <Stepper
+          stepNumber={5}
+          currentStep={2}
+          onStepClick={(idx) => alert(`Step ${idx + 1} clicked!`)}
+          labels={['A', 'B', 'C', 'D', 'E']}
+        />
+      </section>
+
+      {/* 다양한 size */}
+      <section>
+        <h2>Stepper Size: sm</h2>
+        <Stepper stepNumber={3} size='sm' labels={['Small 1', 'Small 2', 'Small 3']} />
+        <h2>Stepper Size: md</h2>
+        <Stepper stepNumber={3} size='md' labels={['Medium 1', 'Medium 2', 'Medium 3']} />
+        <h2>Stepper Size: lg</h2>
+        <Stepper stepNumber={3} size='lg' labels={['Large 1', 'Large 2', 'Large 3']} />
+      </section>
     </div>
   );
 }
-
-export default App;

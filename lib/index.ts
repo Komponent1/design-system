@@ -33,3 +33,4 @@ export * from './select/select';
 export * from './radio/radio';
 export * from './autocomplete/autocomplete';
 export * from './sidebar/sidebar';
+export * from './stepper/stepper';
