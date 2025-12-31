@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { tabContentStyle } from './tab.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TabContentProps = {
   children: React.ReactNode;
@@ -7,12 +8,13 @@ export type TabContentProps = {
 };
 
 export const TabContent: React.FC<TabContentProps> = ({ children, bordered }) => {
+  const { theme } = useTheme();
   const contentStyle = useMemo(
     () => ({
       ...tabContentStyle,
-      border: bordered ? '1px solid #e5e7eb' : 'none',
+      border: bordered ? `1px solid ${theme.color.border.default}` : 'none',
     }),
-    [bordered],
+    [bordered, theme],
   );
 
   return <div style={contentStyle}>{children}</div>;

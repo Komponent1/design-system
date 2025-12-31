@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { ListVariant } from './list.type';
 import { baseStyle, genBorderStyle } from './list.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type ListItemProps = {
   children: React.ReactNode;
@@ -16,10 +17,11 @@ export const ListItem: React.FC<ListItemProps> = ({
   selected,
   isLast,
 }) => {
+  const { theme } = useTheme();
   const [hover, setHover] = useState(false);
   const [listStyle, setListStyle] = useState<React.CSSProperties>({
     ...baseStyle,
-    borderBottom: genBorderStyle(variant, isLast || false),
+    borderBottom: genBorderStyle(variant, isLast || false, theme),
     cursor: onClick ? 'pointer' : 'default',
     backgroundColor:
       selected && onClick ? 'rgba(0,0,0,0.06)' : hover && onClick ? 'rgba(0,0,0,0.03)' : undefined,

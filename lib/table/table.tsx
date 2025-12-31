@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { baseTableStyle, baseThStyle, borderedTdStyle } from './table.style';
+import { baseTableStyle } from './table.style';
 import { Td } from './td';
 import type { TableVariants } from './table.type';
 import { Checkbox } from '../checkbox/checkbox';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TableProps = {
   datas: { [key: string]: React.ReactNode }[];
@@ -21,22 +22,17 @@ export const Table: React.FC<TableProps> = ({
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
 
+  const { theme } = useTheme();
   const thStyle = useMemo(() => {
-    switch (variant) {
-      case 'bordered':
-        return {
-          ...baseThStyle,
-          ...borderedTdStyle,
-        };
-      case 'striped':
-      case 'default':
-      default:
-        return {
-          ...baseThStyle,
-          backgroundColor: '#f2f2f2',
-        };
-    }
-  }, [variant]);
+    const token = theme.table[variant];
+    return {
+      padding: '16px',
+      textAlign: 'left' as const,
+      backgroundColor: token.header.bg,
+      color: token.header.color,
+      borderBottom: `1px solid ${token.header.border}`,
+    };
+  }, [theme, variant]);
 
   const handleSelectAll = (checked: boolean) => {
     setSelectAll(checked);

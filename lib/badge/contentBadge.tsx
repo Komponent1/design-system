@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import type { BadgeCorner, BadgeSize, BadgeVariant } from './badge.type';
 import { contentBaseStyle, cornerStyles, genVariantStyle, sizeStyles } from './badge.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type BadgeProps = {
   children: React.ReactNode;
@@ -12,11 +13,14 @@ type BadgeProps = {
 export const ContentBadge: React.FC<BadgeProps> = ({
   children,
   variant = 'hard',
-  color = 'blue',
+  color,
   size = 'md',
   corner = 'rounded',
   ...spanProps
 }) => {
+  const { theme } = useTheme();
+  color = color || theme.color.primary.main;
+
   const basicStyle = useMemo(() => {
     const sizeStyle = sizeStyles[size];
     return {

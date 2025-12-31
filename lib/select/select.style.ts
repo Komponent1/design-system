@@ -18,6 +18,7 @@ export const variantStyles: Record<SelectVariant, React.CSSProperties> = {
     border: 'none',
     borderBottom: '2px solid #d1d5db',
     borderRadius: '0',
+    backgroundColor: 'transparent',
   },
 };
 export const baseStyle: React.CSSProperties = {

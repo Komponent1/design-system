@@ -7,6 +7,7 @@ import {
   barSizesStyle,
   getBarProgressStyle,
 } from './progress.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type ProgressBarProps = {
   progress: number /** 0 - 1 */;
@@ -24,6 +25,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   percent,
   width,
 }) => {
+  const { theme } = useTheme();
   return (
     <div
       style={{
@@ -31,7 +33,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         width: width,
       }}
     >
-      <div style={barLabelStyle}>
+      <div
+        style={{
+          ...barLabelStyle,
+          color: theme.color.text.primary,
+        }}
+      >
         {label && <div>{label}</div>}
         {percent && <div>{`${Math.round(progress * 100)}%`}</div>}
       </div>

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { baseTdStyle, borderedTdStyle } from './table.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TdProps = {
   children: React.ReactNode;
@@ -7,24 +7,19 @@ export type TdProps = {
   variant: 'default' | 'striped' | 'bordered';
 };
 export const Td: React.FC<TdProps> = ({ children, index, variant }) => {
+  const { theme } = useTheme();
+  const token = theme.table[variant];
   const tdStyle = useMemo(() => {
-    const backgroundColor = index % 2 === 0 ? '#f9f9f9' : '#ffffff';
-
-    switch (variant) {
-      case 'striped':
-        return {
-          ...baseTdStyle,
-          backgroundColor,
-        };
-      case 'bordered':
-        return {
-          ...baseTdStyle,
-          ...borderedTdStyle,
-        };
-      case 'default':
-      default:
-        return { ...baseTdStyle };
+    const style: React.CSSProperties = {
+      padding: '16px',
+      color: token.row.color,
+      backgroundColor: token.row.bg,
+      borderBottom: `1px solid ${token.row.border}`,
+    };
+    if (variant === 'striped' && 'evenBg' in token.row && token.row.evenBg && index % 2 === 0) {
+      style.backgroundColor = token.row.evenBg;
     }
-  }, [index, variant]);
+    return style;
+  }, [index, token, variant]);
   return <td style={tdStyle}>{children}</td>;
 };

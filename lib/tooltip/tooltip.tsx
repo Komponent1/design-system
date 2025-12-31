@@ -7,6 +7,7 @@ import {
   genTooltipArrowBaseStyle,
   tooltipArrowPositionStyles,
 } from './tooltip.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TooltipProps = {
   position?: TooltipPosition;
@@ -22,10 +23,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children,
   content = 'Tooltip Text',
   arrow = true,
-  backgroundColor = '#555',
-  textColor = '#fff',
+  backgroundColor,
+  textColor,
   width = 120,
 }) => {
+  const { theme } = useTheme();
+  backgroundColor = backgroundColor || theme.tooltip.bg.default;
+  textColor = textColor || theme.tooltip.text.default;
   const tooltipContentStyle = useMemo(
     () => ({
       ...genTooltipBaseStyle(backgroundColor, textColor, width),

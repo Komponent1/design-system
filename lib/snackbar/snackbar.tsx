@@ -7,6 +7,7 @@ import {
   snackbarPositionStyles,
 } from './snackbar.style';
 import type { SnackbarAnimation, SnackbarPostion } from './snackbar.type';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type SnackbarProps = {
   message: string;
@@ -25,6 +26,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
   snackbarPosition = 'bottom',
   dragable = false,
 }) => {
+  const { theme } = useTheme();
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(true);
@@ -63,6 +65,8 @@ export const Snackbar: React.FC<SnackbarProps> = ({
       ...dragStyle,
       ...(dragable && { cursor: 'grab' }),
       ...(isDragging && { cursor: 'grabbing' }),
+      color: theme.snackbar.text.default,
+      backgroundColor: theme.snackbar.bg.default,
     };
   }, [
     snackbarPosition,
@@ -72,6 +76,7 @@ export const Snackbar: React.FC<SnackbarProps> = ({
     isClosing,
     dragOffset,
     dragable,
+    theme,
   ]);
 
   const handleClose = useCallback(() => {

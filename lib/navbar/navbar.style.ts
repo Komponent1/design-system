@@ -4,8 +4,6 @@ export const baseStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   padding: '16px 20px',
-  backgroundColor: '#f8f9fa',
-  borderBottom: '1px solid #e5e7eb',
 };
 export const baseContainerStyle: React.CSSProperties = {
   display: 'flex',

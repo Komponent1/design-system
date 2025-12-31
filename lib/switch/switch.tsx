@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useId } from 'react';
 import { baseStyle, knobBaseStyle, knobSizesStyle, sizesStyle } from './switch.style';
 import type { SwitchSize } from './switch.type';
 import { knobMoveDistance } from './switch.constant';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type SwitchProps = {
   size?: SwitchSize;
@@ -10,7 +11,7 @@ export type SwitchProps = {
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
   accentColor?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'>;
 
 export const Switch: React.FC<SwitchProps> = ({
   size = 'md',
@@ -18,9 +19,11 @@ export const Switch: React.FC<SwitchProps> = ({
   checked = false,
   onChange,
   disabled = false,
-  accentColor = '#3b82f6',
+  accentColor,
   ...switchProps
 }) => {
+  const { theme } = useTheme();
+  accentColor = accentColor || theme.color.primary.main;
   const autoId = useId();
   const switchId = id || autoId;
   const [isChecked, setIsChecked] = React.useState<boolean>(checked);

@@ -1,28 +1,154 @@
-export const color = {
-  // Primary 색상 기준 #171717
-  primary: '#171717', // rgb(23, 23, 23)
-  primaryLight: '#333333', // rgb(51, 51, 51)
-  primaryDark: '#0d0d0d', // rgb(13, 13, 13)
+const light = {
+  mode: 'light',
 
-  // Secondary (Primary 대비, 블루 계열)
-  secondary: '#4d5c91', // rgb(77, 92, 145)
-  secondaryLight: '#8493c5', // rgb(132, 147, 197)
-  secondaryDark: '#364061', // rgb(54, 64, 97)
+  primary: {
+    50: '#EEF2FF',
+    100: '#E0E7FF',
+    200: '#C7D2FE',
+    300: '#A5B4FC',
+    400: '#818CF8',
+    500: '#6366F1',
+    600: '#4F46E5',
+    700: '#4338CA',
+    800: '#3730A3',
+    900: '#312E81',
+    main: '#6366F1',
+    contrastText: '#FFFFFF',
+  },
 
-  // 상태 색상
-  success: '#4caf50', // rgb(76, 175, 80)
-  warning: '#ff9800', // rgb(255, 152, 0)
-  error: '#f44336', // rgb(244, 67, 54)
-  info: '#2196f3', // rgb(33, 150, 243)
+  neutral: {
+    0: '#FFFFFF',
+    50: '#F9FAFB',
+    100: '#F3F4F6',
+    200: '#E5E7EB',
+    300: '#D1D5DB',
+    400: '#9CA3AF',
+    500: '#6B7280',
+    600: '#4B5563',
+    700: '#374151',
+    800: '#1F2937',
+    900: '#111827',
+    1000: '#000000',
+  },
 
-  // 배경 / Surface
-  background: '#0d0d0d', // rgb(13, 13, 13)
-  surface: '#1d1d1d', // rgb(29, 29, 29)
+  success: {
+    main: '#16A34A',
+    hover: '#15803D',
+    active: '#166534',
+    subtle: '#DCFCE7',
+  },
 
-  // 텍스트
-  textPrimary: '#111',
-  textSecondary: '#fff', // rgb(179, 179, 179)
-  disabled: '#555555', // 비활성 텍스트 / 버튼
+  warning: {
+    main: '#D97706',
+    hover: '#B45309',
+    active: '#92400E',
+    subtle: '#FEF3C7',
+  },
 
-  buttonTextPrimary: '#fff', // 버튼 텍스트 기본 색상
+  danger: {
+    main: '#DC2626',
+    hover: '#B91C1C',
+    active: '#991B1B',
+    subtle: '#FEE2E2',
+  },
+
+  background: {
+    default: '#FFFFFF',
+    surface: '#F9FAFB',
+    elevated: '#FFFFFF',
+  },
+
+  text: {
+    primary: '#111827',
+    secondary: '#374151',
+    tertiary: '#6B7280',
+    disabled: '#9CA3AF',
+    inverse: '#FFFFFF',
+  },
+
+  border: {
+    default: '#E5E7EB',
+    strong: '#D1D5DB',
+    subtle: '#F3F4F6',
+  },
 };
+const dark = {
+  mode: 'dark',
+
+  primary: {
+    50: '#EEF2FF',
+    100: '#E0E7FF',
+    200: '#C7D2FE',
+    300: '#A5B4FC',
+    400: '#818CF8',
+    500: '#6366F1',
+    600: '#4F46E5',
+    700: '#4338CA',
+    800: '#3730A3',
+    900: '#312E81',
+    main: '#818CF8',
+    contrastText: '#0F172A',
+  },
+
+  neutral: {
+    0: '#000000',
+    50: '#111827',
+    100: '#1F2937',
+    200: '#374151',
+    300: '#4B5563',
+    400: '#6B7280',
+    500: '#9CA3AF',
+    600: '#D1D5DB',
+    700: '#E5E7EB',
+    800: '#F3F4F6',
+    900: '#F9FAFB',
+    1000: '#FFFFFF',
+  },
+
+  success: {
+    main: '#22C55E',
+    hover: '#16A34A',
+    active: '#15803D',
+    subtle: '#052E16',
+  },
+
+  warning: {
+    main: '#F59E0B',
+    hover: '#D97706',
+    active: '#B45309',
+    subtle: '#451A03',
+  },
+
+  danger: {
+    main: '#EF4444',
+    hover: '#DC2626',
+    active: '#B91C1C',
+    subtle: '#450A0A',
+  },
+
+  background: {
+    default: '#020617',
+    surface: '#020617',
+    elevated: '#020617',
+  },
+
+  text: {
+    primary: '#F9FAFB',
+    secondary: '#E5E7EB',
+    tertiary: '#9CA3AF',
+    disabled: '#6B7280',
+    inverse: '#020617',
+  },
+
+  border: {
+    default: '#1F2937',
+    strong: '#374151',
+    subtle: '#111827',
+  },
+};
+
+export type ColorType = typeof light | typeof dark;
+export const colorPalette: { light: ColorType; dark: ColorType } = {
+  light,
+  dark,
+} as const;

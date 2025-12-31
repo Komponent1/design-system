@@ -1,3 +1,4 @@
+import type { Theme } from '../theme/ThemeProvider';
 import type { ListVariant } from './list.type';
 
 export const baseStyle = {
@@ -5,5 +6,5 @@ export const baseStyle = {
   padding: '12px 16px',
   transition: 'background-color 0.12s ease',
 };
-export const genBorderStyle = (variant: ListVariant, isLast: boolean) =>
-  variant === 'underline' && !isLast ? '1px solid #e6e6e6' : 'none';
+export const genBorderStyle = (variant: ListVariant, isLast: boolean, theme: Theme) =>
+  variant === 'underline' && !isLast ? `1px solid ${theme.color.border.default}` : 'none';

@@ -9,6 +9,7 @@ import {
   sizeStyles,
   variantStyles,
 } from './select.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type SelectProps = {
   options: SelectOption[];
@@ -31,6 +32,7 @@ export const Select: React.FC<SelectProps> = ({
   disabled = false,
   width = '100%',
 }) => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -52,14 +54,28 @@ export const Select: React.FC<SelectProps> = ({
     ...baseStyle,
     ...variantStyles[variant],
     ...(disabled ? disabledStyle : {}),
-    color: selectedOption ? '#1c1f23ff' : '#9ca3af',
+    color:
+      variant === 'default'
+        ? selectedOption
+          ? '#1c1f23ff'
+          : '#9ca3af'
+        : selectedOption
+          ? theme.color.text.primary
+          : theme.color.text.disabled,
   });
   useEffect(() => {
     setSelectButtonStyle((prevStyle) => ({
       ...prevStyle,
-      color: selectedOption ? '#1c1f23ff' : '#9ca3af',
+      color:
+        variant === 'default'
+          ? selectedOption
+            ? '#1c1f23ff'
+            : '#9ca3af'
+          : selectedOption
+            ? theme.color.text.primary
+            : theme.color.text.disabled,
     }));
-  }, [selectedOption]);
+  }, [selectedOption, variant, theme]);
 
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({
     ...dropdownBaseStyle,

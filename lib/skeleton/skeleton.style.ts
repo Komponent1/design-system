@@ -1,3 +1,6 @@
+import type { Theme } from '../theme/ThemeProvider';
+import type { SkeletonSize } from './skeleton.type';
+
 export const skeletonLayerStyle: React.CSSProperties = {
   width: '100%',
   height: '100%',
@@ -5,20 +8,20 @@ export const skeletonLayerStyle: React.CSSProperties = {
   borderRadius: '4px',
   animation: 'skeleton-loading 1.5s infinite',
 };
-export const skeletonKeyframes = `
+export const getSkeletonKeyframes = (theme: Theme) => `
   @keyframes skeleton-loading {
     0% {
-      background-color: #e0e0e0;
+      background-color: ${theme.skeleton.background[0]};
     }
     50% {
-      background-color: #f0f0f0;
+      background-color: ${theme.skeleton.background[50]};
     }
     100% {
-      background-color: #e0e0e0;
+      background-color: ${theme.skeleton.background[100]};
     }
   }
 `;
-export const skeletonCircleSizesStyle: Record<string, React.CSSProperties> = {
+export const skeletonCircleSizesStyle: Record<SkeletonSize, React.CSSProperties> = {
   sm: {
     width: '50px',
     height: '50px',
@@ -38,7 +41,7 @@ export const skeletonCircleSizesStyle: Record<string, React.CSSProperties> = {
     overflow: 'hidden',
   },
 };
-export const skeletonTextSizeStyles: Record<string, React.CSSProperties> = {
+export const skeletonTextSizeStyles: Record<SkeletonSize, React.CSSProperties> = {
   sm: {
     width: '100%',
     height: '12px',

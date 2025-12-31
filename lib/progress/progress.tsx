@@ -1,8 +1,8 @@
 import React from 'react';
-import { theme } from '..';
 import type { ProgressSize, ProgressVariant } from './progress.type';
 import { ProgressCircle } from './prgress.circle';
 import { ProgressBar } from './progress.bar';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type ProgressProps = {
   progress: number /** 0 - 1 */;
@@ -17,18 +17,20 @@ export const Progress: React.FC<ProgressProps> = ({
   progress,
   size = 'md',
   variant = 'bar',
-  color = theme.color.primary,
+  color,
   label,
   percent = false,
   width = '100%',
 }) => {
+  const { theme } = useTheme();
+
   switch (variant) {
     case 'circle':
       return (
         <ProgressCircle
           progress={progress}
           size={size}
-          color={color}
+          color={color ?? theme.color.primary.main}
           label={label}
           percent={percent}
         />
@@ -39,7 +41,7 @@ export const Progress: React.FC<ProgressProps> = ({
         <ProgressBar
           progress={progress}
           size={size}
-          color={color}
+          color={color ?? theme.color.primary.main}
           label={label}
           percent={percent}
           width={width}

@@ -7,6 +7,7 @@ import {
   sidebarPositionStyles,
 } from './sidebar.style';
 import { buttonHeights, buttonWidths } from './sidebar.constant';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type SidebarProps = {
   width?: string | number;
@@ -30,20 +31,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
   children,
   buttonSize = 'md',
 }) => {
+  const { theme, mode } = useTheme();
   const buttonWidth = useMemo(() => buttonWidths[buttonSize], [buttonSize]);
   const buttonHeight = useMemo(() => buttonHeights[buttonSize], [buttonSize]);
   const [open, setOpen] = useState(variant === 'alwaysOpen');
   const sidebarWidth = useMemo(() => (typeof width === 'number' ? `${width}px` : width), [width]);
   const isOpen = variant === 'alwaysOpen' ? true : open;
   const sidebarStyle: React.CSSProperties = {
+    ...sidebarContainerStyle,
+    ...sidebarPositionStyles[position],
+    backgroundColor: theme.color.background.default,
+    border: mode === 'dark' && open ? `1px solid ${theme.color.border.default}` : 'none',
     width: isOpen ? sidebarWidth : 0,
     minWidth: isOpen ? sidebarWidth : 0,
     maxWidth: isOpen ? sidebarWidth : 0,
-    ...sidebarContainerStyle,
-    ...sidebarPositionStyles[position],
     ...style,
   };
   const toggleButtonStyle: React.CSSProperties = {
+    ...buttonBaseStyle,
     left:
       position === 'left' ? (isOpen ? `calc(${sidebarWidth} - ${buttonWidth}px)` : 0) : undefined,
     right:
@@ -61,7 +66,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     width: `${buttonWidth}px`,
     height: `${buttonHeight}px`,
     top: `${buttonTop}px`,
-    ...buttonBaseStyle,
+    border: `1px solid ${theme.color.border.default}`,
+    backgroundColor: theme.color.background.default,
     ...buttonStyle,
   };
   const sidebarContentStyle: React.CSSProperties = {
@@ -76,7 +82,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div>
       {variant === 'collapsible' && (
-        <button type='button' style={toggleButtonStyle} onClick={() => setOpen((v) => !v)}>
+        <button
+          type='button'
+          style={{
+            ...toggleButtonStyle,
+            color: theme.color.text.primary,
+          }}
+          onClick={() => setOpen((v) => !v)}
+        >
           {position === 'left' ? (isOpen ? '◀' : '▶') : isOpen ? '▶' : '◀'}
         </button>
       )}

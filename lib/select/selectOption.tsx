@@ -7,6 +7,7 @@ import {
   selectOptionDisabledStyle,
   selectOptionSizeStyles,
 } from './select.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type SelectOptionItemProps = {
   option: SelectOption;
@@ -21,18 +22,20 @@ export const SelectOptionItem: React.FC<SelectOptionItemProps> = ({
   onClick,
   size,
 }) => {
+  const { theme } = useTheme();
   const [optionStyle, setOptionStyle] = useState<React.CSSProperties>({
     ...selectOptionSizeStyles[size],
     ...selectOptionBaseStyle,
     ...(option.disabled ? selectOptionDisabledStyle : {}),
-    backgroundColor: isSelected ? '#eff6ff' : '#ffffff',
+    backgroundColor: isSelected ? theme.color.primary[50] : '#ffffff',
+    color: 'black',
   });
   useEffect(() => {
     setOptionStyle((prevStyle) => ({
       ...prevStyle,
-      backgroundColor: isSelected ? '#eff6ff' : '#ffffff',
+      backgroundColor: isSelected ? theme.color.primary[50] : '#ffffff',
     }));
-  }, [isSelected]);
+  }, [isSelected, theme]);
 
   const descriptionStyle: React.CSSProperties = useMemo(
     () => ({
@@ -77,7 +80,9 @@ export const SelectOptionItem: React.FC<SelectOptionItemProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {option.icon && <span>{option.icon}</span>}
           <span>{option.label}</span>
-          {isSelected && <span style={{ marginLeft: 'auto', color: '#3b82f6' }}>✓</span>}
+          {isSelected && (
+            <span style={{ marginLeft: 'auto', color: theme.color.primary[50] }}>✓</span>
+          )}
         </div>
         {option.description && <div style={descriptionStyle}>{option.description}</div>}
       </div>

@@ -8,9 +8,9 @@ export const baseStyle: React.CSSProperties = {
   appearance: 'none',
   backgroundClip: 'content-box',
   boxSizing: 'border-box',
-  border: '2px solid #d1d5db',
+  border: '2px solid', // color from theme
   borderRadius: '0.25rem',
-  backgroundColor: '#ffffff',
+  backgroundColor: 'transparent', // color from theme
   transition: 'all 0.2s ease-in-out',
   position: 'relative',
   backgroundRepeat: 'no-repeat',

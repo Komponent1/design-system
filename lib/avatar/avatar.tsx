@@ -11,6 +11,7 @@ import {
   sizesStyle,
   variantStyle,
 } from './avatar.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type AvatarProps = {
   type?: AvatarType;
@@ -31,14 +32,18 @@ export const Avatar: React.FC<AvatarProps> = ({
   size = 'md',
   variant = 'circle',
   outline = false,
-  color = '#ddd',
-  backgroundColor = '#222',
-  outlineColor = '#000',
+  color = '#FFFFFF',
+  backgroundColor,
+  outlineColor,
   dot = 'none',
-  dotColor = '#ff0000',
+  dotColor,
   src = '',
   alt = 'avatar',
 }) => {
+  const { theme } = useTheme();
+  backgroundColor = backgroundColor || theme.color.primary.main;
+  outlineColor = outlineColor || theme.color.border.default;
+  dotColor = dotColor || theme.color.danger.main;
   const avatarStyle: React.CSSProperties = useMemo(() => {
     const outlineStyle = outline ? genOutlineStyle(outlineColor) : {};
 

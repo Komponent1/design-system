@@ -3,10 +3,10 @@ import type {
   AccordionOutlineVariant,
   AccordionSize,
   AccordionTitleVariant,
-  AccordionVariant,
 } from './accordion.type';
-import { baseStyle, outlineVariantStyle, sizesStyle } from './accordion.style';
+import { baseStyle, genOutlineVariantStyle, sizesStyle } from './accordion.style';
 import AccordionTitle from './accordionTitle';
+import { useTheme } from '../theme/ThemeProvider';
 
 type AccordionItemProps = {
   isOpen: boolean;
@@ -16,7 +16,6 @@ type AccordionItemProps = {
   color: string;
   selectColor: string;
   size: AccordionSize;
-  variant: AccordionVariant;
   titleVariant: AccordionTitleVariant;
   outlineVariant: AccordionOutlineVariant;
   isLast: boolean;
@@ -33,35 +32,25 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   titleVariant,
   isLast,
 }) => {
+  const { theme } = useTheme();
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
 
-  const boxBasicStyle = useMemo(() => {
-    const outlineStyles = outlineVariantStyle[outlineVariant];
+  const accordionItemStyle = useMemo(() => {
+    const outlineStyles = genOutlineVariantStyle(theme)[outlineVariant];
     if (outlineVariant === 'box') {
       if (isLast) return {};
-      else return outlineVariantStyle['box'];
+      else return outlineStyles;
     }
     if (outlineVariant === 'innerBox') {
-      if (isOpen) return outlineVariantStyle['innerBox'];
-      else return { ...outlineVariantStyle['innerBox'], borderColor: 'transparent' };
+      if (isOpen) return outlineStyles;
+      else return { ...outlineStyles, borderColor: 'transparent' };
     }
     return {
       ...baseStyle,
       ...outlineStyles,
     } as React.CSSProperties;
-  }, [outlineVariant, isLast, isOpen]);
-
-  const [accordionItemStyle, setAccordionItemStyle] = useState<React.CSSProperties>({
-    ...boxBasicStyle,
-  });
-
-  useEffect(() => {
-    setAccordionItemStyle((prevStyle) => ({
-      ...prevStyle,
-      ...boxBasicStyle,
-    }));
-  }, [boxBasicStyle]);
+  }, [outlineVariant, isLast, isOpen, theme]);
 
   useEffect(() => {
     if (contentRef.current) {

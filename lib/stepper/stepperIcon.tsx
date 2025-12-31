@@ -7,6 +7,7 @@ import {
   stepperLabelSizesStyle,
   stepperSizesStyle,
 } from './stepper.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type StepperIconProps = {
   isCompleted: boolean;
@@ -25,6 +26,7 @@ export const StepperIcon: React.FC<StepperIconProps> = ({
   onClick,
   label,
 }) => {
+  const { theme } = useTheme();
   const stepperLabelStyle: React.CSSProperties = useMemo(
     () => ({
       ...stepperLabelBaseStyle,
@@ -36,17 +38,17 @@ export const StepperIcon: React.FC<StepperIconProps> = ({
     ...stepperIconBaseStyle,
     ...stepperSizesStyle[size],
     cursor: onClick ? 'pointer' : 'default',
-    backgroundColor: isCompleted ? '#3b82f6' : '#e5e7eb',
-    color: isCompleted ? '#ffffff' : '#6b7280',
+    backgroundColor: isCompleted ? theme.color.primary.main : theme.color.neutral[200],
+    color: isCompleted ? '#fff' : theme.color.neutral[800],
   });
   useEffect(() => {
     setIconStyle((prev) => ({
       ...prev,
       cursor: onClick ? 'pointer' : 'default',
-      backgroundColor: isCompleted ? '#3b82f6' : '#e5e7eb',
-      color: isCompleted ? '#ffffff' : '#6b7280',
+      backgroundColor: isCompleted ? theme.color.primary.main : theme.color.neutral[200],
+      color: isCompleted ? '#fff' : theme.color.neutral[800],
     }));
-  }, [onClick, isCompleted]);
+  }, [onClick, isCompleted, theme]);
 
   return (
     <div style={stepperIconVariantStyles[variant]}>

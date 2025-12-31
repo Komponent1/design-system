@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import type { InputSize, InputState, InputVariant } from './input.type';
 import {
-  boxStyle,
-  disabledStyle,
-  errorStyle,
-  focusedStyle,
-  grayStyle,
-  hoverStyle,
+  getBoxStyle,
+  getDisabledStyle,
+  getErrorStyle,
+  getFocusedStyle,
+  getGrayStyle,
+  getHoverStyle,
   sizeStyles,
-  successStyle,
-  underlinedStyle,
+  getSuccessStyle,
+  getUnderlinedStyle,
 } from './input.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type InputProps = {
   id?: string;
@@ -36,6 +37,8 @@ export const Input: React.FC<InputProps> = ({
   style,
   ...inputProps
 }) => {
+  const { theme } = useTheme();
+  const inputToken = theme.input;
   const autoId = useId();
   const inputId = id || autoId;
   const [state, setState] = useState<InputState>(disabled ? 'disabled' : 'default');
@@ -53,39 +56,35 @@ export const Input: React.FC<InputProps> = ({
     const sizeStyle = sizeStyles[size];
     switch (variant) {
       case 'underlined':
-        return { ...boxStyle, ...underlinedStyle, ...sizeStyle };
+        return { ...getBoxStyle(inputToken), ...getUnderlinedStyle(inputToken), ...sizeStyle };
       case 'gray':
-        return { ...boxStyle, ...grayStyle, ...sizeStyle };
+        return { ...getBoxStyle(inputToken), ...getGrayStyle(inputToken), ...sizeStyle };
       case 'box':
       default:
-        return { ...boxStyle, ...sizeStyle };
+        return { ...getBoxStyle(inputToken), ...sizeStyle };
     }
-  }, [variant, size]);
+  }, [variant, size, inputToken]);
   useEffect(() => {
     switch (state) {
       case 'disabled':
-        setInputStyle({ ...basicStyle, ...disabledStyle });
+        setInputStyle({ ...basicStyle, ...getDisabledStyle(inputToken) });
         break;
       case 'hover':
-        setInputStyle({ ...basicStyle, ...hoverStyle });
+        setInputStyle({ ...basicStyle, ...getHoverStyle(inputToken) });
         break;
       case 'focused':
-        if (variant === 'gray') {
-          setInputStyle({ ...basicStyle, ...focusedStyle, border: '1px solid' });
-        } else {
-          setInputStyle({ ...basicStyle, ...focusedStyle });
-        }
+        setInputStyle({ ...basicStyle, ...getFocusedStyle(inputToken) });
         break;
       case 'error':
-        setInputStyle({ ...basicStyle, ...errorStyle });
+        setInputStyle({ ...basicStyle, ...getErrorStyle(inputToken) });
         break;
       case 'success':
-        setInputStyle({ ...basicStyle, ...successStyle });
+        setInputStyle({ ...basicStyle, ...getSuccessStyle(inputToken) });
         break;
       default:
         setInputStyle({ ...basicStyle });
     }
-  }, [state, basicStyle, variant]);
+  }, [state, basicStyle, inputToken]);
   const onMouseEnter = useCallback(() => {
     if (state !== 'success' && state !== 'error' && state !== 'focused' && state !== 'disabled') {
       setState('hover');

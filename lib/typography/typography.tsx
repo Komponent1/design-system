@@ -1,10 +1,17 @@
 import React from 'react';
-import type { TypographySize, TypographyType, TypographyWeight } from './typography.type';
+import type {
+  TypographyElement,
+  TypographySize,
+  TypographyType,
+  TypographyWeight,
+} from './typography.type';
 import { typographyMap } from './typography.config';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TypographyProps = {
   children: React.ReactNode;
   type?: TypographyType;
+  element?: TypographyElement;
   size?: TypographySize;
   weight?: TypographyWeight;
   color?: string;
@@ -13,15 +20,19 @@ export type TypographyProps = {
 
 export const Typography: React.FC<TypographyProps> = ({
   children,
-  type = 'p',
+  type = 'primary',
+  element = 'span',
   size = 'md',
-  color = 'black',
+  color,
   weight = 'regular',
   style,
   ...spanProps
 }) => {
+  const { theme } = useTheme();
+  const textColor = color ? color : theme.color.text[type];
+  color = color === 'black' ? textColor : color;
   const { fontSize, lineHeight } = typographyMap[size];
-  switch (type) {
+  switch (element) {
     case 'p':
       return (
         <div
@@ -29,7 +40,7 @@ export const Typography: React.FC<TypographyProps> = ({
             fontSize,
             lineHeight: lineHeight ? lineHeight : undefined,
             fontWeight: weight,
-            color,
+            color: textColor,
             margin: 0,
             ...style,
           }}
@@ -47,7 +58,7 @@ export const Typography: React.FC<TypographyProps> = ({
         fontSize,
         lineHeight: lineHeight ? lineHeight : undefined,
         fontWeight: weight,
-        color,
+        color: textColor,
         ...style,
       }}
       {...spanProps}

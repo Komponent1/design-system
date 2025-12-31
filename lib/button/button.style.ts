@@ -1,6 +1,4 @@
 import { typographyMap } from '../typography/typography.config';
-import type { ButtonVariant } from './button.type';
-import { clamp, hexToRgb, hexToRgba, hslToRgb, rgbToHex, rgbToHsl } from '../util/colorHelper';
 
 export const baseStyle = {
   unset: 'all',
@@ -44,35 +42,3 @@ export const cornerStyles = {
     borderRadius: '0.375rem',
   },
 };
-export const disabledStyle = {
-  backgroundColor: '#e0e0e0',
-  borderColor: '#e0e0e0',
-  color: '#a0a0a0',
-  cursor: 'not-allowed',
-};
-
-export const getHoverColor = (baseColor: string, amount = 0.08) => {
-  try {
-    const { r, g, b } = hexToRgb(baseColor);
-    const { h, s, l } = rgbToHsl(r, g, b);
-    const direction = l > 0.6 ? -1 : 1;
-    const newL = clamp(l + direction * amount, 0, 1);
-    const { r: nr, g: ng, b: nb } = hslToRgb(h, s, newL);
-    return rgbToHex(nr, ng, nb);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
-    return baseColor;
-  }
-};
-
-export const getHoverStyles = (color: string): Record<ButtonVariant, React.CSSProperties> => ({
-  solid: {
-    backgroundColor: getHoverColor(color),
-  },
-  outline: {
-    backgroundColor: hexToRgba(color, 0.1),
-  },
-  text: {
-    backgroundColor: hexToRgba(color, 0.1),
-  },
-});

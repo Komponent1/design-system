@@ -1,27 +1,29 @@
 import React, { useCallback, useState } from 'react';
 import {
   activePageNumberStyle,
-  compactPageNumberStyle,
-  ellipsisStyle,
+  getCompactPageNumberStyle,
+  getEllipsisStyle,
   navigationButtonStyle,
-  pageNumberStyle,
-  paginationConatinerStyle,
+  getPageNumberStyle,
+  getPaginationConatinerStyle,
 } from './pagination.style';
+import { useTheme } from '../theme/ThemeProvider';
 
-type PagenationProps = {
+type PaginationProps = {
   variant?: 'default' | 'compact';
   totalItems: number;
   itemsPerPage: number;
   currentPage?: number;
   onPageChange: (page: number) => void;
 };
-export const Pagenation: React.FC<PagenationProps> = ({
+export const Pagination: React.FC<PaginationProps> = ({
   variant = 'default',
   totalItems,
   itemsPerPage,
   currentPage = 1,
   onPageChange,
 }) => {
+  const { theme } = useTheme();
   const [page, setPage] = useState<number>(currentPage);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -71,16 +73,30 @@ export const Pagenation: React.FC<PagenationProps> = ({
   switch (variant) {
     case 'compact':
       return (
-        <div style={paginationConatinerStyle}>
-          <button onClick={handlePrevious} disabled={page === 1} style={navigationButtonStyle}>
+        <div style={getPaginationConatinerStyle(theme)}>
+          <button
+            onClick={handlePrevious}
+            disabled={page === 1}
+            style={{
+              ...navigationButtonStyle,
+              color: page === 1 ? theme.color.text.disabled : theme.color.text.primary,
+            }}
+          >
             ‹
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={compactPageNumberStyle}>{page}</span>
-            <span style={{ color: '#999', fontWeight: 'normal' }}>of</span>
+            <span style={getCompactPageNumberStyle(theme)}>{page}</span>
+            <span style={{ color: theme.color.text.secondary, fontWeight: 'normal' }}>of</span>
             <span>{totalPages}</span>
           </div>
-          <button onClick={handleNext} disabled={page === totalPages} style={navigationButtonStyle}>
+          <button
+            onClick={handleNext}
+            disabled={page === totalPages}
+            style={{
+              ...navigationButtonStyle,
+              color: page === totalPages ? theme.color.text.disabled : theme.color.text.primary,
+            }}
+          >
             ›
           </button>
         </div>
@@ -89,26 +105,45 @@ export const Pagenation: React.FC<PagenationProps> = ({
     default:
   }
   return (
-    <div style={paginationConatinerStyle}>
-      <button onClick={handlePrevious} disabled={page === 1} style={navigationButtonStyle}>
+    <div style={getPaginationConatinerStyle(theme)}>
+      <button
+        onClick={handlePrevious}
+        disabled={page === 1}
+        style={{
+          ...navigationButtonStyle,
+          color: page === 1 ? theme.color.text.disabled : theme.color.text.primary,
+        }}
+      >
         ‹
       </button>
-      {showLeftEllipsis && <span style={ellipsisStyle}>...</span>}
+      {showLeftEllipsis && <span style={getEllipsisStyle(theme)}>...</span>}
       {getPageNumbers().map((pageNumber) => (
         <button
           key={pageNumber}
           onClick={() => onClickPage(pageNumber)}
           disabled={pageNumber === page}
           style={{
-            ...pageNumberStyle,
-            ...(pageNumber === page ? activePageNumberStyle : {}),
+            ...getPageNumberStyle(theme),
+            ...(pageNumber === page
+              ? {
+                  ...activePageNumberStyle,
+                  backgroundColor: theme.button.primary.bg.default,
+                }
+              : {}),
           }}
         >
           {pageNumber}
         </button>
       ))}
-      {showRightEllipsis && <span style={ellipsisStyle}>...</span>}
-      <button onClick={handleNext} disabled={page === totalPages} style={navigationButtonStyle}>
+      {showRightEllipsis && <span style={getEllipsisStyle(theme)}>...</span>}
+      <button
+        onClick={handleNext}
+        disabled={page === totalPages}
+        style={{
+          ...navigationButtonStyle,
+          color: page === totalPages ? theme.color.text.disabled : theme.color.text.primary,
+        }}
+      >
         ›
       </button>
     </div>

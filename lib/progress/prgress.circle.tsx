@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ProgressSize } from './progress.type';
 import { circleContainerStyle, circleLabelSizesStyle, circleLabelStyle } from './progress.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type ProgressCircleProps = {
   progress: number /** 0 - 1 */;
@@ -16,6 +17,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
   label,
   percent,
 }) => {
+  const { theme } = useTheme();
   const sizeMap: Record<ProgressSize, number> = {
     sm: 100,
     md: 160,
@@ -60,6 +62,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({
         style={{
           ...circleLabelStyle,
           ...circleLabelSizesStyle[size],
+          color: theme.color.text.primary,
         }}
       >
         {label && <div>{label}</div>}

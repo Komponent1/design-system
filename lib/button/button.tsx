@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { ButtonCorner, ButtonSize, ButtonVariant, ButtonState } from './button.type';
-import {
-  cornerStyles,
-  disabledStyle,
-  getHoverStyles,
-  outlineStyle,
-  sizeStyles,
-  solidStyle,
-  textStyle,
-} from './button.style';
-import { theme } from '..';
+import type {
+  ButtonCorner,
+  ButtonSize,
+  ButtonVariant,
+  ButtonState,
+  ButtonType,
+} from './button.type';
+import { cornerStyles, outlineStyle, sizeStyles, solidStyle, textStyle } from './button.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type ButtonProps = {
   label?: string /** aria-label */;
@@ -17,9 +15,8 @@ type ButtonProps = {
   variant?: ButtonVariant;
   corner?: ButtonCorner;
   size?: ButtonSize;
+  type?: ButtonType;
   full?: boolean;
-  color?: string;
-  textColor?: string;
   disabled?: boolean;
   content: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -27,15 +24,18 @@ export const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
   content,
+  type = 'primary',
   variant = 'solid',
   corner = 'square',
-  color = theme.color.primary,
-  textColor = theme.color.buttonTextPrimary,
   size = 'md',
   full = false,
   disabled = false,
   ...buttonProps
 }) => {
+  const { theme } = useTheme();
+
+  // 버튼 토큰 추출
+  const buttonTokens = theme.button[type as keyof typeof theme.button];
   const [state, setState] = useState<ButtonState>('abled');
   const [buttonStyle, setButtonStyle] = useState<React.CSSProperties>({});
   useEffect(() => {
@@ -56,8 +56,9 @@ export const Button: React.FC<ButtonProps> = ({
           ...cornerStyle,
           ...widthStyle,
           ...outlineStyle,
-          color: textColor === theme.color.buttonTextPrimary ? color : textColor,
-          borderColor: color,
+          color: buttonTokens.bg.default,
+          borderColor: buttonTokens.bg.default,
+          backgroundColor: 'transparent',
         };
       case 'text':
         return {
@@ -65,7 +66,8 @@ export const Button: React.FC<ButtonProps> = ({
           ...cornerStyle,
           ...widthStyle,
           ...textStyle,
-          color: textColor === theme.color.buttonTextPrimary ? color : textColor,
+          color: buttonTokens.bg.default,
+          backgroundColor: 'transparent',
         };
       case 'solid':
       default:
@@ -74,23 +76,26 @@ export const Button: React.FC<ButtonProps> = ({
           ...cornerStyle,
           ...widthStyle,
           ...solidStyle,
-          color: textColor,
-          backgroundColor: color,
+          color: buttonTokens.text.default,
+          backgroundColor: buttonTokens.bg.default,
         };
     }
-  }, [variant, corner, size, full, color, textColor]);
+  }, [variant, corner, size, full, buttonTokens]);
   useEffect(() => {
     switch (state) {
       case 'disabled':
         setButtonStyle({
           ...basicStyle,
-          ...disabledStyle,
+          backgroundColor: buttonTokens.bg.disabled,
+          color: buttonTokens.text.disabled,
+          borderColor: buttonTokens.bg.disabled,
+          cursor: 'not-allowed',
         });
         break;
       case 'hover':
         setButtonStyle({
           ...basicStyle,
-          ...getHoverStyles(color)[variant],
+          backgroundColor: buttonTokens.bg.hover,
         });
         break;
       case 'abled':
@@ -98,7 +103,7 @@ export const Button: React.FC<ButtonProps> = ({
         setButtonStyle(basicStyle);
         break;
     }
-  }, [state, basicStyle, variant, color]);
+  }, [state, basicStyle, buttonTokens]);
   const onMouseEnter = useCallback(() => {
     if (!disabled) {
       setState('hover');

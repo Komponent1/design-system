@@ -1,7 +1,5 @@
 export const sidebarContainerStyle: React.CSSProperties = {
-  backgroundColor: '#ffffff',
   height: '100%',
-  background: '#fff',
   boxShadow: '2px 0 8px #0001',
   overflow: 'hidden',
   position: 'absolute',
@@ -24,7 +22,6 @@ export const buttonBaseStyle: React.CSSProperties = {
   transition: 'left 0.25s cubic-bezier(.4,0,.2,1), right 0.25s cubic-bezier(.4,0,.2,1)',
   outline: 'none',
   background: '#fff',
-  border: '1px solid #e5e7eb',
 };
 export const sidebarContentBaseStyle: React.CSSProperties = {
   display: 'flex',

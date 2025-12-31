@@ -7,6 +7,7 @@ import {
   radioSizesStyle,
 } from './radio.style';
 import type { radioSize } from './radio.type';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type RadioProps = {
   label: string;
@@ -27,12 +28,19 @@ export const Radio: React.FC<RadioProps> = ({
   disabled = false,
   size = 'md',
 }) => {
+  const { theme } = useTheme();
   const [hovered, setHovered] = useState(false);
 
-  const baseBorder = checked ? '6px solid #3b82f6' : '2px solid #d1d5db';
-  const baseBoxShadow = checked ? '0 0 0 4px #3b82f633' : 'none';
-  const hoverBorder = checked ? '6px solid #60a5fa' : '2px solid #60a5fa';
-  const hoverBoxShadow = checked ? '0 0 0 8px #60a5fa22' : '0 0 0 6px #60a5fa22';
+  const baseBorder = checked
+    ? `6px solid ${theme.radio.border.checked}`
+    : `2px solid ${theme.radio.border.default}`;
+  const baseBoxShadow = checked ? `0 0 0 4px ${theme.radio.border.checked}33` : 'none';
+  const hoverBorder = checked
+    ? `6px solid ${theme.radio.border.checked}`
+    : `2px solid ${theme.radio.border.focus}`;
+  const hoverBoxShadow = checked
+    ? `0 0 0 8px ${theme.radio.border.checked}22`
+    : `0 0 0 6px ${theme.radio.border.focus}22`;
 
   const onMouseEnter = useCallback(() => {
     if (!disabled) setHovered(true);
@@ -79,7 +87,14 @@ export const Radio: React.FC<RadioProps> = ({
         }}
       />
       <span style={circleStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
-      <span style={radioLabelSizesStyle[size]}>{label}</span>
+      <span
+        style={{
+          ...radioLabelSizesStyle[size],
+          color: disabled ? theme.radio.label.disabled : theme.radio.label.default,
+        }}
+      >
+        {label}
+      </span>
     </label>
   );
 };

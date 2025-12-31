@@ -24,7 +24,6 @@ export const stepperBottomLabelStyle: React.CSSProperties = {
 export const StepperLineStyle: React.CSSProperties = {
   flex: 1,
   height: '2px',
-  backgroundColor: '#d1d5db',
   margin: '0px 8px',
 };
 

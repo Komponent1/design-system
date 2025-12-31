@@ -9,6 +9,7 @@ import {
   stepperLabelSizesStyle,
   StepperLineStyle,
 } from './stepper.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type StepperProps = {
   stepNumber: number;
@@ -28,6 +29,7 @@ export const Stepper: React.FC<StepperProps> = ({
   currentStep,
   onStepClick,
 }) => {
+  const { theme } = useTheme();
   const steps = Array.from({ length: stepNumber }, (_, i) => i + 1);
   const variantCheck = useMemo(() => {
     if (variant === 'default' && labels) return 'bottomLabel';
@@ -49,7 +51,14 @@ export const Stepper: React.FC<StepperProps> = ({
                 >
                   {step}
                 </StepperIcon>
-                {index < steps.length - 1 && <div style={StepperLineStyle} />}
+                {index < steps.length - 1 && (
+                  <div
+                    style={{
+                      ...StepperLineStyle,
+                      backgroundColor: theme.color.border.default,
+                    }}
+                  />
+                )}
               </div>
               <div
                 key={labels ? `stepper_label_${labels[index]}` : `stepper_no_label_${index}`}
@@ -80,7 +89,14 @@ export const Stepper: React.FC<StepperProps> = ({
           >
             {step}
           </StepperIcon>
-          {index < steps.length - 1 && <div style={StepperLineStyle} />}
+          {index < steps.length - 1 && (
+            <div
+              style={{
+                ...StepperLineStyle,
+                backgroundColor: theme.color.border.default,
+              }}
+            />
+          )}
         </React.Fragment>
       ))}
     </div>

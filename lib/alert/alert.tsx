@@ -7,6 +7,7 @@ import {
   headSizesStyle,
   sizesStyle,
 } from './alert.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type Props = {
   head?: string;
@@ -22,25 +23,25 @@ export const Alert: React.FC<Props> = ({
   size = 'md',
   variant = 'filled',
 }) => {
+  const { theme } = useTheme();
   const basicStyle = useMemo(() => {
     const sizeStyle = sizesStyle[size];
-    const varientTypeStyle = genVariantStyle(variant, type);
-
+    const varientTypeStyle = genVariantStyle(variant, type, theme);
     return {
       ...baseStyle,
       ...sizeStyle,
       ...varientTypeStyle,
       fontWeight: head ? 'normal' : 'bold',
     };
-  }, [type, size, variant, head]);
+  }, [type, size, variant, head, theme]);
   const basicHeadStyle = useMemo(() => {
     return {
       ...baseHeadStyle,
-      ...genVariantStyle(variant, type),
+      ...genVariantStyle(variant, type, theme),
       ...headSizesStyle[size],
       border: 'none',
     };
-  }, [variant, type, size]);
+  }, [variant, type, size, theme]);
 
   return (
     <div style={basicStyle}>

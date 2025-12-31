@@ -1,7 +1,10 @@
 import React from 'react';
-import { skeletonKeyframes, skeletonLayerStyle } from './skeleton.style';
+import { getSkeletonKeyframes, skeletonLayerStyle } from './skeleton.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const SkeletonAnimator: React.FC = () => {
+  const { theme } = useTheme();
+  const skeletonKeyframes = getSkeletonKeyframes(theme);
   return (
     <>
       <style>{skeletonKeyframes}</style>

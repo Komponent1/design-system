@@ -1,10 +1,13 @@
+import type { Theme } from '../theme/ThemeProvider';
 import { typographyMap } from '../typography/typography.config';
 import type { AccordionOutlineVariant } from './accordion.type';
 
 export const genContainerStyle = (
   outlineVariant: AccordionOutlineVariant,
+  theme: Theme,
 ): React.CSSProperties => ({
-  border: outlineVariant === 'box' ? '2px solid #ccc' : '2px solid transparent',
+  border:
+    outlineVariant === 'box' ? `2px solid ${theme.color.border.default}` : '2px solid transparent',
   borderRadius: '0.5rem',
   boxSizing: 'border-box',
 });
@@ -12,6 +15,7 @@ export const baseStyle: React.CSSProperties = {
   all: 'unset',
   boxSizing: 'border-box',
   transition: 'height 2s',
+  cursor: 'pointer',
 };
 export const sizesStyle = {
   sm: {
@@ -30,14 +34,15 @@ export const sizesStyle = {
     padding: '1rem 2rem',
   },
 };
-export const outlineVariantStyle = {
+export const genOutlineVariantStyle = (
+  theme: Theme,
+): Record<AccordionOutlineVariant, React.CSSProperties> => ({
   none: {},
   box: {
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${theme.color.border.default}`,
   },
   innerBox: {
-    border: '2px solid',
-    borderColor: '#e5e7eb',
+    border: `1px solid ${theme.color.border.default}`,
     borderRadius: '0.375rem',
   },
-};
+});

@@ -5,11 +5,12 @@ import {
   dividerContainerBaseStyle,
   dividerInsideBaseStyle,
 } from './divider.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type DividerProps = {
   orientation?: DividerOrientation;
-  thickness?: number;
-  color?: string;
+  thickness?: number | 'default' | 'strong' | 'subtle';
+  color?: 'default' | 'strong' | 'subtle' | string;
   type?: DividerTypes;
   children?: React.ReactNode;
   childrenPosition?: 'center' | 'left' | 'right';
@@ -17,13 +18,49 @@ export type DividerProps = {
 };
 export const Divider: React.FC<DividerProps> = ({
   orientation = 'horizontal',
-  thickness = 1,
+  thickness = 'default',
   type = 'fullWidth',
-  color = '#e0e0e0',
+  color = 'default',
   children,
   childrenPosition = 'center',
   verticalHeight,
 }) => {
+  const { theme } = useTheme();
+  const dividerTokens =
+    theme.divider || theme?.color?.border
+      ? theme.divider
+      : {
+          color: {
+            default: theme?.color?.border?.default || '#e0e0e0',
+            strong: theme?.color?.border?.strong || '#bdbdbd',
+            subtle: theme?.color?.border?.subtle || '#f3f4f6',
+          },
+          thickness: {
+            default: '1px',
+            strong: '2px',
+            subtle: '0.5px',
+          },
+        };
+
+  const resolvedColor =
+    color === 'default' || color === undefined
+      ? dividerTokens.color.default
+      : color === 'strong'
+        ? dividerTokens.color.strong
+        : color === 'subtle'
+          ? dividerTokens.color.subtle
+          : color;
+  const resolvedThickness =
+    thickness === 'default' || thickness === undefined
+      ? dividerTokens.thickness.default
+      : thickness === 'strong'
+        ? dividerTokens.thickness.strong
+        : thickness === 'subtle'
+          ? dividerTokens.thickness.subtle
+          : typeof thickness === 'number'
+            ? `${thickness}px`
+            : thickness;
+
   const isHorizontal = useMemo(() => orientation === 'horizontal', [orientation]);
   const length = useMemo(
     () =>
@@ -31,42 +68,31 @@ export const Divider: React.FC<DividerProps> = ({
     [type],
   );
 
-  const containerStyle: React.CSSProperties = useMemo(
-    () => ({
-      ...dividerContainerBaseStyle,
-      justifyContent: type === 'middle' ? 'center' : type === 'inset' ? 'flex-end' : 'flex-start',
-      width: isHorizontal ? '100%' : 'auto',
-      height: !isHorizontal ? (verticalHeight ?? '100%') : 'auto',
-    }),
-    [type, isHorizontal, verticalHeight],
-  );
-
   const dividerStyle: React.CSSProperties = useMemo(
     () => ({
       ...dividerBaseStyle,
-      borderTop: isHorizontal ? `${thickness}px solid ${color}` : 'none',
-      borderLeft: !isHorizontal ? `${thickness}px solid ${color}` : 'none',
-      backgroundColor: color,
+      borderTop: isHorizontal ? `${resolvedThickness} solid ${resolvedColor}` : 'none',
+      borderLeft: !isHorizontal ? `${resolvedThickness} solid ${resolvedColor}` : 'none',
+      backgroundColor: resolvedColor,
       ...(isHorizontal
         ? {
-            height: thickness,
+            height: resolvedThickness,
             width: children ? 'auto' : length,
             flex: children ? 1 : undefined,
           }
         : {
-            width: thickness,
+            width: resolvedThickness,
             height: children ? 'auto' : (verticalHeight ?? length),
-            flex: children ? 1 : undefined,
           }),
     }),
-    [isHorizontal, thickness, color, length, children, verticalHeight],
+    [isHorizontal, resolvedThickness, resolvedColor, children, length, verticalHeight],
   );
 
   const wrapperStyle: React.CSSProperties = useMemo(
     () => ({
       ...dividerInsideBaseStyle,
-      width: isHorizontal ? length : thickness,
-      height: !isHorizontal ? length : thickness,
+      width: isHorizontal ? length : resolvedThickness,
+      height: !isHorizontal ? length : resolvedThickness,
       gap: children ? '8px' : 0,
       justifyContent:
         childrenPosition === 'left'
@@ -75,11 +101,11 @@ export const Divider: React.FC<DividerProps> = ({
             ? 'flex-end'
             : 'center',
     }),
-    [isHorizontal, length, thickness, children, childrenPosition],
+    [isHorizontal, length, resolvedThickness, children, childrenPosition],
   );
 
   return (
-    <div style={containerStyle}>
+    <div style={dividerContainerBaseStyle}>
       {children ? (
         <div style={wrapperStyle}>
           {childrenPosition !== 'right' && <div style={dividerStyle} />}

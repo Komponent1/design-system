@@ -7,6 +7,7 @@ import {
   linksContainerStyles,
   titleStyle,
 } from './navbar.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type NavbarProps = {
   icon?: React.ReactNode;
@@ -27,10 +28,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   links,
   type = 'default',
   variant = 'right',
-  backgroundColor = '#f8f9fa',
-  textColor = '#000',
+  backgroundColor,
+  textColor,
   children,
 }) => {
+  const { theme } = useTheme();
+  backgroundColor = backgroundColor || theme.color.background.default;
+  textColor = textColor || theme.color.text.primary;
   const navStyle = useMemo(() => {
     const style: React.CSSProperties = { ...baseStyle };
 
@@ -50,8 +54,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       ...style,
       backgroundColor,
       color: textColor,
+      borderBottom: `1px solid ${theme.color.border.default}`,
     };
-  }, [type, backgroundColor, textColor]);
+  }, [type, backgroundColor, textColor, theme]);
 
   const containerStyle: React.CSSProperties = useMemo(() => {
     return {

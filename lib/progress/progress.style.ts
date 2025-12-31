@@ -1,4 +1,3 @@
-import { theme } from '..';
 import { typographyMap } from '../typography/typography.config';
 
 export const barContainerStyle: React.CSSProperties = {
@@ -15,7 +14,6 @@ export const barLabelStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
   fontSize: '1rem',
-  color: theme.color.textPrimary,
   fontWeight: 'bold',
 };
 export const barSizesStyle: Record<string, React.CSSProperties> = {
@@ -64,7 +62,6 @@ export const circleLabelStyle: React.CSSProperties = {
   flexDirection: 'column',
   alignItems: 'center',
   gap: '4px',
-  color: '#666',
   textAlign: 'center',
   fontWeight: 'bold',
 };

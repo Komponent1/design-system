@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import type { TabVariant } from './tab.type';
-import { getNavVariantStyles, navBaseStyle, navContainerStyle } from './tab.style';
+import { getNavVariantStyles, navBaseStyle, getNavContainerStyle } from './tab.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type TabNavProps = {
   variant: TabVariant;
@@ -10,18 +11,19 @@ export type TabNavProps = {
 };
 
 export const TabNav: React.FC<TabNavProps> = ({ variant, tabs, activeIndex, onTabChange }) => {
+  const { theme } = useTheme();
   const genTabNavStyle = useCallback(
     (index: number): React.CSSProperties => ({
       ...navBaseStyle,
-      ...getNavVariantStyles(activeIndex === index)[variant],
+      ...getNavVariantStyles(activeIndex === index, theme)[variant],
     }),
-    [activeIndex, variant],
+    [activeIndex, variant, theme],
   );
   const containerStyle: React.CSSProperties = useMemo(
     () => ({
-      ...navContainerStyle[variant],
+      ...getNavContainerStyle(theme)[variant],
     }),
-    [variant],
+    [variant, theme],
   );
 
   return (

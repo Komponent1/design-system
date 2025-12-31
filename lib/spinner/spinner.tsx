@@ -1,7 +1,7 @@
 import React from 'react';
 import { getAnimStyle, getSpinnerStyle } from './spinner.style';
-import { theme } from '..';
 import type { SpinnerSize, SpinnerVariants } from './spinner.type';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type SpinnerProps = {
   size?: SpinnerSize;
@@ -9,11 +9,10 @@ export type SpinnerProps = {
   color?: string;
 };
 
-export const Spinner: React.FC<SpinnerProps> = ({
-  size = 'md',
-  color = theme.color.primary,
-  variant = 'default',
-}) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color, variant = 'default' }) => {
+  const { theme } = useTheme();
+  color = color || theme.color.primary.main;
+
   return (
     <>
       <style>{`

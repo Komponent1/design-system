@@ -7,6 +7,7 @@ import type {
   AccordionVariant,
 } from './accordion.type';
 import { genContainerStyle } from './accordion.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 type AccordionProps = {
   titles: React.ReactNode[];
@@ -21,13 +22,17 @@ type AccordionProps = {
 export const Accordion: React.FC<AccordionProps> = ({
   titles,
   children,
-  color = '#000',
-  selectColor = '#00ff',
+  color,
+  selectColor,
   size = 'md',
   variant = 'singleOpen',
   titleVariant = 'normal',
   outlineVariant = 'none',
 }) => {
+  const { theme } = useTheme();
+  color = color || theme.color.text.primary;
+  selectColor = variant === 'alwaysOpen' ? color : selectColor || theme.color.primary.main;
+
   const [openIndex, setOpenIndex] = useState<number>(-1);
   const open = useCallback((index: number) => {
     setOpenIndex(index);
@@ -46,7 +51,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     [openIndex, close, open],
   );
   return (
-    <div style={genContainerStyle(outlineVariant)}>
+    <div style={genContainerStyle(outlineVariant, theme)}>
       {children &&
         React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
@@ -58,7 +63,6 @@ export const Accordion: React.FC<AccordionProps> = ({
                 color={color}
                 selectColor={selectColor}
                 size={size}
-                variant={variant}
                 titleVariant={titleVariant}
                 outlineVariant={outlineVariant}
                 isLast={index === React.Children.count(children) - 1}

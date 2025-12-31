@@ -1,11 +1,12 @@
 import React from 'react';
 import { SkeletonAnimator } from './skeletonAnimator';
 import { skeletonTextSizeStyles, skeletonCircleSizesStyle } from './skeleton.style';
+import type { SkeletonSize, SkeletonVariant } from './skeleton.type';
 
 export type SkeletonProps = {
-  variant?: 'simple' | 'card';
+  variant?: SkeletonVariant;
   lineCount?: number;
-  size?: 'sm' | 'md' | 'lg';
+  size?: SkeletonSize;
 };
 export const Skeleton: React.FC<SkeletonProps> = ({
   variant = 'simple',

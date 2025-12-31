@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Input from '../input/input';
 import { autocompleteContainerBaseStyle, dropdownBaseStyle } from './autocomplet.style';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type AutocompleteProps = {
   onSearch: (query: string) => void;
@@ -19,6 +20,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
   disabled = false,
   width = '100%',
 }) => {
+  const { theme } = useTheme();
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(-1);
@@ -84,12 +86,12 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
     (active: boolean): React.CSSProperties => ({
       padding: '8px 12px',
       background: active ? '#eff6ff' : '#fff',
-      color: active ? '#2563eb' : '#111827',
+      color: active ? theme.color.primary.main : '#111827',
       cursor: 'pointer',
       fontWeight: active ? 600 : 400,
       transition: 'background 0.15s',
     }),
-    [],
+    [theme],
   );
 
   return (

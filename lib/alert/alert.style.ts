@@ -1,4 +1,5 @@
-import { theme } from '..';
+// theme를 인자로 받도록 변경
+import type { Theme } from '../theme/ThemeProvider';
 import { typographyMap } from '../typography/typography.config';
 import type { AlertType, AlertVariant } from './alert.type';
 
@@ -34,13 +35,15 @@ export const headSizesStyle = {
   },
 };
 
-export const colorMap = {
-  info: theme.color.info,
-  success: theme.color.success,
-  warning: theme.color.warning,
-  error: theme.color.error,
-};
-export const genVariantStyle = (variant: AlertVariant, type: AlertType) => {
+// colorMap 대신 theme을 인자로 받는 함수로 변경
+export const getColorMap = (theme: Theme): Record<AlertType, string> => ({
+  info: theme.color.primary.main,
+  success: theme.color.success.main,
+  warning: theme.color.warning.main,
+  danger: theme.color.danger.main,
+});
+export const genVariantStyle = (variant: AlertVariant, type: AlertType, theme: Theme) => {
+  const colorMap = getColorMap(theme);
   switch (variant) {
     case 'outlined':
       return {
@@ -51,6 +54,7 @@ export const genVariantStyle = (variant: AlertVariant, type: AlertType) => {
     default:
       return {
         backgroundColor: colorMap[type],
+        color: '#fff',
       };
   }
 };

@@ -11,6 +11,7 @@ import {
 } from './floatButton.style';
 import { floatButtonSize } from './floatButton.constant';
 import type { FloatButtonItemProps } from './floatButtonItem';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type FloatButtonProps = {
   positionType?: FloatButtonPositionType;
@@ -29,10 +30,13 @@ export const FloatButton: React.FC<FloatButtonProps> = ({
   onClick,
   position = 'bottom-right',
   size = 'md',
-  color = '#ffffff',
-  backgroundColor = '#1976d2',
+  color,
+  backgroundColor,
   children,
 }) => {
+  const { theme } = useTheme();
+  backgroundColor = theme.button.primary.bg.default || backgroundColor;
+  color = theme.button.primary.text.default || color;
   const [isOpen, setIsOpen] = useState(false);
 
   const buttonSize = useMemo(() => floatButtonSize[size], [size]);

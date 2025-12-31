@@ -1,12 +1,13 @@
+import type { Theme } from '../theme/ThemeProvider';
 import type { TabVariant } from './tab.type';
 
-export const navContainerStyle: Record<TabVariant, React.CSSProperties> = {
+export const getNavContainerStyle = (theme: Theme): Record<TabVariant, React.CSSProperties> => ({
   line: {
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${theme.color.border.default}`,
     gap: '0',
   },
   box: {
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${theme.color.border.default}`,
     gap: '0',
   },
   pill: {
@@ -16,12 +17,12 @@ export const navContainerStyle: Record<TabVariant, React.CSSProperties> = {
   segment: {
     display: 'inline-flex',
     borderBottom: 'none',
-    backgroundColor: '#f3f4f6',
+    backgroundColor: theme.color.neutral[200],
     gap: '0',
     padding: '0.25rem',
-    borderRadius: '1rem',
+    borderRadius: '0.5rem',
   },
-};
+});
 
 export const navBaseStyle: React.CSSProperties = {
   padding: '0.75rem 1.5rem',
@@ -33,27 +34,38 @@ export const navBaseStyle: React.CSSProperties = {
 };
 export const getNavVariantStyles = (
   selected: boolean,
+  theme: Theme,
 ): Record<TabVariant, React.CSSProperties> => ({
   line: {
-    borderBottom: selected ? '2px solid #2563eb' : '2px solid transparent',
+    borderBottom: selected ? `2px solid ${theme.color.primary.main}` : '2px solid transparent',
+    color: theme.color.text.primary,
+    fontWeight: selected ? '700' : '500',
   },
   box: {
-    backgroundColor: selected ? '#f0f9ff' : 'transparent',
-    border: selected ? '1px solid #2563eb' : '1px solid #e5e7eb',
-    borderBottom: selected ? '1px solid #fff' : '1px solid #e5e7eb',
+    backgroundColor: selected ? theme.color.background.default : 'transparent',
+    border: selected
+      ? `1px solid ${theme.color.primary.main}`
+      : `1px solid ${theme.color.border.default}`,
+    borderBottom: selected
+      ? `1px solid ${theme.color.background.default}`
+      : `1px solid ${theme.color.border.default}`,
     marginBottom: '-1px',
+    color: theme.color.text.primary,
+    fontWeight: selected ? '700' : '500',
   },
   pill: {
     borderRadius: '1.25rem',
-    backgroundColor: selected ? '#2563eb' : '#f3f4f6',
-    color: selected ? '#fff' : '#666',
+    backgroundColor: selected ? theme.color.primary.main : theme.color.background.default,
+    color: selected ? '#fff' : theme.color.text.primary,
     marginRight: '0.5rem',
+    fontWeight: selected ? '700' : '500',
   },
   segment: {
     borderRadius: '0.5rem',
-    backgroundColor: selected ? '#fff' : '#f3f4f6',
-    color: selected ? '#000' : '#666',
+    backgroundColor: selected ? theme.color.primary.main : theme.color.neutral[200],
+    color: selected ? '#fff' : theme.color.text.primary,
     boxShadow: selected ? '0 1px 2px rgba(0, 0, 0, 0.1)' : 'none',
+    fontWeight: selected ? '700' : '500',
   },
 });
 export const tabContentStyle: React.CSSProperties = {
