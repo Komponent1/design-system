@@ -1,4 +1,3 @@
-export * as theme from './theme';
 export * from './typography/typography';
 export * from './typography/typography.purpose';
 export * from './input/input';
@@ -34,3 +33,4 @@ export * from './radio/radio';
 export * from './autocomplete/autocomplete';
 export * from './sidebar/sidebar';
 export * from './stepper/stepper';
+export * from './theme';

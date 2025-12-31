@@ -1,28 +1,30 @@
-import { ThemeProvider } from '../lib/theme/ThemeProvider';
-import { Button } from '../lib/button/button';
-import { Alert } from '../lib/alert/alert';
-import { Avatar } from '../lib/avatar/avatar';
-import { Autocomplete } from '../lib/autocomplete/autocomplete';
-import { Accordion } from '../lib/accordion/accordion';
-import { Typography } from '../lib/typography/typography';
-import { Checkbox } from '../lib/checkbox/checkbox';
-import { Divider } from '../lib/divider/divider';
-import { FloatButton } from '../lib/floatButton/floatButton';
-import { FloatButtonItem } from '../lib/floatButton/floatButtonItem';
-import { Input } from '../lib/input/input';
-import { Pagination } from '../lib/pagination/pagination';
-import { Progress } from '../lib/progress/progress';
-import { Radio } from '../lib/radio/radio';
-import { Select } from '../lib/select/select';
-import { Sidebar } from '../lib/sidebar/sidebar';
-import { Snackbar } from '../lib/snackbar/snackbar';
-import { Skeleton } from '../lib/skeleton/skeleton';
-import { Spinner } from '../lib/spinner/spinner';
-import { Stepper } from '../lib/stepper/stepper';
-import { Switch } from '../lib/switch/switch';
-import { Tab } from '../lib/tab/tab';
-import { Table } from '../lib/table/table';
-import { Tooltip } from '../lib/tooltip/tooltip';
+import {
+  ThemeProvider,
+  Button,
+  Tab,
+  Skeleton,
+  Accordion,
+  Tooltip,
+  Alert,
+  Autocomplete,
+  Avatar,
+  Checkbox,
+  Divider,
+  FloatButton,
+  FloatButtonItem,
+  Input,
+  Pagination,
+  Progress,
+  Radio,
+  Select,
+  Sidebar,
+  Snackbar,
+  Spinner,
+  Stepper,
+  Switch,
+  Table,
+  Typography,
+} from '../lib';
 import ModeToggle from './ModeToggle';
 import { useState } from 'react';
 import type { SnackbarAnimation, SnackbarPostion } from '../lib/snackbar/snackbar.type';
