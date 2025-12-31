@@ -1,7 +1,7 @@
 import { useTheme } from '../lib/theme/ThemeProvider';
 import { Button, Navbar } from '../lib';
 
-const ModeToggle = () => {
+const ModeToggle: React.FC = () => {
   const { mode, setMode, isSystem, setIsSystem } = useTheme();
 
   return (

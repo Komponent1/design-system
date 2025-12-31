@@ -26,3 +26,4 @@ export const createRadioTokens = (palette: ColorType) => ({
     error: palette.danger.main,
   },
 });
+export type RadioTokens = ReturnType<typeof createRadioTokens>;

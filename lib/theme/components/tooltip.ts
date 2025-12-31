@@ -8,3 +8,4 @@ export const createTooltipTokens = (palette: ColorType) => ({
     default: palette.neutral[300],
   },
 });
+export type TooltipTokens = ReturnType<typeof createTooltipTokens>;

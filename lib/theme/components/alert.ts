@@ -49,3 +49,4 @@ export const createAlertTokens = (palette: ColorType) => ({
     },
   },
 });
+export type AlertTokens = ReturnType<typeof createAlertTokens>;

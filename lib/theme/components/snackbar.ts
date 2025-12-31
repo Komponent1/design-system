@@ -8,3 +8,4 @@ export const createSnackbarTokens = (palette: ColorType) => ({
     default: palette.neutral[300],
   },
 });
+export type SnackbarTokens = ReturnType<typeof createSnackbarTokens>;

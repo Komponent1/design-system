@@ -27,3 +27,4 @@ export const createInputTokens = (palette: ColorType) => ({
     readonly: palette.text.secondary,
   },
 });
+export type InputTokens = ReturnType<typeof createInputTokens>;

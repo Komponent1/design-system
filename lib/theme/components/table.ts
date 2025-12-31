@@ -48,3 +48,4 @@ export const createTableTokens = (palette: ColorType) => ({
     },
   },
 });
+export type TableTokens = ReturnType<typeof createTableTokens>;

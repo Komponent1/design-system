@@ -54,7 +54,7 @@ const darkTheme: Theme = {
   tooltip: createTooltipTokens(color.dark),
 };
 
-type ThemeContextType = {
+export type ThemeContextType = {
   theme: Theme;
   mode: 'light' | 'dark';
   setMode: (m: 'light' | 'dark') => void;
@@ -69,9 +69,11 @@ const ThemeContext = createContext<ThemeContextType>({
   isSystem: true,
   setIsSystem: () => {},
 });
-
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  // body margin 제거
+export type ThemeProviderProps = {
+  children: React.ReactNode;
+  customTheme?: Partial<Theme>;
+};
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTheme }) => {
   useEffect(() => {
     document.body.style.margin = '0';
     return () => {
@@ -98,7 +100,15 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   // isSystem이 true면 시스템 모드, false면 수동 모드
   const effectiveMode = isSystem ? getSystemMode() : mode;
-  const theme = effectiveMode === 'dark' ? darkTheme : lightTheme;
+
+  // customTheme 병합
+  const baseTheme = effectiveMode === 'dark' ? darkTheme : lightTheme;
+  const theme = customTheme
+    ? ({
+        ...baseTheme,
+        ...customTheme,
+      } as Theme)
+    : baseTheme;
 
   return (
     <ThemeContext.Provider value={{ theme, mode: effectiveMode, setMode, isSystem, setIsSystem }}>

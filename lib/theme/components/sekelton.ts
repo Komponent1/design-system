@@ -7,3 +7,4 @@ export const createSkeletonTokens = (palette: ColorType) => ({
     100: palette.neutral[100],
   },
 });
+export type SkeletonTokens = ReturnType<typeof createSkeletonTokens>;

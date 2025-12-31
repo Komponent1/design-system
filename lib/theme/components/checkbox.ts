@@ -32,3 +32,4 @@ export const createCheckboxTokens = (palette: ColorType) => ({
     },
   },
 });
+export type CheckboxTokens = ReturnType<typeof createCheckboxTokens>;

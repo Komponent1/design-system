@@ -27,3 +27,4 @@ export const createButtonTokens = (palette: ColorType) => ({
     },
   },
 });
+export type ButtonTokens = ReturnType<typeof createButtonTokens>;

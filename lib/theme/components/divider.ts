@@ -12,3 +12,4 @@ export const createDividerTokens = (palette: ColorType) => ({
     subtle: '0.5px',
   },
 });
+export type DividerTokens = ReturnType<typeof createDividerTokens>;
