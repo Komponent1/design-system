@@ -17,6 +17,34 @@ import { createTooltipTokens } from './components/tooltip';
 const THEME_STORAGE_KEY = 'theme-mode';
 const THEME_SYSTEM_KEY = 'theme-system';
 
+// 초기 모드를 미리 결정하는 함수 (모듈 레벨에서 실행 가능)
+const getInitialThemeMode = (): 'light' | 'dark' => {
+  if (typeof window === 'undefined') return 'light';
+
+  // 블로킹 스크립트가 설정한 data-theme 우선
+  const htmlTheme = document.documentElement.getAttribute('data-theme');
+  if (htmlTheme === 'dark' || htmlTheme === 'light') return htmlTheme;
+
+  // localStorage 확인
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch {
+    // ignore localStorage errors
+  }
+
+  // 시스템 설정 확인
+  try {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
+};
+
+// 초기 모드 미리 결정
+const initialMode = getInitialThemeMode();
+const initialTheme = initialMode === 'dark' ? 'dark' : 'light';
+
 // theme 객체 통합
 export type Theme = {
   color: ColorType;
@@ -66,9 +94,10 @@ export type ThemeContextType = {
   setIsSystem: (b: boolean) => void;
 };
 
+// Context 기본값도 초기 테마로 설정
 const ThemeContext = createContext<ThemeContextType>({
-  theme: lightTheme,
-  mode: 'light',
+  theme: initialTheme === 'dark' ? darkTheme : lightTheme,
+  mode: initialMode,
   setMode: () => {},
   isSystem: true,
   setIsSystem: () => {},
@@ -93,30 +122,8 @@ export type ThemeProviderProps = {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTheme }) => {
   const [mounted, setMounted] = useState(false);
-  const [mode, setMode] = useState<'light' | 'dark'>(() => {
-    // Lazy initialization: 블로킹 스크립트 결과를 확실히 가져오기
-    if (typeof window === 'undefined') return 'light';
-
-    const htmlTheme = document.documentElement.getAttribute('data-theme');
-    if (htmlTheme === 'dark' || htmlTheme === 'light') return htmlTheme;
-
-    try {
-      const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (stored === 'light' || stored === 'dark') return stored;
-    } catch {
-      // ignore error
-    }
-
-    try {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    } catch {
-      // ignore error
-    }
-
-    // Always return a valid mode
-    return 'light';
-  });
-
+  // 초기 모드를 미리 계산된 값으로 사용
+  const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
   const [isSystem, setIsSystem] = useState(getInitialIsSystem);
 
   // useLayoutEffect: paint 전에 동기적으로 실행되어 깜빡임 방지
