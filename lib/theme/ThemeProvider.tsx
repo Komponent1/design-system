@@ -75,7 +75,16 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 // SSR-safe initial mode detection
 const getInitialMode = (): 'light' | 'dark' => {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') {
+    // SSR: data-theme attribute에서 읽기 (블로킹 스크립트가 설정)
+    return 'light';
+  }
+
+  // 블로킹 스크립트가 설정한 data-theme attribute 우선 사용
+  const htmlTheme = document.documentElement.getAttribute('data-theme');
+  if (htmlTheme === 'dark' || htmlTheme === 'light') {
+    return htmlTheme;
+  }
 
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
@@ -166,9 +175,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTh
     <ThemeContext.Provider value={{ theme, mode: effectiveMode, setMode, isSystem, setIsSystem }}>
       <div
         suppressHydrationWarning
+        data-theme={effectiveMode}
         style={{
-          backgroundColor: theme.color.background.default,
-          color: theme.color.text.primary,
+          backgroundColor: 'var(--theme-bg, ' + theme.color.background.default + ')',
+          color: 'var(--theme-text, ' + theme.color.text.primary + ')',
           minHeight: '100vh',
         }}
       >
@@ -208,17 +218,19 @@ export const themeInitScript = `
       mode = 'dark';
     }
     
-    // data attribute로 테마 설정 (CSS에서 사용 가능)
+    // data-theme attribute 설정
     document.documentElement.setAttribute('data-theme', mode);
     
-    // Optional: 즉시 배경색 적용으로 깜빡임 방지
-    if (mode === 'dark') {
-      document.documentElement.style.backgroundColor = '#121212';
-      document.documentElement.style.colorScheme = 'dark';
-    } else {
-      document.documentElement.style.backgroundColor = '#ffffff';
-      document.documentElement.style.colorScheme = 'light';
-    }
+    // 정확한 테마 색상 적용 (color.ts의 실제 값)
+    var isDark = mode === 'dark';
+    var bgColor = isDark ? '#020617' : '#FFFFFF';
+    var textColor = isDark ? '#F9FAFB' : '#111827';
+    
+    document.documentElement.style.setProperty('--theme-bg', bgColor);
+    document.documentElement.style.setProperty('--theme-text', textColor);
+    document.documentElement.style.backgroundColor = bgColor;
+    document.documentElement.style.color = textColor;
+    document.documentElement.style.colorScheme = mode;
   } catch (e) {
     // localStorage 접근 실패 시 무시
   }
