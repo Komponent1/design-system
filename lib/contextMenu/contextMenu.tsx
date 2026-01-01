@@ -2,13 +2,14 @@ import React, { useCallback, useRef, useState } from 'react';
 import Portal from '../portal/portal';
 import { ContextMenuItem } from './contextMenuItem';
 import {
-  contextMenuContainerStyle,
+  getContextMenuContainerStyle,
   contextMenuDividerStyle,
   contextMenuOverlayStyle,
 } from './contextMenu.style';
+import { useTheme } from '../theme';
 
 export type ContextMenuProps = {
-  children: React.ReactNode[];
+  children: React.ReactNode;
   position: { x: number; y: number };
   visible: boolean;
   onClose: () => void;
@@ -22,6 +23,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   onClose,
   dividerIndex = [],
 }) => {
+  const { theme } = useTheme();
   const menuRef = useRef<HTMLDivElement>(null);
   const [menuPosition, setMenuPosition] = useState({ x: position.x, y: position.y });
 
@@ -74,10 +76,10 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
           style={{
             top: menuPosition.y,
             left: menuPosition.x,
-            ...contextMenuContainerStyle,
+            ...getContextMenuContainerStyle(theme),
           }}
         >
-          {children.map((child, index) => (
+          {React.Children.map(children, (child, index) => (
             <>
               {dividerIndex && dividerIndex.includes(index) && (
                 <div style={contextMenuDividerStyle} />

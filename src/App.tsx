@@ -10,6 +10,7 @@ import {
   Avatar,
   Card,
   Checkbox,
+  ContextMenu,
   Divider,
   FloatButton,
   FloatButtonItem,
@@ -70,6 +71,9 @@ export default function App() {
   const [openAutocomplete, setOpenAutocomplete] = useState(false);
   const [openAvatar, setOpenAvatar] = useState(false);
   const [openCard, setOpenCard] = useState(false);
+  const [openContextMenu, setOpenContextMenu] = useState(false);
+  const [contextVisible, setContextVisible] = useState(false);
+  const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
   const [openCheckbox, setOpenCheckbox] = useState(false);
   const [openDivider, setOpenDivider] = useState(false);
   const [openFloatButton, setOpenFloatButton] = useState(false);
@@ -824,6 +828,88 @@ export default function App() {
                     <div style={{ padding: 16 }}>Large</div>
                   </Card>
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+        {/* ContextMenu 예제 접기/펼치기 */}
+        <Button
+          content={openContextMenu ? '▲ ContextMenu 예제 접기' : '▼ ContextMenu 예제 펼치기'}
+          onClick={() => setOpenContextMenu((v) => !v)}
+          variant='outline'
+        />
+        {openContextMenu && (
+          <section>
+            <h2>ContextMenu Examples</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* 기본 ContextMenu */}
+              <div>
+                <div style={{ marginBottom: 8 }}>우클릭 메뉴</div>
+                <div
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    setContextMenuPos({ x: e.clientX, y: e.clientY });
+                    setContextVisible(true);
+                  }}
+                  style={{
+                    padding: 16,
+                    border: '1px dashed #ccc',
+                    borderRadius: 8,
+                    minHeight: 100,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'context-menu',
+                  }}
+                >
+                  이 영역을 우클릭하세요
+                </div>
+              </div>
+
+              {/* ContextMenu 렌더링 */}
+              <ContextMenu
+                position={contextMenuPos}
+                visible={contextVisible}
+                onClose={() => setContextVisible(false)}
+                dividerIndex={[2, 4]}
+              >
+                <div
+                  style={{ padding: '8px 12px', cursor: 'pointer' }}
+                  onClick={() => setContextVisible(false)}
+                >
+                  Copy
+                </div>
+                <div
+                  style={{ padding: '8px 12px', cursor: 'pointer' }}
+                  onClick={() => setContextVisible(false)}
+                >
+                  Paste
+                </div>
+                <div
+                  style={{ padding: '8px 12px', cursor: 'pointer' }}
+                  onClick={() => setContextVisible(false)}
+                >
+                  Cut
+                </div>
+                <div
+                  style={{ padding: '8px 12px', cursor: 'pointer' }}
+                  onClick={() => setContextVisible(false)}
+                >
+                  Select All
+                </div>
+                <div
+                  style={{ padding: '8px 12px', cursor: 'pointer', color: '#EF4444' }}
+                  onClick={() => setContextVisible(false)}
+                >
+                  Delete
+                </div>
+              </ContextMenu>
+
+              <div style={{ color: '#888', fontSize: 12 }}>
+                ✓ 우클릭으로 메뉴를 열 수 있습니다
+                <br />
+                ✓ dividerIndex로 항목 사이에 구분선을 추가할 수 있습니다
+                <br />✓ 메뉴 항목을 클릭하면 닫힙니다
               </div>
             </div>
           </section>

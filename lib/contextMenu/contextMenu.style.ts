@@ -1,3 +1,5 @@
+import type { Theme } from '../theme';
+
 export const contextMenuOverlayStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
@@ -8,12 +10,12 @@ export const contextMenuOverlayStyle: React.CSSProperties = {
   width: '100vw',
   height: '100vh',
 };
-export const contextMenuContainerStyle: React.CSSProperties = {
+export const getContextMenuContainerStyle = (theme: Theme): React.CSSProperties => ({
   position: 'fixed',
-  backgroundColor: '#fff',
+  backgroundColor: theme.color.neutral[50],
   boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
   zIndex: 1000,
-};
+});
 export const contextMenuItemStyle: React.CSSProperties = {
   padding: '8px 12px',
   cursor: 'pointer',
