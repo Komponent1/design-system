@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 import { colorPalette as color, type ColorType } from './color';
 import { createButtonTokens } from './components/button';
@@ -73,29 +73,8 @@ const ThemeContext = createContext<ThemeContextType>({
   isSystem: true,
   setIsSystem: () => {},
 });
-// SSR-safe initial mode detection
-const getInitialMode = (): 'light' | 'dark' => {
-  if (typeof window === 'undefined') {
-    // SSR: data-theme attribute에서 읽기 (블로킹 스크립트가 설정)
-    return 'light';
-  }
 
-  // 블로킹 스크립트가 설정한 data-theme attribute 우선 사용
-  const htmlTheme = document.documentElement.getAttribute('data-theme');
-  if (htmlTheme === 'dark' || htmlTheme === 'light') {
-    return htmlTheme;
-  }
-
-  try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') return stored;
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  } catch {
-    return 'light';
-  }
-};
-
+// SSR-safe initial isSystem detection
 const getInitialIsSystem = (): boolean => {
   if (typeof window === 'undefined') return true;
 
@@ -114,12 +93,43 @@ export type ThemeProviderProps = {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTheme }) => {
   const [mounted, setMounted] = useState(false);
-  const [mode, setMode] = useState<'light' | 'dark'>(getInitialMode);
+  const [mode, setMode] = useState<'light' | 'dark'>(() => {
+    // Lazy initialization: 블로킹 스크립트 결과를 확실히 가져오기
+    if (typeof window === 'undefined') return 'light';
+
+    const htmlTheme = document.documentElement.getAttribute('data-theme');
+    if (htmlTheme === 'dark' || htmlTheme === 'light') return htmlTheme;
+
+    try {
+      const stored = localStorage.getItem(THEME_STORAGE_KEY);
+      if (stored === 'light' || stored === 'dark') return stored;
+    } catch {
+      // ignore error
+    }
+
+    try {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      // ignore error
+    }
+
+    // Always return a valid mode
+    return 'light';
+  });
+
   const [isSystem, setIsSystem] = useState(getInitialIsSystem);
 
-  useEffect(() => {
+  // useLayoutEffect: paint 전에 동기적으로 실행되어 깜빡임 방지
+  useLayoutEffect(() => {
     document.body.style.margin = '0';
     setMounted(true);
+
+    // data-theme이 있다면 한 번 더 동기화
+    const htmlTheme = document.documentElement.getAttribute('data-theme');
+    if (htmlTheme === 'dark' || htmlTheme === 'light') {
+      setMode(htmlTheme);
+    }
+
     return () => {
       document.body.style.margin = '';
     };

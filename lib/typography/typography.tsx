@@ -29,8 +29,7 @@ export const Typography: React.FC<TypographyProps> = ({
   ...spanProps
 }) => {
   const { theme } = useTheme();
-  const textColor = color ? color : theme.color.text[type];
-  color = color === 'black' ? textColor : color;
+  color = color ? color : theme.color.text[type];
   const { fontSize, lineHeight } = typographyMap[size];
   switch (element) {
     case 'p':
@@ -40,7 +39,7 @@ export const Typography: React.FC<TypographyProps> = ({
             fontSize,
             lineHeight: lineHeight ? lineHeight : undefined,
             fontWeight: weight,
-            color: textColor,
+            color,
             margin: 0,
             ...style,
           }}
@@ -58,7 +57,7 @@ export const Typography: React.FC<TypographyProps> = ({
         fontSize,
         lineHeight: lineHeight ? lineHeight : undefined,
         fontWeight: weight,
-        color: textColor,
+        color,
         ...style,
       }}
       {...spanProps}
