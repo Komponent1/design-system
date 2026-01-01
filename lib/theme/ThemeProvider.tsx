@@ -88,25 +88,38 @@ export type ThemeProviderProps = {
 };
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTheme }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
+  const [isMounted, setIsMounted] = useState(false);
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
+
+  // 클라이언트에서만 초기화
+  useEffect(() => {
+    const htmlTheme = document.documentElement.getAttribute('data-theme');
+    const themMode = (htmlTheme === 'dark' ? 'dark' : 'light') as 'light' | 'dark';
+    setMode(themMode);
+    setIsMounted(true);
+  }, []);
 
   // 테마 변경 시 localStorage 저장
   useEffect(() => {
+    if (!isMounted) return;
     try {
       localStorage.setItem(THEME_STORAGE_KEY, mode);
     } catch {
       // ignore localStorage errors
     }
-  }, [mode]);
+  }, [mode, isMounted]);
 
-  const baseTheme = mode === 'dark' ? darkTheme : lightTheme;
+  // SSR: light 테마로 렌더링
+  // CSR: 클라이언트에서 정확한 테마로 렌더링
+  const currentMode = isMounted ? mode : 'light';
+  const baseTheme = currentMode === 'dark' ? darkTheme : lightTheme;
   const theme = customTheme ? ({ ...baseTheme, ...customTheme } as Theme) : baseTheme;
 
   return (
-    <ThemeContext.Provider value={{ theme, mode, setMode }}>
+    <ThemeContext.Provider value={{ theme, mode: currentMode, setMode }}>
       <div
         suppressHydrationWarning
-        data-theme={mode}
+        data-theme={currentMode}
         style={{
           backgroundColor: 'var(--theme-bg, ' + theme.color.background.default + ')',
           color: 'var(--theme-text, ' + theme.color.text.primary + ')',
