@@ -28,12 +28,13 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (disabled) return;
       setIsChecked(!isChecked);
       if (onChange) {
         onChange(e.target.checked);
       }
     },
-    [onChange, isChecked],
+    [onChange, isChecked, disabled],
   );
 
   useEffect(() => {
