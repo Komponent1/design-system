@@ -8,6 +8,7 @@ import {
   Alert,
   Autocomplete,
   Avatar,
+  Card,
   Checkbox,
   Divider,
   FloatButton,
@@ -68,6 +69,7 @@ export default function App() {
   const [openAccordion, setOpenAccordion] = useState(false);
   const [openAutocomplete, setOpenAutocomplete] = useState(false);
   const [openAvatar, setOpenAvatar] = useState(false);
+  const [openCard, setOpenCard] = useState(false);
   const [openCheckbox, setOpenCheckbox] = useState(false);
   const [openDivider, setOpenDivider] = useState(false);
   const [openFloatButton, setOpenFloatButton] = useState(false);
@@ -704,6 +706,125 @@ export default function App() {
             <div style={{ marginTop: 16, color: '#888' }}>
               다양한 props 조합으로 이미지, 텍스트, 크기, 모양, 테두리, dot 상태 등을 표현할 수
               있습니다.
+            </div>
+          </section>
+        )}
+        {/* Card 예제 접기/펼치기 */}
+        <Button
+          content={openCard ? '▲ Card 예제 접기' : '▼ Card 예제 펼치기'}
+          onClick={() => setOpenCard((v) => !v)}
+          variant='outline'
+        />
+        {openCard && (
+          <section>
+            <h2>Card Examples</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* 기본 Content Card */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Content Card</div>
+                <Card type='content' size='md'>
+                  <div style={{ padding: 16 }}>
+                    <h3 style={{ margin: '0 0 8px 0' }}>Card Title</h3>
+                    <p style={{ margin: 0 }}>카드 내용입니다. 기본적인 content 타입 카드입니다.</p>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Header + Content */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Header + Content</div>
+                <Card
+                  type='header-content'
+                  size='md'
+                  header={<div style={{ fontWeight: 'bold' }}>Card Header</div>}
+                >
+                  <div>헤더가 있는 카드입니다.</div>
+                </Card>
+              </div>
+
+              {/* Content + Footer */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Content + Footer</div>
+                <Card
+                  type='content-footer'
+                  size='md'
+                  footer={<div style={{ textAlign: 'right' }}>Footer</div>}
+                >
+                  <div>푸터가 있는 카드입니다.</div>
+                </Card>
+              </div>
+
+              {/* Image + Content */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Image + Content</div>
+                <Card
+                  type='image-content'
+                  size='md'
+                  src='https://picsum.photos/400/200'
+                  alt='Sample image'
+                >
+                  <div>이미지가 상단에 있는 카드입니다.</div>
+                </Card>
+              </div>
+
+              {/* Content + Image */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Content + Image</div>
+                <Card
+                  type='content-image'
+                  size='md'
+                  src='https://picsum.photos/400/200'
+                  alt='Sample image'
+                >
+                  <div>이미지가 하단에 있는 카드입니다.</div>
+                </Card>
+              </div>
+
+              {/* Image Overlay */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Image Overlay</div>
+                <Card
+                  type='image_overlay'
+                  size='lg'
+                  src='https://picsum.photos/600/300'
+                  alt='Overlay image'
+                >
+                  <div style={{ color: 'white', fontWeight: 'bold' }}>
+                    이미지 위에 오버레이된 텍스트
+                  </div>
+                </Card>
+              </div>
+
+              {/* Hover Effects */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Hover Effects</div>
+                <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                  <Card type='content' size='sm' hoverType='shadow'>
+                    <div style={{ padding: 8 }}>Shadow Hover</div>
+                  </Card>
+                  <Card type='content' size='sm' hoverType='lift'>
+                    <div style={{ padding: 8 }}>Lift Hover</div>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Sizes */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Sizes: sm, md, lg</div>
+                <div
+                  style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}
+                >
+                  <Card type='content' size='sm'>
+                    <div style={{ padding: 8 }}>Small</div>
+                  </Card>
+                  <Card type='content' size='md'>
+                    <div style={{ padding: 12 }}>Medium</div>
+                  </Card>
+                  <Card type='content' size='lg'>
+                    <div style={{ padding: 16 }}>Large</div>
+                  </Card>
+                </div>
+              </div>
             </div>
           </section>
         )}

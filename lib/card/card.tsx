@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import type { CardSizes, CardVaraints, HoverType } from './card.type';
 import {
-  cardContainerBaseStyle,
-  cardFooterStyle,
-  cardHeaderStyle,
+  getCardContainerBaseStyle,
+  getCardFooterStyle,
+  getCardHeaderStyle,
   cardHoverStyles,
   cardImageStyle,
   cardSizeStyles,
 } from './card.style';
+import { useTheme } from '../theme';
 
 export type CardProps = {
   type: CardVaraints;
@@ -31,13 +32,14 @@ export const Card: React.FC<CardProps> = ({
   footer,
   autoPadding = true,
 }) => {
+  const { theme } = useTheme();
   const cardToken = useMemo(() => type.split('-'), [type]);
   const cardContainerBasicStyle = useMemo(() => {
     return {
       ...cardSizeStyles[size],
-      ...cardContainerBaseStyle,
+      ...getCardContainerBaseStyle(theme),
     };
-  }, [size]);
+  }, [size, theme]);
   const [cardContainerStyle, setCardContainerStyle] =
     useState<React.CSSProperties>(cardContainerBasicStyle);
   const onMouseEnter = useCallback(() => {
@@ -91,7 +93,7 @@ export const Card: React.FC<CardProps> = ({
             <div
               key={`${token}_${index}`}
               style={{
-                ...cardHeaderStyle,
+                ...getCardHeaderStyle(theme),
                 padding: autoPadding ? '8px 16px' : '0',
               }}
             >
@@ -114,7 +116,7 @@ export const Card: React.FC<CardProps> = ({
             <div
               key={`${token}_${index}`}
               style={{
-                ...cardFooterStyle,
+                ...getCardFooterStyle(theme),
                 padding: autoPadding ? '8px 16px' : '0',
               }}
             >

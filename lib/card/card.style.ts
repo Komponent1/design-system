@@ -1,9 +1,11 @@
-export const cardContainerBaseStyle: React.CSSProperties = {
+import type { Theme } from '../theme';
+
+export const getCardContainerBaseStyle = (theme: Theme): React.CSSProperties => ({
   borderRadius: '8px',
   overflow: 'hidden',
-  border: '1px solid #e0e0e0',
+  border: `1px solid ${theme.color.border.default}`,
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-};
+});
 export const cardHoverStyles: Record<string, React.CSSProperties> = {
   none: {},
   shadow: {
@@ -31,16 +33,18 @@ export const cardImageStyle: React.CSSProperties = {
   objectFit: 'cover',
   verticalAlign: 'bottom',
 };
-export const cardHeaderStyle: React.CSSProperties = {
+export const getCardHeaderStyle = (theme: Theme): React.CSSProperties => ({
   fontSize: '1.25rem',
   fontWeight: 'bold',
   marginBottom: '8px',
-  backgroundColor: '#f5f5f5',
-  borderBottom: '1px solid #e0e0e0',
+  backgroundColor: theme.color.neutral[100],
+  borderBottom: `1px solid ${theme.color.neutral[200]}`,
   overflow: 'auto',
-};
-export const cardFooterStyle: React.CSSProperties = {
+  color: theme.color.neutral[800],
+});
+export const getCardFooterStyle = (theme: Theme): React.CSSProperties => ({
   marginTop: '12px',
-  backgroundColor: '#f5f5f5',
-  borderTop: '1px solid #e0e0e0',
-};
+  backgroundColor: theme.color.neutral[100],
+  borderTop: `1px solid ${theme.color.neutral[200]}`,
+  color: theme.color.neutral[600],
+});
