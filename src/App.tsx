@@ -15,6 +15,7 @@ import {
   FloatButton,
   FloatButtonItem,
   Input,
+  List,
   Pagination,
   Progress,
   Radio,
@@ -80,6 +81,7 @@ export default function App() {
   const [acQuery, setAcQuery] = useState('');
   const [acValue, setAcValue] = useState('');
   const [openInput, setOpenInput] = useState(false);
+  const [openList, setOpenList] = useState(false);
   const [openSelect, setOpenSelect] = useState(false);
   const [selectValue, setSelectValue] = useState('apple');
   const selectOptions = [
@@ -1322,6 +1324,118 @@ export default function App() {
                   currentPage={10}
                   onPageChange={() => {}}
                 />
+              </div>
+            </div>
+          </section>
+        )}
+        {/* List 예제 접기/펼치기 */}
+        <Button
+          content={openList ? '▲ List 예제 접기' : '▼ List 예제 펼치기'}
+          onClick={() => setOpenList((v) => !v)}
+          variant='outline'
+        />
+        {openList && (
+          <section>
+            <h2>List Examples</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* 기본 List */}
+              <div>
+                <div style={{ marginBottom: 8 }}>기본 List</div>
+                <List>
+                  <div style={{ padding: '12px 16px' }}>List Item 1</div>
+                  <div style={{ padding: '12px 16px' }}>List Item 2</div>
+                  <div style={{ padding: '12px 16px' }}>List Item 3</div>
+                </List>
+              </div>
+
+              {/* Underline Variant */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Underline Variant</div>
+                <List variant='underline'>
+                  <div style={{ padding: '12px 16px' }}>Item with underline</div>
+                  <div style={{ padding: '12px 16px' }}>Another item</div>
+                  <div style={{ padding: '12px 16px' }}>Last item</div>
+                </List>
+              </div>
+
+              {/* List with Title */}
+              <div>
+                <div style={{ marginBottom: 8 }}>List with Title</div>
+                <List title='My List'>
+                  <div style={{ padding: '12px 16px' }}>📝 First item</div>
+                  <div style={{ padding: '12px 16px' }}>📝 Second item</div>
+                  <div style={{ padding: '12px 16px' }}>📝 Third item</div>
+                </List>
+              </div>
+
+              {/* Selectable List */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Selectable List (클릭해보세요)</div>
+                <List selected variant='underline'>
+                  <div style={{ padding: '12px 16px' }}>🔘 Option 1</div>
+                  <div style={{ padding: '12px 16px' }}>🔘 Option 2</div>
+                  <div style={{ padding: '12px 16px' }}>🔘 Option 3</div>
+                  <div style={{ padding: '12px 16px' }}>🔘 Option 4</div>
+                </List>
+              </div>
+
+              {/* List with onClick */}
+              <div>
+                <div style={{ marginBottom: 8 }}>List with onClick Handler</div>
+                <List selected selectedIndex={0}>
+                  <div style={{ padding: '12px 16px' }} onClick={() => alert('Item 1 clicked!')}>
+                    ⚡ Click me!
+                  </div>
+                  <div style={{ padding: '12px 16px' }} onClick={() => alert('Item 2 clicked!')}>
+                    ⚡ Or me!
+                  </div>
+                  <div style={{ padding: '12px 16px' }} onClick={() => alert('Item 3 clicked!')}>
+                    ⚡ Or even me!
+                  </div>
+                </List>
+              </div>
+
+              {/* Complex List Items */}
+              <div>
+                <div style={{ marginBottom: 8 }}>Complex List Items</div>
+                <List variant='underline' selected>
+                  <div
+                    style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}
+                  >
+                    <Avatar type='text' alt='JD' size='sm' />
+                    <div>
+                      <div style={{ fontWeight: 'bold' }}>John Doe</div>
+                      <div style={{ fontSize: 12, color: '#666' }}>john@example.com</div>
+                    </div>
+                  </div>
+                  <div
+                    style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}
+                  >
+                    <Avatar type='text' alt='JS' size='sm' backgroundColor='#F59E0B' />
+                    <div>
+                      <div style={{ fontWeight: 'bold' }}>Jane Smith</div>
+                      <div style={{ fontSize: 12, color: '#666' }}>jane@example.com</div>
+                    </div>
+                  </div>
+                  <div
+                    style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}
+                  >
+                    <Avatar type='text' alt='BJ' size='sm' backgroundColor='#22C55E' />
+                    <div>
+                      <div style={{ fontWeight: 'bold' }}>Bob Johnson</div>
+                      <div style={{ fontSize: 12, color: '#666' }}>bob@example.com</div>
+                    </div>
+                  </div>
+                </List>
+              </div>
+
+              <div style={{ color: '#888', fontSize: 12 }}>
+                ✓ variant='underline'로 구분선 추가
+                <br />
+                ✓ selected prop으로 선택 가능한 리스트 생성
+                <br />
+                ✓ selectedIndex로 초기 선택 항목 지정
+                <br />✓ 각 아이템에 onClick 핸들러 추가 가능
               </div>
             </div>
           </section>

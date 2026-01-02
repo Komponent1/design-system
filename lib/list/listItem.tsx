@@ -32,12 +32,12 @@ export const ListItem: React.FC<ListItemProps> = ({
       ...prev,
       backgroundColor:
         selected && onClick
-          ? 'rgba(0,0,0,0.06)'
+          ? undefined
           : hover && onClick
-            ? 'rgba(0,0,0,0.03)'
+            ? theme.list.background.hover
             : undefined,
     }));
-  }, [hover, selected, onClick]);
+  }, [hover, selected, onClick, theme]);
 
   return (
     <div

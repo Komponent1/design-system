@@ -12,6 +12,7 @@ import { createSkeletonTokens } from './components/sekelton';
 import { createSnackbarTokens } from './components/snackbar';
 import { createTableTokens } from './components/table';
 import { createTooltipTokens } from './components/tooltip';
+import { createListTokens } from './components/list';
 
 const THEME_STORAGE_KEY = 'theme-mode';
 
@@ -28,6 +29,7 @@ export type Theme = {
   snackbar: ReturnType<typeof createSnackbarTokens>;
   table: ReturnType<typeof createTableTokens>;
   tooltip: ReturnType<typeof createTooltipTokens>;
+  list: ReturnType<typeof createListTokens>;
 };
 
 // 테마 객체
@@ -43,6 +45,7 @@ const lightTheme: Theme = {
   snackbar: createSnackbarTokens(color.light),
   table: createTableTokens(color.light),
   tooltip: createTooltipTokens(color.light),
+  list: createListTokens(color.light),
 };
 
 const darkTheme: Theme = {
@@ -57,6 +60,7 @@ const darkTheme: Theme = {
   snackbar: createSnackbarTokens(color.dark),
   table: createTableTokens(color.dark),
   tooltip: createTooltipTokens(color.dark),
+  list: createListTokens(color.dark),
 };
 
 // Context 타입 및 Context 생성

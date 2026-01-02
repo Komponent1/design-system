@@ -7,4 +7,4 @@ export const baseStyle = {
   transition: 'background-color 0.12s ease',
 };
 export const genBorderStyle = (variant: ListVariant, isLast: boolean, theme: Theme) =>
-  variant === 'underline' && !isLast ? `1px solid ${theme.color.border.default}` : 'none';
+  variant === 'underline' && !isLast ? `1px solid ${theme.list.border.default}` : 'none';
