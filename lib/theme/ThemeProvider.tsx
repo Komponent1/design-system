@@ -123,7 +123,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTh
         style={{
           backgroundColor: 'var(--theme-bg, ' + theme.color.background.default + ')',
           color: 'var(--theme-text, ' + theme.color.text.primary + ')',
-          minHeight: '100vh',
         }}
       >
         {children}
