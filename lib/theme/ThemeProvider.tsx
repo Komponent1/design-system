@@ -1,71 +1,49 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
-import { colorPalette as color, type ColorType } from './color';
-import { createButtonTokens } from './components/button';
-import { createAlertTokens } from './components/alert';
-import { createCheckboxTokens } from './components/checkbox';
-import { createDividerTokens } from './components/divider';
-import { createInputTokens } from './components/input';
-import { createRadioTokens } from './components/radio';
-import { createSkeletonTokens } from './components/sekelton';
-import { createSnackbarTokens } from './components/snackbar';
-import { createTableTokens } from './components/table';
-import { createTooltipTokens } from './components/tooltip';
-import { createListTokens } from './components/list';
+import { type ColorType } from './color';
+import { type ButtonTokens } from './components/button';
+import { type AlertTokens } from './components/alert';
+import { type CheckboxTokens } from './components/checkbox';
+import { type DividerTokens } from './components/divider';
+import { type InputTokens } from './components/input';
+import { type RadioTokens } from './components/radio';
+import { type SkeletonTokens } from './components/sekelton';
+import { type SnackbarTokens } from './components/snackbar';
+import { type TableTokens } from './components/table';
+import { type TooltipTokens } from './components/tooltip';
+import { type ListTokens } from './components/list';
+import { createTheme } from './token';
+import type { DeepPartial } from './utils';
 
 const THEME_STORAGE_KEY = 'theme-mode';
 
-// Theme 타입
-export type Theme = {
+// 기본 Theme 타입
+export type BaseTheme = {
   color: ColorType;
-  button: ReturnType<typeof createButtonTokens>;
-  alert: ReturnType<typeof createAlertTokens>;
-  checkbox: ReturnType<typeof createCheckboxTokens>;
-  divider: ReturnType<typeof createDividerTokens>;
-  input: ReturnType<typeof createInputTokens>;
-  radio: ReturnType<typeof createRadioTokens>;
-  skeleton: ReturnType<typeof createSkeletonTokens>;
-  snackbar: ReturnType<typeof createSnackbarTokens>;
-  table: ReturnType<typeof createTableTokens>;
-  tooltip: ReturnType<typeof createTooltipTokens>;
-  list: ReturnType<typeof createListTokens>;
+  button: ButtonTokens;
+  alert: AlertTokens;
+  checkbox: CheckboxTokens;
+  divider: DividerTokens;
+  input: InputTokens;
+  radio: RadioTokens;
+  skeleton: SkeletonTokens;
+  snackbar: SnackbarTokens;
+  table: TableTokens;
+  tooltip: TooltipTokens;
+  list: ListTokens;
 };
+
+// 확장 가능한 Theme 타입 (인덱스 시그니처 추가)
+export type Theme<T = unknown> = BaseTheme & T;
 
 // 테마 객체
-const lightTheme: Theme = {
-  color: color.light,
-  button: createButtonTokens(color.light),
-  alert: createAlertTokens(color.light),
-  checkbox: createCheckboxTokens(color.light),
-  divider: createDividerTokens(color.light),
-  input: createInputTokens(color.light),
-  radio: createRadioTokens(color.light),
-  skeleton: createSkeletonTokens(color.light),
-  snackbar: createSnackbarTokens(color.light),
-  table: createTableTokens(color.light),
-  tooltip: createTooltipTokens(color.light),
-  list: createListTokens(color.light),
-};
-
-const darkTheme: Theme = {
-  color: color.dark,
-  button: createButtonTokens(color.dark),
-  alert: createAlertTokens(color.dark),
-  checkbox: createCheckboxTokens(color.dark),
-  divider: createDividerTokens(color.dark),
-  input: createInputTokens(color.dark),
-  radio: createRadioTokens(color.dark),
-  skeleton: createSkeletonTokens(color.dark),
-  snackbar: createSnackbarTokens(color.dark),
-  table: createTableTokens(color.dark),
-  tooltip: createTooltipTokens(color.dark),
-  list: createListTokens(color.dark),
-};
+const lightTheme: BaseTheme = createTheme('light');
+const darkTheme: BaseTheme = createTheme('dark');
 
 // Context 타입 및 Context 생성
-export type ThemeContextType = {
-  theme: Theme;
+export type ThemeContextType<T = unknown> = {
+  theme: Theme<T>;
   mode: 'light' | 'dark';
   setMode: (m: 'light' | 'dark') => void;
 };
@@ -86,12 +64,15 @@ const ThemeContext = createContext<ThemeContextType>({
   setMode: () => {},
 });
 
-export type ThemeProviderProps = {
+export type ThemeProviderProps<T = unknown> = {
   children: React.ReactNode;
-  customTheme?: Partial<Theme>;
+  customTheme?: DeepPartial<Theme<T>>;
 };
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTheme }) => {
+export const ThemeProvider = <T extends Record<string, unknown>>({
+  children,
+  customTheme,
+}: ThemeProviderProps<T>) => {
   const [isMounted, setIsMounted] = useState(false);
   const [mode, setMode] = useState<'light' | 'dark'>('light');
 
@@ -117,7 +98,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTh
   // CSR: 클라이언트에서 정확한 테마로 렌더링
   const currentMode = isMounted ? mode : 'light';
   const baseTheme = currentMode === 'dark' ? darkTheme : lightTheme;
-  const theme = customTheme ? ({ ...baseTheme, ...customTheme } as Theme) : baseTheme;
+  const theme = customTheme ? createTheme(currentMode, customTheme) : (baseTheme as Theme<T>);
 
   return (
     <ThemeContext.Provider value={{ theme, mode: currentMode, setMode }}>
@@ -135,7 +116,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, customTh
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = <T = unknown,>() => useContext(ThemeContext) as ThemeContextType<T>;
 
 /**
  * SSR 환경에서 Hydration 오류와 FOUC 방지를 위한 블로킹 스크립트

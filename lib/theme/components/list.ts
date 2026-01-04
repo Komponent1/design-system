@@ -1,12 +1,27 @@
 import type { ColorType } from '../color';
+import { mergeTokens, type DeepPartial } from '../utils';
 
-export const createListTokens = (palette: ColorType) => ({
+export type ListTokens = {
   background: {
-    default: palette.neutral[0],
-    hover: palette.neutral[100],
-  },
+    default: string;
+    hover: string;
+  };
   border: {
-    default: palette.neutral[300],
-  },
-});
-export type ListTokens = ReturnType<typeof createListTokens>;
+    default: string;
+  };
+};
+export const createListTokens = (palette: ColorType, customList?: DeepPartial<ListTokens>) => {
+  const baseListToken: ListTokens = {
+    background: {
+      default: palette.neutral[0],
+      hover: palette.neutral[100],
+    },
+    border: {
+      default: palette.neutral[300],
+    },
+  };
+  if (!customList) {
+    return baseListToken;
+  }
+  return mergeTokens(baseListToken, customList);
+};

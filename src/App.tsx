@@ -27,10 +27,19 @@ import {
   Switch,
   Table,
   Typography,
+  type ColorType,
 } from '../lib';
 import ModeToggle from './ModeToggle';
 import { useState } from 'react';
 import type { SnackbarAnimation, SnackbarPostion } from '../lib/snackbar/snackbar.type';
+import { createTheme } from '../lib/theme/token';
+
+export type CustomTheme = {
+  color: ColorType;
+  spacing: {
+    md: number;
+  };
+};
 
 export default function App() {
   const [openTooltip, setOpenTooltip] = useState(false);
@@ -112,8 +121,20 @@ export default function App() {
   const acFiltered = acQuery
     ? acData.filter((item) => item.toLowerCase().includes(acQuery.toLowerCase()))
     : acData;
+
+  const customTheme = createTheme<CustomTheme>('light', {
+    spacing: {
+      md: 16,
+    },
+    color: {
+      primary: {
+        main: '#000000',
+      },
+    },
+  });
+
   return (
-    <ThemeProvider>
+    <ThemeProvider<CustomTheme> customTheme={customTheme}>
       <ModeToggle />
       <div
         style={{

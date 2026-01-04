@@ -109,7 +109,6 @@ export const Input: React.FC<InputProps> = ({
         if (error) {
           setState('error');
         } else {
-          console.log('state');
           setState('default');
         }
       }

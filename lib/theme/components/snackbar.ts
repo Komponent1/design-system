@@ -1,11 +1,29 @@
 import type { ColorType } from '../color';
+import { mergeTokens, type DeepPartial } from '../utils';
 
-export const createSnackbarTokens = (palette: ColorType) => ({
+export type SnackbarTokens = {
   bg: {
-    default: palette.neutral[700],
-  },
+    default: string;
+  };
   text: {
-    default: palette.neutral[300],
-  },
-});
-export type SnackbarTokens = ReturnType<typeof createSnackbarTokens>;
+    default: string;
+  };
+};
+
+export const createSnackbarTokens = (
+  palette: ColorType,
+  customSnackbar?: DeepPartial<SnackbarTokens>,
+) => {
+  const baseSnackbarToken: SnackbarTokens = {
+    bg: {
+      default: palette.neutral[700],
+    },
+    text: {
+      default: palette.neutral[300],
+    },
+  };
+  if (!customSnackbar) {
+    return baseSnackbarToken;
+  }
+  return mergeTokens(baseSnackbarToken, customSnackbar);
+};

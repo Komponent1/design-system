@@ -1,4 +1,6 @@
-const light = {
+import { mergeTokens, type DeepPartial } from './utils';
+
+export const light = {
   mode: 'light',
 
   primary: {
@@ -72,7 +74,7 @@ const light = {
     subtle: '#F3F4F6',
   },
 };
-const dark = {
+export const dark = {
   mode: 'dark',
 
   primary: {
@@ -152,3 +154,14 @@ export const colorPalette: { light: ColorType; dark: ColorType } = {
   light,
   dark,
 } as const;
+
+export const createColorTokens = (
+  mode: 'light' | 'dark',
+  customColors?: DeepPartial<ColorType>,
+): ColorType => {
+  const baseColors = mode === 'light' ? light : dark;
+  if (customColors === undefined) {
+    return baseColors;
+  }
+  return mergeTokens(baseColors, customColors);
+};

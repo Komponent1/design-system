@@ -1,15 +1,37 @@
-import type { ColorType } from '../color';
+import { type ColorType } from '../color';
+import { mergeTokens, type DeepPartial } from '../utils';
 
-export const createDividerTokens = (palette: ColorType) => ({
+export type DividerTokens = {
   color: {
-    default: palette.border.default,
-    strong: palette.border.strong,
-    subtle: palette.border.subtle,
-  },
+    default: string;
+    strong: string;
+    subtle: string;
+  };
   thickness: {
-    default: '1px',
-    strong: '2px',
-    subtle: '0.5px',
-  },
-});
-export type DividerTokens = ReturnType<typeof createDividerTokens>;
+    default: string;
+    strong: string;
+    subtle: string;
+  };
+};
+
+export const createDividerTokens = (
+  palette: ColorType,
+  customDivider?: DeepPartial<DividerTokens>,
+) => {
+  const baseDividerToken: DividerTokens = {
+    color: {
+      default: palette.border.default,
+      strong: palette.border.strong,
+      subtle: palette.border.subtle,
+    },
+    thickness: {
+      default: '1px',
+      strong: '2px',
+      subtle: '0.5px',
+    },
+  };
+  if (!customDivider) {
+    return baseDividerToken;
+  }
+  return mergeTokens(baseDividerToken, customDivider);
+};

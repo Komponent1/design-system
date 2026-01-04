@@ -1,11 +1,29 @@
 import type { ColorType } from '../color';
+import { mergeTokens, type DeepPartial } from '../utils';
 
-export const createTooltipTokens = (palette: ColorType) => ({
+export type TooltipTokens = {
   bg: {
-    default: palette.neutral[700],
-  },
+    default: string;
+  };
   text: {
-    default: palette.neutral[300],
-  },
-});
-export type TooltipTokens = ReturnType<typeof createTooltipTokens>;
+    default: string;
+  };
+};
+
+export const createTooltipTokens = (
+  palette: ColorType,
+  customTooltip?: DeepPartial<TooltipTokens>,
+) => {
+  const baseTooltipToken: TooltipTokens = {
+    bg: {
+      default: palette.neutral[700],
+    },
+    text: {
+      default: palette.neutral[300],
+    },
+  };
+  if (!customTooltip) {
+    return baseTooltipToken;
+  }
+  return mergeTokens(baseTooltipToken, customTooltip);
+};

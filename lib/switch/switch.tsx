@@ -31,7 +31,6 @@ export const Switch: React.FC<SwitchProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsChecked(e.target.checked);
       if (onChange) {
-        console.log('onChange called with', e.target.checked);
         onChange(e.target.checked);
       }
     },

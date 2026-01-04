@@ -33,7 +33,6 @@ export const Button: React.FC<ButtonProps> = ({
   ...buttonProps
 }) => {
   const { theme } = useTheme();
-
   // 버튼 토큰 추출
   const buttonTokens = theme.button[type as keyof typeof theme.button];
   const [state, setState] = useState<ButtonState>('abled');

@@ -1,8 +1,9 @@
 import { useTheme } from '../lib/theme/ThemeProvider';
 import { Button, Navbar } from '../lib';
+import type { CustomTheme } from './App';
 
 const ModeToggle: React.FC = () => {
-  const { mode, setMode } = useTheme();
+  const { mode, setMode } = useTheme<CustomTheme>();
 
   return (
     <Navbar type='fixed'>
