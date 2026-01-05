@@ -35,7 +35,11 @@ import type { SnackbarAnimation, SnackbarPostion } from '../lib/snackbar/snackba
 import { createTheme } from '../lib/theme/token';
 
 export type CustomTheme = {
-  color: ColorType;
+  color: ColorType & {
+    primary: {
+      test: string;
+    };
+  };
   spacing: {
     md: number;
   };
@@ -129,6 +133,7 @@ export default function App() {
     color: {
       primary: {
         main: '#000000',
+        test: '#FFFFFF',
       },
     },
   });

@@ -76,7 +76,7 @@ export const hexToRgba = (hex: string, alpha = 1) => {
   }
 };
 
-export const getHoverColor = (baseColor: string, amount = 0.08) => {
+export const getTransColor = (baseColor: string, amount = 0.08) => {
   try {
     const { r, g, b } = hexToRgb(baseColor);
     const { h, s, l } = rgbToHsl(r, g, b);
