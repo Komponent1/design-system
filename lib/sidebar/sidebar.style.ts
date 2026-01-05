@@ -33,5 +33,8 @@ export const sidebarContentBaseStyle: React.CSSProperties = {
   overflowX: 'hidden',
   overflowY: 'auto',
   boxSizing: 'border-box',
-  padding: '24px 16px',
+  paddingTop: 24,
+  paddingRight: 16,
+  paddingBottom: 24,
+  paddingLeft: 16,
 };
