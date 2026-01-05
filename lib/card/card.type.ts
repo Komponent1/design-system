@@ -5,5 +5,5 @@ export type CardVaraints =
   | 'image-content'
   | 'content-image'
   | 'image_overlay';
-export type CardSizes = 'sm' | 'md' | 'lg';
+export type CardSizes = 'sm' | 'md' | 'lg' | 'full';
 export type HoverType = 'shadow' | 'lift' | 'none';

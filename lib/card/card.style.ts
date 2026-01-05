@@ -26,6 +26,9 @@ export const cardSizeStyles: Record<string, React.CSSProperties> = {
   lg: {
     width: '400px',
   },
+  full: {
+    width: '100%',
+  },
 };
 export const cardImageStyle: React.CSSProperties = {
   width: '100%',

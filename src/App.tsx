@@ -28,6 +28,7 @@ import {
   Table,
   Typography,
   type ColorType,
+  useMediaQuery,
 } from '../lib';
 import ModeToggle from './ModeToggle';
 import { useState } from 'react';
@@ -46,6 +47,13 @@ export type CustomTheme = {
 };
 
 export default function App() {
+  // useMediaQuery 훅 사용
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
+  const isDesktop = useMediaQuery('(min-width: 1025px)');
+  const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const isPortrait = useMediaQuery('(orientation: portrait)');
+
   const [openTooltip, setOpenTooltip] = useState(false);
   const [openTable, setOpenTable] = useState(false);
   const [selectedRows, setSelectedRows] = useState(new Set<number>());
@@ -97,6 +105,7 @@ export default function App() {
   const [openList, setOpenList] = useState(false);
   const [openSelect, setOpenSelect] = useState(false);
   const [selectValue, setSelectValue] = useState('apple');
+  const [openMediaQuery, setOpenMediaQuery] = useState(false);
   const selectOptions = [
     { label: 'Apple', value: 'apple' },
     { label: 'Banana', value: 'banana' },
@@ -132,7 +141,6 @@ export default function App() {
     },
     color: {
       primary: {
-        main: '#000000',
         test: '#FFFFFF',
       },
     },
@@ -154,6 +162,130 @@ export default function App() {
         <Sidebar width={250} variant='collapsible' buttonTop={250}>
           <div style={{ padding: 16, marginTop: 250 }}>사이드바 내용 영역</div>
         </Sidebar>
+
+        {/* useMediaQuery 예제 접기/펼치기 */}
+        <Button
+          content={openMediaQuery ? '▲ useMediaQuery 예제 접기' : '▼ useMediaQuery 예제 펼치기'}
+          onClick={() => setOpenMediaQuery((v) => !v)}
+          variant='outline'
+        />
+        {openMediaQuery && (
+          <section>
+            <h2>useMediaQuery Examples</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <Card type='content' size='full'>
+                <div style={{ padding: 16 }}>
+                  <Typography type='primary' size='xl' weight='bold' style={{ marginBottom: 16 }}>
+                    현재 화면 상태
+                  </Typography>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          backgroundColor: isMobile ? '#16A34A' : '#DC2626',
+                        }}
+                      />
+                      <Typography>모바일 (≤768px): {isMobile ? '✅' : '❌'}</Typography>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          backgroundColor: isTablet ? '#16A34A' : '#DC2626',
+                        }}
+                      />
+                      <Typography>태블릿 (769px~1024px): {isTablet ? '✅' : '❌'}</Typography>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          backgroundColor: isDesktop ? '#16A34A' : '#DC2626',
+                        }}
+                      />
+                      <Typography>데스크톱 (≥1025px): {isDesktop ? '✅' : '❌'}</Typography>
+                    </div>
+                    <Divider />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          backgroundColor: isDarkMode ? '#16A34A' : '#DC2626',
+                        }}
+                      />
+                      <Typography>다크 모드 선호: {isDarkMode ? '✅' : '❌'}</Typography>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          backgroundColor: isPortrait ? '#16A34A' : '#DC2626',
+                        }}
+                      />
+                      <Typography>세로 방향: {isPortrait ? '✅' : '❌'}</Typography>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              <Card type='content' size='full'>
+                <div style={{ padding: 16 }}>
+                  <Typography type='primary' size='xl' weight='bold' style={{ marginBottom: 16 }}>
+                    반응형 레이아웃 예제
+                  </Typography>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1fr 1fr 1fr',
+                      gap: 16,
+                    }}
+                  >
+                    {[1, 2, 3, 4, 5, 6].map((num) => (
+                      <Card key={num} type='content' size='sm'>
+                        <div style={{ padding: 16, textAlign: 'center' }}>
+                          <Typography>카드 {num}</Typography>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                  <Typography
+                    type='secondary'
+                    size='sm'
+                    style={{ marginTop: 16, display: 'block' }}
+                  >
+                    {isMobile
+                      ? '📱 모바일: 1열 레이아웃'
+                      : isTablet
+                        ? '📱 태블릿: 2열 레이아웃'
+                        : '🖥️ 데스크톱: 3열 레이아웃'}
+                  </Typography>
+                </div>
+              </Card>
+
+              <Alert
+                type='info'
+                message={
+                  <Typography type='primary' size='sm'>
+                    <strong>Tip:</strong> 브라우저 창 크기를 조절하거나 개발자 도구의 반응형 모드를
+                    사용해 보세요!
+                  </Typography>
+                }
+              />
+            </div>
+          </section>
+        )}
+
         {/* Tooltip 예제 접기/펼치기 */}
         <Button
           content={openTooltip ? '▲ Tooltip 예제 접기' : '▼ Tooltip 예제 펼치기'}
