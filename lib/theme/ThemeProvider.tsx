@@ -53,7 +53,18 @@ const getInitialMode = (): 'light' | 'dark' => {
   if (typeof window === 'undefined') return 'light';
 
   const htmlTheme = document.documentElement.getAttribute('data-theme');
-  return htmlTheme === 'dark' ? 'dark' : 'light';
+  if (htmlTheme === 'dark') return 'dark';
+  if (htmlTheme === 'light') return 'light';
+
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+  } catch {
+    // ignore localStorage errors
+  }
+
+  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+  return prefersDark ? 'dark' : 'light';
 };
 
 const initialMode = getInitialMode();
@@ -74,13 +85,11 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
   customTheme,
 }: ThemeProviderProps<T>) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
 
   // 클라이언트에서만 초기화
   useEffect(() => {
-    const htmlTheme = document.documentElement.getAttribute('data-theme');
-    const themMode = (htmlTheme === 'dark' ? 'dark' : 'light') as 'light' | 'dark';
-    setMode(themMode);
+    setMode(getInitialMode());
     setIsMounted(true);
   }, []);
 
@@ -94,9 +103,8 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     }
   }, [mode, isMounted]);
 
-  // SSR: light 테마로 렌더링
-  // CSR: 클라이언트에서 정확한 테마로 렌더링
-  const currentMode = isMounted ? mode : 'light';
+  // SSR: window가 없어 라이트로 초기화될 수 있으나, CSR 시 matchMedia/localStorage/data-theme로 보정
+  const currentMode = mode;
   const baseTheme = currentMode === 'dark' ? darkTheme : lightTheme;
   const theme = customTheme ? createTheme(currentMode, customTheme) : (baseTheme as Theme<T>);
 

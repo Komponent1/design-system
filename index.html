@@ -4,6 +4,30 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+  var mode = 'light';
+  
+  // 시스템 다크모드 설정 확인
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    mode = 'dark';
+  }
+  
+  // data-theme attribute로 모드 저장
+  document.documentElement.setAttribute('data-theme', mode);
+  
+  // CSS 변수 및 배경색 설정 (FOUC 방지)
+  var isDark = mode === 'dark';
+  var bgColor = isDark ? '#020617' : '#FFFFFF';
+  var textColor = isDark ? '#F9FAFB' : '#111827';
+  
+  document.documentElement.style.setProperty('--theme-bg', bgColor);
+  document.documentElement.style.setProperty('--theme-text', textColor);
+  document.documentElement.style.backgroundColor = bgColor;
+  document.documentElement.style.color = textColor;
+  document.documentElement.style.colorScheme = mode;
+})();
+    </script>
     <title>designsystem</title>
   </head>
   <body>

@@ -33,7 +33,6 @@ import {
 import ModeToggle from './ModeToggle';
 import { useState } from 'react';
 import type { SnackbarAnimation, SnackbarPostion } from '../lib/snackbar/snackbar.type';
-import { createTheme } from '../lib/theme/token';
 
 export type CustomTheme = {
   color: ColorType & {
@@ -135,19 +134,8 @@ export default function App() {
     ? acData.filter((item) => item.toLowerCase().includes(acQuery.toLowerCase()))
     : acData;
 
-  const customTheme = createTheme<CustomTheme>('light', {
-    spacing: {
-      md: 16,
-    },
-    color: {
-      primary: {
-        test: '#FFFFFF',
-      },
-    },
-  });
-
   return (
-    <ThemeProvider<CustomTheme> customTheme={customTheme}>
+    <ThemeProvider>
       <ModeToggle />
       <div
         style={{
