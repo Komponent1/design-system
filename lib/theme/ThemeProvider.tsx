@@ -48,14 +48,18 @@ export type ThemeContextType<T = unknown> = {
   setMode: (m: 'light' | 'dark') => void;
 };
 
-// 블로킹 스크립트가 설정한 data-theme을 읽어 초기값 결정
+// SSR과 CSR 모두 같은 초기값으로 시작 (hydration mismatch 방지)
+// themeInitScript가 설정한 data-theme을 읽어 초기값 결정
 const getInitialMode = (): 'light' | 'dark' => {
+  // SSR: 항상 light로 시작 (서버는 사용자 설정을 알 수 없음)
   if (typeof window === 'undefined') return 'light';
 
+  // CSR: data-theme attribute에서 읽기 (themeInitScript가 설정한 값)
   const htmlTheme = document.documentElement.getAttribute('data-theme');
   if (htmlTheme === 'dark') return 'dark';
   if (htmlTheme === 'light') return 'light';
 
+  // fallback: localStorage 확인
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === 'dark' || stored === 'light') return stored;
@@ -63,14 +67,16 @@ const getInitialMode = (): 'light' | 'dark' => {
     // ignore localStorage errors
   }
 
+  // fallback: 시스템 설정 확인
   const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
   return prefersDark ? 'dark' : 'light';
 };
 
-const initialMode = getInitialMode();
+// 항상 light로 초기화 (SSR과 CSR 일치)
+const initialMode: 'light' | 'dark' = 'light';
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: initialMode === 'dark' ? darkTheme : lightTheme,
+  theme: lightTheme, // 항상 light로 시작
   mode: initialMode,
   setMode: () => {},
 });
@@ -87,9 +93,11 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
   const [isMounted, setIsMounted] = useState(false);
   const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
 
-  // 클라이언트에서만 초기화
+  // 클라이언트에서 실제 테마 감지 및 적용
   useEffect(() => {
-    setMode(getInitialMode());
+    // hydration이 완료된 후 실제 테마를 감지하여 적용
+    const actualMode = getInitialMode();
+    setMode(actualMode);
     setIsMounted(true);
   }, []);
 
@@ -101,6 +109,13 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
 
     const handleChange = (e: MediaQueryListEvent) => {
+      // localStorage에 저장된 값이 있으면 시스템 설정 무시
+      try {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY);
+        if (stored) return;
+      } catch {
+        // ignore
+      }
       setMode(e.matches ? 'dark' : 'light');
     };
 
