@@ -93,6 +93,27 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     setIsMounted(true);
   }, []);
 
+  // 시스템 테마 변경을 즉시 반영
+  useEffect(() => {
+    if (!isMounted) return;
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setMode(e.matches ? 'dark' : 'light');
+    };
+
+    if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', handleChange);
+      return () => mql.removeEventListener('change', handleChange);
+    }
+
+    // Safari < 14 호환
+    mql.addListener(handleChange);
+    return () => mql.removeListener(handleChange);
+  }, [isMounted]);
+
   // 테마 변경 시 localStorage 저장
   useEffect(() => {
     if (!isMounted) return;
@@ -107,6 +128,22 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
   const currentMode = mode;
   const baseTheme = currentMode === 'dark' ? darkTheme : lightTheme;
   const theme = customTheme ? createTheme(currentMode, customTheme) : (baseTheme as Theme<T>);
+
+  // 문서 루트에 data-theme 및 주요 CSS 변수 동기화
+  useEffect(() => {
+    if (!isMounted) return;
+    if (typeof document === 'undefined') return;
+    try {
+      document.documentElement.setAttribute('data-theme', currentMode);
+      document.documentElement.style.colorScheme = currentMode;
+      document.documentElement.style.setProperty('--theme-bg', theme.color.background.default);
+      document.documentElement.style.setProperty('--theme-text', theme.color.text.primary);
+      document.documentElement.style.backgroundColor = theme.color.background.default;
+      document.documentElement.style.color = theme.color.text.primary;
+    } catch {
+      // ignore DOM update errors
+    }
+  }, [currentMode, isMounted, theme.color.background.default, theme.color.text.primary]);
 
   return (
     <ThemeContext.Provider value={{ theme, mode: currentMode, setMode }}>
