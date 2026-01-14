@@ -100,7 +100,7 @@ export default function App() {
   const [openFloatButton, setOpenFloatButton] = useState(false);
   const [acQuery, setAcQuery] = useState('');
   const [acValue, setAcValue] = useState('');
-  const [openInput, setOpenInput] = useState(false);
+  const [openInput, setOpenInput] = useState(true);
   const [openList, setOpenList] = useState(false);
   const [openSelect, setOpenSelect] = useState(false);
   const [selectValue, setSelectValue] = useState('apple');

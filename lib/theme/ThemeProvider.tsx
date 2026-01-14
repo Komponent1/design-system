@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 import React, { useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
@@ -15,8 +16,6 @@ import { type TooltipTokens } from './components/tooltip';
 import { type ListTokens } from './components/list';
 import { createTheme } from './token';
 import type { DeepPartial } from './utils';
-
-const THEME_STORAGE_KEY = 'theme-mode';
 
 // 기본 Theme 타입
 export type BaseTheme = {
@@ -48,29 +47,27 @@ export type ThemeContextType<T = unknown> = {
   setMode: (m: 'light' | 'dark') => void;
 };
 
-// 블로킹 스크립트가 설정한 data-theme을 읽어 초기값 결정
+// SSR과 CSR 모두 같은 초기값으로 시작 (hydration mismatch 방지)
+// 시스템 설정에 따라 테마 결정
 const getInitialMode = (): 'light' | 'dark' => {
+  // SSR: 항상 light로 시작 (서버는 사용자 설정을 알 수 없음)
   if (typeof window === 'undefined') return 'light';
 
+  // CSR: data-theme attribute에서 읽기 (themeInitScript가 설정한 값)
   const htmlTheme = document.documentElement.getAttribute('data-theme');
   if (htmlTheme === 'dark') return 'dark';
   if (htmlTheme === 'light') return 'light';
 
-  try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === 'dark' || stored === 'light') return stored;
-  } catch {
-    // ignore localStorage errors
-  }
-
+  // fallback: 시스템 설정 확인
   const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
   return prefersDark ? 'dark' : 'light';
 };
 
-const initialMode = getInitialMode();
+// 항상 light로 초기화 (SSR과 CSR 일치)
+const initialMode: 'light' | 'dark' = 'light';
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: initialMode === 'dark' ? darkTheme : lightTheme,
+  theme: lightTheme, // 항상 light로 시작
   mode: initialMode,
   setMode: () => {},
 });
@@ -87,13 +84,17 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
   const [isMounted, setIsMounted] = useState(false);
   const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
 
-  // 클라이언트에서만 초기화
+  // 클라이언트 마운트 시 실제 테마로 동기화
   useEffect(() => {
-    setMode(getInitialMode());
     setIsMounted(true);
+    // themeInitScript가 이미 DOM을 업데이트했으므로 attribute에서 읽기
+    const actualMode = getInitialMode();
+    if (actualMode !== mode) {
+      setMode(actualMode);
+    }
   }, []);
 
-  // 시스템 테마 변경을 즉시 반영
+  // 시스템 테마 변경을 즉시 반영 (항상)
   useEffect(() => {
     if (!isMounted) return;
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -113,16 +114,6 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     mql.addListener(handleChange);
     return () => mql.removeListener(handleChange);
   }, [isMounted]);
-
-  // 테마 변경 시 localStorage 저장
-  useEffect(() => {
-    if (!isMounted) return;
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, mode);
-    } catch {
-      // ignore localStorage errors
-    }
-  }, [mode, isMounted]);
 
   // SSR: window가 없어 라이트로 초기화될 수 있으나, CSR 시 matchMedia/localStorage/data-theme로 보정
   const currentMode = mode;
@@ -164,6 +155,18 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
 export const useTheme = <T = unknown,>() => useContext(ThemeContext) as ThemeContextType<T>;
 
 /**
+ * 현재 시스템 테마 설정 확인 유틸리티
+ */
+export const getSystemTheme = (): 'light' | 'dark' => {
+  if (typeof window === 'undefined') return 'light';
+  try {
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
+};
+
+/**
  * SSR 환경에서 Hydration 오류와 FOUC 방지를 위한 블로킹 스크립트
  * HTML의 <head> 태그에 추가하세요
  *
@@ -176,11 +179,15 @@ export const useTheme = <T = unknown,>() => useContext(ThemeContext) as ThemeCon
  */
 export const themeInitScript = `
 (function() {
+  // 항상 시스템 설정을 따름
   var mode = 'light';
   
-  // 시스템 다크모드 설정 확인
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    mode = 'dark';
+  try {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      mode = 'dark';
+    }
+  } catch (e) {
+    // matchMedia 접근 불가 시 기본값 light 사용
   }
   
   // data-theme attribute로 모드 저장
