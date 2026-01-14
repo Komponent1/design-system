@@ -54,3 +54,22 @@ export const getSuccessStyle = (inputToken: ReturnType<typeof createInputTokens>
   backgroundColor: inputToken.bg.success,
   color: inputToken.text.success,
 });
+export const searchButtonSizeStyle = {
+  sm: { padding: '0.625rem 0.75rem' },
+  md: { padding: '0.75rem 1rem' },
+  lg: { padding: '0.875rem 1rem' },
+};
+export const searchButtonStyle = {
+  background: 'none',
+  border: '1px solid',
+  borderLeft: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'color 0.2s ease',
+};
+export const buttonIconStyle = {
+  sm: { w: 20, h: 20 },
+  md: { w: 24, h: 24 },
+  lg: { w: 21, h: 21 },
+};

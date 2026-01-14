@@ -10,6 +10,9 @@ import {
   sizeStyles,
   getSuccessStyle,
   getUnderlinedStyle,
+  searchButtonStyle,
+  searchButtonSizeStyle,
+  buttonIconStyle,
 } from './input.style';
 import { useTheme } from '../theme/ThemeProvider';
 
@@ -23,6 +26,8 @@ type InputProps = {
   disabled?: boolean;
   error?: boolean;
   style?: React.CSSProperties;
+  withSubmitButton?: boolean;
+  onClickSubmitButton?: () => void;
   ref?: React.Ref<HTMLInputElement>;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>;
 export const Input: React.FC<InputProps> = ({
@@ -35,6 +40,8 @@ export const Input: React.FC<InputProps> = ({
   disabled,
   error,
   style,
+  withSubmitButton,
+  onClickSubmitButton,
   ...inputProps
 }) => {
   const { theme } = useTheme();
@@ -116,7 +123,88 @@ export const Input: React.FC<InputProps> = ({
     [state, error, inputProps],
   );
 
-  return (
+  const handleSubmitClick = useCallback(() => {
+    if (onClickSubmitButton && !disabled) {
+      onClickSubmitButton();
+    }
+  }, [onClickSubmitButton, disabled]);
+
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    boxSizing: 'border-box',
+  };
+
+  const inputContainerStyle: React.CSSProperties = {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    border: '1px solid',
+    borderColor: inputStyle.borderColor || inputToken.border.default,
+    borderRadius: inputStyle.borderRadius || '0.5rem',
+    backgroundColor: inputStyle.backgroundColor || inputToken.bg.default,
+    ...(withSubmitButton && {
+      borderRight: 'none',
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    }),
+  };
+
+  return withSubmitButton ? (
+    <div style={containerStyle}>
+      <div style={inputContainerStyle}>
+        <input
+          id={inputId}
+          type='text'
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            ...inputStyle,
+            border: 'none',
+          }}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          disabled={disabled}
+          {...inputProps}
+        />
+      </div>
+      <button
+        type='button'
+        onClick={handleSubmitClick}
+        disabled={disabled}
+        style={{
+          ...searchButtonStyle,
+          ...searchButtonSizeStyle[size],
+          borderColor: inputStyle.borderColor || inputToken.border.default,
+          borderTopRightRadius: inputStyle.borderRadius || '0.5rem',
+          borderBottomRightRadius: inputStyle.borderRadius || '0.5rem',
+          backgroundColor: inputStyle.backgroundColor || inputToken.bg.default,
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          opacity: disabled ? 0.5 : 1,
+          color: inputStyle.color || inputToken.text.default,
+        }}
+        aria-label='Search button'
+      >
+        <svg
+          width={buttonIconStyle[size].w}
+          height={buttonIconStyle[size].h}
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        >
+          <circle cx='11' cy='11' r='8' />
+          <path d='m21 21-4.35-4.35' />
+        </svg>
+      </button>
+    </div>
+  ) : (
     <input
       id={inputId}
       type='text'

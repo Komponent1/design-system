@@ -115,6 +115,7 @@ export default function App() {
   const [inputValue, setInputValue] = useState('');
   const [inputValue2, setInputValue2] = useState('');
   const [inputValue3, setInputValue3] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const acData = [
     'Apple',
     'Banana',
@@ -1418,6 +1419,38 @@ export default function App() {
                   onChange={setInputValue}
                   placeholder='큰 입력'
                   size='lg'
+                />
+              </div>
+              <div>
+                <div style={{ marginBottom: 4 }}>검색 버튼 포함</div>
+                <Input
+                  value={searchValue}
+                  onChange={setSearchValue}
+                  placeholder='검색어를 입력하세요'
+                  withSubmitButton={true}
+                  onClickSubmitButton={() => alert(`검색: ${searchValue}`)}
+                />
+              </div>
+              <div>
+                <div style={{ marginBottom: 4 }}>검색 버튼 포함</div>
+                <Input
+                  value={searchValue}
+                  onChange={setSearchValue}
+                  placeholder='검색어를 입력하세요'
+                  size='sm'
+                  withSubmitButton={true}
+                  onClickSubmitButton={() => alert(`검색: ${searchValue}`)}
+                />
+              </div>
+              <div>
+                <div style={{ marginBottom: 4 }}>검색 버튼 포함</div>
+                <Input
+                  value={searchValue}
+                  onChange={setSearchValue}
+                  placeholder='검색어를 입력하세요'
+                  size='lg'
+                  withSubmitButton={true}
+                  onClickSubmitButton={() => alert(`검색: ${searchValue}`)}
                 />
               </div>
             </div>
