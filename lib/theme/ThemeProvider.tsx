@@ -93,15 +93,17 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
   const [isMounted, setIsMounted] = useState(false);
   const [mode, setMode] = useState<'light' | 'dark'>(initialMode);
 
-  // 클라이언트에서 실제 테마 감지 및 적용
+  // 클라이언트 마운트 시 실제 테마로 동기화
   useEffect(() => {
-    // hydration이 완료된 후 실제 테마를 감지하여 적용
-    const actualMode = getInitialMode();
-    setMode(actualMode);
     setIsMounted(true);
+    // themeInitScript가 이미 DOM을 업데이트했으므로 attribute에서 읽기
+    const actualMode = getInitialMode();
+    if (actualMode !== mode) {
+      setMode(actualMode);
+    }
   }, []);
 
-  // 시스템 테마 변경을 즉시 반영
+  // 시스템 테마 변경 감지 (localStorage 설정이 없을 때만)
   useEffect(() => {
     if (!isMounted) return;
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -129,11 +131,13 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     return () => mql.removeListener(handleChange);
   }, [isMounted]);
 
-  // 테마 변경 시 localStorage 저장
+  // 테마 변경 시 localStorage에 저장 (수동 변경 시)
   useEffect(() => {
     if (!isMounted) return;
     try {
       localStorage.setItem(THEME_STORAGE_KEY, mode);
+      // data-theme attribute도 업데이트
+      document.documentElement.setAttribute('data-theme', mode);
     } catch {
       // ignore localStorage errors
     }
@@ -177,6 +181,53 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
 };
 
 export const useTheme = <T = unknown,>() => useContext(ThemeContext) as ThemeContextType<T>;
+
+/**
+ * 테마 관련 유틸리티 함수
+ */
+export const themeUtils = {
+  /**
+   * localStorage에 저장된 테마 설정 초기화
+   */
+  clearTheme: () => {
+    try {
+      localStorage.removeItem(THEME_STORAGE_KEY);
+      // 시스템 설정으로 되돌리기
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      const mode = prefersDark ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', mode);
+      console.log(`테마 설정 초기화 완료: ${mode} (시스템 설정)`);
+    } catch (e) {
+      console.error('테마 초기화 실패:', e);
+    }
+  },
+  
+  /**
+   * 현재 저장된 테마 확인
+   */
+  getStoredTheme: () => {
+    try {
+      return localStorage.getItem(THEME_STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  },
+  
+  /**
+   * 테마를 수동으로 설정
+   */
+  setTheme: (mode: 'light' | 'dark') => {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, mode);
+      document.documentElement.setAttribute('data-theme', mode);
+      console.log(`테마 설정: ${mode}`);
+      // 페이지 새로고침 권장
+      window.location.reload();
+    } catch (e) {
+      console.error('테마 설정 실패:', e);
+    }
+  },
+};
 
 /**
  * SSR 환경에서 Hydration 오류와 FOUC 방지를 위한 블로킹 스크립트
