@@ -16,8 +16,6 @@ import { type ListTokens } from './components/list';
 import { createTheme } from './token';
 import type { DeepPartial } from './utils';
 
-const THEME_STORAGE_KEY = 'theme-mode';
-
 // 기본 Theme 타입
 export type BaseTheme = {
   color: ColorType;
@@ -49,7 +47,7 @@ export type ThemeContextType<T = unknown> = {
 };
 
 // SSR과 CSR 모두 같은 초기값으로 시작 (hydration mismatch 방지)
-// themeInitScript가 설정한 data-theme을 읽어 초기값 결정
+// 시스템 설정에 따라 테마 결정
 const getInitialMode = (): 'light' | 'dark' => {
   // SSR: 항상 light로 시작 (서버는 사용자 설정을 알 수 없음)
   if (typeof window === 'undefined') return 'light';
@@ -58,14 +56,6 @@ const getInitialMode = (): 'light' | 'dark' => {
   const htmlTheme = document.documentElement.getAttribute('data-theme');
   if (htmlTheme === 'dark') return 'dark';
   if (htmlTheme === 'light') return 'light';
-
-  // fallback: localStorage 확인
-  try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === 'dark' || stored === 'light') return stored;
-  } catch {
-    // ignore localStorage errors
-  }
 
   // fallback: 시스템 설정 확인
   const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
@@ -103,7 +93,7 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     }
   }, []);
 
-  // 시스템 테마 변경 감지 (localStorage 설정이 없을 때만)
+  // 시스템 테마 변경을 즉시 반영 (항상)
   useEffect(() => {
     if (!isMounted) return;
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -111,13 +101,6 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
 
     const handleChange = (e: MediaQueryListEvent) => {
-      // localStorage에 저장된 값이 있으면 시스템 설정 무시
-      try {
-        const stored = localStorage.getItem(THEME_STORAGE_KEY);
-        if (stored) return;
-      } catch {
-        // ignore
-      }
       setMode(e.matches ? 'dark' : 'light');
     };
 
@@ -130,18 +113,6 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
     mql.addListener(handleChange);
     return () => mql.removeListener(handleChange);
   }, [isMounted]);
-
-  // 테마 변경 시 localStorage에 저장 (수동 변경 시)
-  useEffect(() => {
-    if (!isMounted) return;
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, mode);
-      // data-theme attribute도 업데이트
-      document.documentElement.setAttribute('data-theme', mode);
-    } catch {
-      // ignore localStorage errors
-    }
-  }, [mode, isMounted]);
 
   // SSR: window가 없어 라이트로 초기화될 수 있으나, CSR 시 matchMedia/localStorage/data-theme로 보정
   const currentMode = mode;
@@ -183,50 +154,15 @@ export const ThemeProvider = <T extends Record<string, unknown>>({
 export const useTheme = <T = unknown,>() => useContext(ThemeContext) as ThemeContextType<T>;
 
 /**
- * 테마 관련 유틸리티 함수
+ * 현재 시스템 테마 설정 확인 유틸리티
  */
-export const themeUtils = {
-  /**
-   * localStorage에 저장된 테마 설정 초기화
-   */
-  clearTheme: () => {
-    try {
-      localStorage.removeItem(THEME_STORAGE_KEY);
-      // 시스템 설정으로 되돌리기
-      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-      const mode = prefersDark ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', mode);
-      console.log(`테마 설정 초기화 완료: ${mode} (시스템 설정)`);
-    } catch (e) {
-      console.error('테마 초기화 실패:', e);
-    }
-  },
-  
-  /**
-   * 현재 저장된 테마 확인
-   */
-  getStoredTheme: () => {
-    try {
-      return localStorage.getItem(THEME_STORAGE_KEY);
-    } catch {
-      return null;
-    }
-  },
-  
-  /**
-   * 테마를 수동으로 설정
-   */
-  setTheme: (mode: 'light' | 'dark') => {
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, mode);
-      document.documentElement.setAttribute('data-theme', mode);
-      console.log(`테마 설정: ${mode}`);
-      // 페이지 새로고침 권장
-      window.location.reload();
-    } catch (e) {
-      console.error('테마 설정 실패:', e);
-    }
-  },
+export const getSystemTheme = (): 'light' | 'dark' => {
+  if (typeof window === 'undefined') return 'light';
+  try {
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
 };
 
 /**
@@ -242,24 +178,15 @@ export const themeUtils = {
  */
 export const themeInitScript = `
 (function() {
+  // 항상 시스템 설정을 따름
   var mode = 'light';
   
   try {
-    // localStorage에서 저장된 테마 확인
-    var stored = localStorage.getItem('theme-mode');
-    if (stored === 'dark' || stored === 'light') {
-      mode = stored;
-    } else {
-      // localStorage가 없으면 시스템 다크모드 설정 확인
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        mode = 'dark';
-      }
-    }
-  } catch (e) {
-    // localStorage 접근 불가 시 시스템 설정 사용
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       mode = 'dark';
     }
+  } catch (e) {
+    // matchMedia 접근 불가 시 기본값 light 사용
   }
   
   // data-theme attribute로 모드 저장
