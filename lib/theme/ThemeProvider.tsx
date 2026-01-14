@@ -178,9 +178,22 @@ export const themeInitScript = `
 (function() {
   var mode = 'light';
   
-  // 시스템 다크모드 설정 확인
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    mode = 'dark';
+  try {
+    // localStorage에서 저장된 테마 확인
+    var stored = localStorage.getItem('theme-mode');
+    if (stored === 'dark' || stored === 'light') {
+      mode = stored;
+    } else {
+      // localStorage가 없으면 시스템 다크모드 설정 확인
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+      }
+    }
+  } catch (e) {
+    // localStorage 접근 불가 시 시스템 설정 사용
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      mode = 'dark';
+    }
   }
   
   // data-theme attribute로 모드 저장
