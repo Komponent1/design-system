@@ -1250,6 +1250,18 @@ export default function App() {
                 {acValue && `선택된 값: ${acValue}`}
               </div>
             </div>
+            <div style={{ maxWidth: 400 }}>
+              <Autocomplete
+                suggestions={acFiltered}
+                onSearch={setAcQuery}
+                onSelect={setAcValue}
+                placeholder='과일을 입력하세요...'
+                withSearchButton={true}
+              />
+              <div style={{ marginTop: 12, color: '#888' }}>
+                {acValue && `선택된 값: ${acValue}`}
+              </div>
+            </div>
           </section>
         )}
         {/* Checkbox 예제 접기/펼치기 */}

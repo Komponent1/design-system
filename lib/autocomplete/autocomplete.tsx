@@ -10,6 +10,7 @@ export type AutocompleteProps = {
   placeholder?: string;
   disabled?: boolean;
   width?: string | number;
+  withSearchButton?: boolean;
 };
 
 export const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -19,6 +20,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
   placeholder = 'Type to search...',
   disabled = false,
   width = '100%',
+  withSearchButton = false,
 }) => {
   const { theme } = useTheme();
   const [inputValue, setInputValue] = useState('');
@@ -26,11 +28,21 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
   const [highlighted, setHighlighted] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (isOpen && suggestions.length > 0) setHighlighted(0);
     else setHighlighted(-1);
   }, [isOpen, suggestions]);
+
+  useEffect(() => {
+    if (highlighted >= 0 && itemRefs.current[highlighted]) {
+      itemRefs.current[highlighted]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
+  }, [highlighted]);
 
   const handleInputChange = useCallback(
     (value: string) => {
@@ -106,11 +118,16 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         autoComplete='off'
+        withSubmitButton={withSearchButton}
+        onClickSubmitButton={() => onSelect(inputValue)}
       />
       <div ref={listRef} style={dropdownStyle}>
         {suggestions.map((s, i) => (
           <div
             key={s}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
             style={genItemStyle(i === highlighted)}
             onMouseDown={() => handleSelect(s)}
             onMouseEnter={() => setHighlighted(i)}
